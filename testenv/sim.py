@@ -390,7 +390,14 @@ def main():
     sv.add_argument("--images", action="store_true")
     a = ap.parse_args()
     if a.cmd == "run":
-        a.line = [x for x in a.line if x != "--"]
+        # Everything after the plugin lands here, flags too: read the flags before "--", run what follows it.
+        if "--" in a.line:
+            cut = a.line.index("--")
+            flags, a.line = a.line[:cut], a.line[cut + 1:]
+        else:
+            flags = [x for x in a.line if x == "--live"]
+            a.line = [x for x in a.line if x != "--live"]
+        a.live = a.live or "--live" in flags
         sys.exit(cmd_run(a))
     if a.cmd == "serve":
         a.plugins, a.keep = [a.plugin], True

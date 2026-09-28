@@ -143,29 +143,47 @@ def convert(value, src, dst):
     return value * f1 / f2
 
 
-def parse(args):
-    text = " ".join(args).strip()
-    text = re.sub(r"\s+(to|in|into|naar)\s+", " > ", text, flags=re.I)
-    m = re.match(r"^\s*(-?[\d.,]+)\s*(.+?)\s*(?:>\s*(.+))?$", text)
-    if not m:
-        return None
-    num = m.group(1).replace(",", ".") if m.group(1).count(",") == 1 and "." not in m.group(1) else m.group(1).replace(",", "")
+CONNECTORS = {"to", "in", "into", "naar"}
+
+
+def number(text):
+    """1.5, 1,5 and 1,000 (a comma before exactly three digits groups thousands, as in 1,000 miles)."""
+    t = text.replace("_", "")
+    if "," in t and "." in t:
+        t = t.replace(".", "").replace(",", ".") if t.rfind(",") > t.rfind(".") else t.replace(",", "")
+    elif t.count(",") == 1:
+        head, _, tail = t.partition(",")
+        t = head + tail if len(tail) == 3 else head + "." + tail
+    else:
+        t = t.replace(",", "")
     try:
-        value = float(num)
+        return float(t)
     except ValueError:
         return None
-    left, right = m.group(2), m.group(3)
-    if right is None:
-        # "5 miles km": try to split the words into two known units.
-        words = left.split()
-        for i in range(len(words) - 1, 0, -1):
-            a, b = " ".join(words[:i]), " ".join(words[i:])
+
+
+def parse(args):
+    m = re.match(r"^\s*(-?[\d.,_]+)\s*(.*)$", " ".join(args).strip())
+    if not m:
+        return None
+    value = number(m.group(1))
+    if value is None:
+        return None
+    words = m.group(2).split()
+    # A connector word only counts between two units: "12 in to cm" and "5 km in miles" both work, and
+    # the inch ("in") stays a unit.
+    for i, w in enumerate(words):
+        if w.lower() in CONNECTORS:
+            a, b = " ".join(words[:i]), " ".join(words[i + 1:])
             if canon(a) and canon(b):
                 return value, canon(a), canon(b)
-        return (value, canon(left), None) if canon(left) else None
-    if not canon(left) or not canon(right):
-        return None
-    return value, canon(left), canon(right)
+    # "5 miles km": two units side by side.
+    for i in range(len(words) - 1, 0, -1):
+        a, b = " ".join(words[:i]), " ".join(words[i:])
+        if canon(a) and canon(b):
+            return value, canon(a), canon(b)
+    left = " ".join(words)
+    return (value, canon(left), None) if canon(left) else None
 
 
 def cmd_list():

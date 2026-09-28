@@ -35,6 +35,7 @@ import os
 import re
 import sqlite3
 import sys
+import threading
 import time
 import urllib.error
 import urllib.parse
@@ -71,11 +72,17 @@ def load(path, fallback):
         return fallback
 
 
+_SAVE_LOCK = threading.Lock()
+
+
 def save(path, data):
-    with open(path + ".tmp", "w", encoding="utf-8") as f:
-        json.dump(data, f, indent=2, ensure_ascii=False)
-        f.write("\n")
-    os.replace(path + ".tmp", path)
+    # Searches run in threads: one lock, and a temporary file of its own per writer.
+    tmp = f"{path}.{os.getpid()}.{threading.get_ident()}.tmp"
+    with _SAVE_LOCK:
+        with open(tmp, "w", encoding="utf-8") as f:
+            json.dump(data, f, indent=2, ensure_ascii=False)
+            f.write("\n")
+        os.replace(tmp, path)
 
 
 def values():
@@ -172,14 +179,18 @@ def detect(url):
     return None
 
 
+_KNOWN_LOCK = threading.Lock()
+
+
 def known(shop):
     """Fill in the kind of a shop, once, and remember it."""
     if shop["kind"]:
         return shop
     info = detect(shop["url"])
-    meta = load(SHOPS_FILE, {})
-    meta[shop["url"]] = info or {"kind": "none", "currency": ""}
-    save(SHOPS_FILE, meta)
+    with _KNOWN_LOCK:  # read, change and write as one step, so parallel searches keep each other's findings
+        meta = load(SHOPS_FILE, {})
+        meta[shop["url"]] = info or {"kind": "none", "currency": ""}
+        save(SHOPS_FILE, meta)
     return dict(shop, **(info or {"kind": "none"}))
 
 
@@ -303,8 +314,8 @@ def from_link(link):
                     "handle": data["handle"], "title": data["title"], "brand": data.get("vendor", ""),
                     "price": data.get("price"), "was": data.get("compare_at_price") or None,
                     "currency": meta.get("currency", ""), "available": bool(data.get("available")),
-                    "image": ("https:" + data["featured_image"]) if str(data.get("featured_image", "")).startswith("//")
-                    else data.get("featured_image", ""), "url": root + f"/products/{data['handle']}",
+                    "image": ("https:" + data["featured_image"]) if str(data.get("featured_image") or "").startswith("//")
+                    else (data.get("featured_image") or ""), "url": root + f"/products/{data['handle']}",
                     "text": plain(data.get("description"), 300)}
         except (OSError, ValueError, KeyError, urllib.error.URLError):
             pass
@@ -480,10 +491,12 @@ def choose_variant(item, wanted):
     if not real:
         return variants[0] if variants else None, None
     if wanted:
+        # Whole words of the option values: "M" is the size M, not the m in Cream; "10" is not "10.5".
+        def words(text):
+            return set(re.findall(r"[\w.]+", text.lower()))
         w = wanted.lower().replace(" ", "")
         exact = [v for v in real if v["title"].lower().replace(" ", "") == w]
-        parts = [v for v in real if all(p in v["title"].lower().replace(" ", "").split("/") or p in v["title"].lower()
-                                        for p in wanted.lower().split())]
+        parts = [v for v in real if words(wanted) <= words(v["title"])]
         hits = exact or parts
         if len(hits) == 1:
             return hits[0], None
@@ -521,6 +534,9 @@ def cmd_add(args, to_saved=False):
     qty = max(1, min(qty, 99))
     wanted = " ".join(rest).strip()
     variant = {"id": "", "title": "", "price": item["price"], "available": item["available"]}
+    kind = item["kind"]
+    if kind == "woo" and item.get("variable"):
+        kind = "link"  # a WooCommerce product with options: they are chosen on the shop's page
     if item["kind"] == "shopify" and not to_saved:
         try:
             if variant_id:
@@ -535,6 +551,8 @@ def cmd_add(args, to_saved=False):
             out(dict(question, item=item), question["message"] + f" Say: shopper add {args[0]} <choice>.")
             return
         variant = chosen or variant
+        if not variant.get("id"):
+            kind = "link"  # no variant to put in a Shopify cart link: this one is ordered on its page
         if not variant.get("available", True):
             fail(f"{item['title']} {variant['title']} is sold out.".replace("  ", " "))
     elif not item["available"] and not to_saved:
@@ -554,15 +572,16 @@ def cmd_add(args, to_saved=False):
         else:
             con.execute("insert into cart (shop, shop_url, kind, product_id, variant_id, variant, title, price, currency, "
                         "image, url, qty, added) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-                        (item["shop"], item["shop_url"], item["kind"], item["id"], variant["id"], variant["title"],
+                        (item["shop"], item["shop_url"], kind, item["id"], variant["id"], variant["title"],
                          item["title"], variant.get("price") if variant.get("price") is not None else item["price"],
                          item["currency"], item["image"], item["url"], qty, datetime.now().isoformat(timespec="seconds")))
         lines = cart_lines(con)
     count = sum(l["qty"] for l in lines)
     what = f"{qty} x " if qty > 1 else ""
     label = f"{item['title']}" + (f" ({variant['title']})" if variant["title"] else "")
+    later = " Its options are chosen on the shop's own page when you order." if kind == "link" and item["kind"] == "woo" else ""
     out({"ok": True, "cart": cart_data(lines)},
-        f"In the cart: {what}{label} from {item['shop']}. The cart holds {count} item{'s' if count != 1 else ''}.")
+        f"In the cart: {what}{label} from {item['shop']}. The cart holds {count} item{'s' if count != 1 else ''}.{later}")
 
 
 def cart_lines(con):
@@ -572,7 +591,8 @@ def cart_lines(con):
 def cart_data(lines):
     by_shop = {}
     for l in lines:
-        s = by_shop.setdefault(l["shop"], {"shop": l["shop"], "shop_url": l["shop_url"], "kind": l["kind"],
+        # By shop and by kind: a Shopify cart link can only carry Shopify variants, the rest goes by page.
+        s = by_shop.setdefault((l["shop"], l["kind"]), {"shop": l["shop"], "shop_url": l["shop_url"], "kind": l["kind"],
                                            "currency": l["currency"], "lines": [], "total": 0})
         s["lines"].append(l)
         if l["price"] is not None:

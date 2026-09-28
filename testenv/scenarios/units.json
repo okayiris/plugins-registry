@@ -81,6 +81,38 @@
           "do not know the unit furlongs"
         ]
       }
+    },
+    {
+      "run": "units 12 in to cm",
+      "expect": {
+        "contains": [
+          "12 in = 30.48 cm"
+        ]
+      }
+    },
+    {
+      "run": "units 10 in cm",
+      "expect": {
+        "contains": [
+          "10 in = 25.4 cm"
+        ]
+      }
+    },
+    {
+      "run": "units 5 km in miles",
+      "expect": {
+        "contains": [
+          "5 km = 3.107 mi"
+        ]
+      }
+    },
+    {
+      "run": "units 1,000 miles km",
+      "expect": {
+        "contains": [
+          "1,000 mi = 1,609.3 km"
+        ]
+      }
     }
   ]
 }

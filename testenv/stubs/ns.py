@@ -32,5 +32,7 @@ def answer(item, method, url, body):
     if "disruptions" in url:
         return 200, [{"type": "MAINTENANCE", "title": "Utrecht Centraal - Amersfoort Centraal",
                       "timespans": [{"situation": {"label": "Geen treinen door werkzaamheden"}}]},
-                     {"type": "DISRUPTION", "title": "Zwolle - Groningen", "timespans": []}]
+                     {"type": "DISRUPTION", "title": "Zwolle - Groningen", "timespans": []},
+                     {"type": "DISRUPTION", "title": "Den Haag HS - Delft", "timespans": []},
+                     {"type": "MAINTENANCE", "title": "Leiden Centraal - Alphen aan den Rijn", "timespans": []}]
     return 404, {"message": "not in the stub"}

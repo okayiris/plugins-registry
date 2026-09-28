@@ -164,10 +164,25 @@ def cmd_coin(text):
         print(f"All-time high {price_text(r['ath'], cur)}, now {abs(r['ath_change_percentage']):.0f}% below it.")
 
 
-def cmd_amount(args):
+def number(text):
+    """0.5, 0,5 and 1,000 (a comma before exactly three digits groups thousands)."""
+    t = text.replace("_", "")
+    if "," in t and "." in t:
+        t = t.replace(".", "").replace(",", ".") if t.rfind(",") > t.rfind(".") else t.replace(",", "")
+    elif t.count(",") == 1:
+        head, _, tail = t.partition(",")
+        t = head + tail if len(tail) == 3 else head + "." + tail
+    else:
+        t = t.replace(",", "")
     try:
-        amount = float(args[0].replace(",", "."))
+        return float(t)
     except ValueError:
+        return None
+
+
+def cmd_amount(args):
+    amount = number(args[0])
+    if amount is None:
         sys.exit(f"{args[0]} is not an amount.")
     words = [w for w in args[1:] if w.lower() not in ("in", "to")]
     if not words:

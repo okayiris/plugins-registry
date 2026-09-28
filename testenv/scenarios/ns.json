@@ -92,7 +92,7 @@
       "run": "trains disruptions",
       "expect": {
         "contains": [
-          "2 now:",
+          "4 now:",
           "works: Utrecht Centraal - Amersfoort Centraal"
         ]
       }
@@ -103,6 +103,21 @@
         "contains": [
           "1 now:",
           "Zwolle - Groningen"
+        ],
+        "not_contains": [
+          "Leiden"
+        ]
+      }
+    },
+    {
+      "run": "trains disruptions Den Haag",
+      "expect": {
+        "contains": [
+          "1 now:",
+          "Den Haag HS - Delft"
+        ],
+        "not_contains": [
+          "Leiden"
         ]
       }
     },

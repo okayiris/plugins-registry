@@ -17,7 +17,7 @@
    "status": 200,
    "url": "https://gateway.apiportal.ns.nl/reisinformatie-api/api/v3/disruptions?isActive=true",
    "type": "application/json",
-   "text": "[{\"type\": \"MAINTENANCE\", \"title\": \"Utrecht Centraal - Amersfoort Centraal\", \"timespans\": [{\"situation\": {\"label\": \"Geen treinen door werkzaamheden\"}}]}, {\"type\": \"DISRUPTION\", \"title\": \"Zwolle - Groningen\", \"timespans\": []}]"
+   "text": "[{\"type\": \"MAINTENANCE\", \"title\": \"Utrecht Centraal - Amersfoort Centraal\", \"timespans\": [{\"situation\": {\"label\": \"Geen treinen door werkzaamheden\"}}]}, {\"type\": \"DISRUPTION\", \"title\": \"Zwolle - Groningen\", \"timespans\": []}, {\"type\": \"DISRUPTION\", \"title\": \"Den Haag HS - Delft\", \"timespans\": []}, {\"type\": \"MAINTENANCE\", \"title\": \"Leiden Centraal - Alphen aan den Rijn\", \"timespans\": []}]"
   },
   "GET https://gateway.apiportal.ns.nl/reisinformatie-api/api/v3/trips?fromStation=ASD&toStation=UT -": {
    "status": 200,

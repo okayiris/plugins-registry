@@ -287,8 +287,11 @@ def cmd_disruptions(args):
     items = data if isinstance(data, list) else data.get("payload") or []
     if args:
         hits = find_stations(" ".join(args))
-        needle = (hits[0]["name"] if hits else " ".join(args)).lower().split()[0]
-        items = [d for d in items if needle in json.dumps(d, ensure_ascii=False).lower()]
+        # The whole name as a phrase: "Den Haag" finds Den Haag Centraal and Den Haag HS, not Leiden.
+        asked = " ".join(args).strip().lower()
+        names = {asked} | ({hits[0]["name"].lower()} if hits else set())
+        pattern = re.compile("|".join(r"\b" + re.escape(n) + r"\b" for n in names))
+        items = [d for d in items if pattern.search(json.dumps(d, ensure_ascii=False).lower())]
     if not items:
         print("No disruptions or works right now" + (f" around {' '.join(args)}." if args else "."))
         return

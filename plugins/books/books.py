@@ -73,10 +73,17 @@ def pick(con, args, states=None):
     if not text:
         sys.exit("Which book? Give its number or its title.")
     if text.lstrip("#").isdigit():
+        # "#12" is always the list number; a bare number is a title first (1984), then a list number.
+        if not text.startswith("#"):
+            titled = con.execute("select * from books where title = ? order by updated desc", (text,)).fetchone()
+            if titled:
+                return titled
         row = con.execute("select * from books where id = ?", (int(text.lstrip("#")),)).fetchone()
-        if not row:
-            sys.exit(f"There is no book #{text.lstrip('#')} on your lists.")
-        return row
+        if row:
+            return row
+        if text.startswith("#"):
+            sys.exit(f"There is no book {text} on your lists.")
+        return None
     rows = con.execute("select * from books where lower(title) like ? order by updated desc", (f"%{text.lower()}%",)).fetchall()
     if states:
         rows = [r for r in rows if r["state"] in states] or rows

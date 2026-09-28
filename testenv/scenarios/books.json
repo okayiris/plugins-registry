@@ -74,6 +74,22 @@
           "is already on your read list"
         ]
       }
+    },
+    {
+      "run": "books want 1984",
+      "expect": {
+        "contains": [
+          "Nineteen Eighty-Four"
+        ]
+      }
+    },
+    {
+      "run": "books start 1984",
+      "expect": {
+        "contains": [
+          "Reading Nineteen Eighty-Four"
+        ]
+      }
     }
   ],
   "screen": {

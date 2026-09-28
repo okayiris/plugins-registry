@@ -51,6 +51,14 @@
           "knows no coin called notacoinzzzq"
         ]
       }
+    },
+    {
+      "run": "crypto 1,000 doge",
+      "expect": {
+        "matches": [
+          "^1000 DOGE is [\\d,.]+ EUR"
+        ]
+      }
     }
   ]
 }

@@ -1,0 +1,9 @@
+# Who reviews what. GitHub asks the owners below for a review on every pull request that changes their
+# files (never the author of that pull request). To make their approval required before merging, turn on
+# "Require review from Code Owners" in the branch protection for main.
+#
+# The last matching line wins, so put narrower paths below this one, for example:
+#   /plugins/personal-shopper/   @someone
+#   /testenv/                    @someone-else
+
+*   @Jorisslagter

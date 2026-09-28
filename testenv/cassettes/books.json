@@ -1,5 +1,11 @@
 {
  "http": {
+  "GET https://openlibrary.org/search.json?q=1984&limit=1&fields=key%2Ctitle%2Cauthor_name%2Cfirst_publish_year%2Cnumber_of_pages_median -": {
+   "status": 200,
+   "url": "https://openlibrary.org/search.json?q=1984&limit=1&fields=key%2Ctitle%2Cauthor_name%2Cfirst_publish_year%2Cnumber_of_pages_median",
+   "type": "application/json",
+   "text": "{\"numFound\":77122,\"start\":0,\"numFoundExact\":true,\"num_found\":77122,\"documentation_url\":\"https://openlibrary.org/dev/docs/api/search\",\"q\":\"1984\",\"offset\":null,\"docs\":[{\"author_name\":[\"George Orwell\"],\"first_publish_year\":1949,\"key\":\"/works/OL1168083W\",\"number_of_pages_median\":318,\"title\":\"Nineteen Eighty-Four\"}]}"
+  },
   "GET https://openlibrary.org/search.json?q=dune&limit=5&fields=key%2Ctitle%2Cauthor_name%2Cfirst_publish_year%2Cnumber_of_pages_median -": {
    "status": 200,
    "url": "https://openlibrary.org/search.json?q=dune&limit=5&fields=key%2Ctitle%2Cauthor_name%2Cfirst_publish_year%2Cnumber_of_pages_median",

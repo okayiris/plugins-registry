@@ -218,7 +218,7 @@ export default () => {
         <div>
           <Text>{text("readyToPay", "Ready. Open each shop, check the order and pay on its own page.")}</Text>
           {ordered.map((o) => (
-            <Card key={o.shop} label={o.shop} title={price(o.total, o.currency)} icon="card">
+            <Card key={`${o.shop}-${o.code}`} label={o.shop} title={price(o.total, o.currency)} icon="card">
               <Text dim>{how(o)}</Text>
               {o.steps && o.steps.length ? (
                 <Buttons>
@@ -238,7 +238,7 @@ export default () => {
     return (
       <div>
         {cart.shops.map((s) => (
-          <Card key={s.shop} label={s.shop} title={price(s.total, s.currency)} icon="pakket">
+          <Card key={`${s.shop}-${s.kind}`} label={s.shop} title={price(s.total, s.currency)} icon="pakket">
             {s.lines.map((l) => (
               <div key={l.id} style={{ display: "flex", alignItems: "center", gap: ".6rem", padding: ".45rem 0",
                                        borderTop: "1px solid var(--edge)" }}>

@@ -1,0 +1,6 @@
+{
+  "description": "Lees Gmail, Agenda, Contacten en Taken via je eigen Google-app, en maak concepten en afspraken; versturen en gasten uitnodigen wachten op jouw goedkeuring.",
+  "slash": {
+    "gmail": "je Gmail, Agenda, Contacten en Taken, of koppel je eigen Google-app"
+  }
+}

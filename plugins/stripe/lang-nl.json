@@ -1,0 +1,24 @@
+{
+  "description": "Bekijk je eigen Stripe-saldo, betalingen, klanten, facturen, abonnementen en maandomzet met je eigen sleutel met alleen leesrechten.",
+  "slash": {
+    "stripe": "je Stripe-saldo, betalingen en maandomzet (alleen lezen)"
+  },
+  "texts": {
+    "label": "Stripe",
+    "title": "Overzicht dat alleen leest",
+    "intro": "Je eigen Stripe-gegevens met een beperkte sleutel die alleen leest. Hier wordt niets aangemaakt, gewijzigd of terugbetaald.",
+    "version": "alleen lezen",
+    "requests": "verzoeken",
+    "rowBalance": "Saldo en omzet",
+    "rowPayments": "Betalingen en klanten",
+    "rowInvoices": "Facturen en abonnementen",
+    "readRight": "lezen",
+    "seeBalance": "Saldo",
+    "seeRevenue": "Omzet deze maand",
+    "seePayments": "Laatste betalingen",
+    "seeCustomers": "Klanten",
+    "seeInvoices": "Open facturen",
+    "seeSubs": "Actieve abonnementen",
+    "hint": "Het antwoord verschijnt in het gesprek. Koppel een beperkte sleutel met alleen leesrechten met: stripe key ask."
+  }
+}

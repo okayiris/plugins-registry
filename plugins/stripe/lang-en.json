@@ -1,0 +1,24 @@
+{
+  "description": "See your own Stripe balance, payments, customers, invoices, subscriptions and monthly revenue with your own restricted key that only reads.",
+  "slash": {
+    "stripe": "your Stripe balance, payments and monthly revenue (read-only)"
+  },
+  "texts": {
+    "label": "Stripe",
+    "title": "Read-only overview",
+    "intro": "Your own Stripe data with a restricted key that only reads. Nothing here creates, changes or refunds anything.",
+    "version": "read-only",
+    "requests": "requests",
+    "rowBalance": "Balance and revenue",
+    "rowPayments": "Payments and customers",
+    "rowInvoices": "Invoices and subscriptions",
+    "readRight": "read",
+    "seeBalance": "Balance",
+    "seeRevenue": "Revenue this month",
+    "seePayments": "Latest payments",
+    "seeCustomers": "Customers",
+    "seeInvoices": "Open invoices",
+    "seeSubs": "Active subscriptions",
+    "hint": "The answer appears in the conversation. Connect a restricted read-only key with: stripe key ask."
+  }
+}

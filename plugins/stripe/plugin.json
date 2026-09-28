@@ -1,0 +1,12 @@
+{
+  "name": "stripe",
+  "version": "1.0.0",
+  "author": "Iris",
+  "description": "See your own Stripe balance, payments, customers, invoices, subscriptions and monthly revenue with your own read-only restricted key.",
+  "permissions": ["internet", "secrets"],
+  "commands": { "stripe": "stripe.py" },
+  "slash": { "stripe": "your Stripe balance, payments and monthly revenue (read-only)" },
+  "window": "stripe.jsx",
+  "category": "finance",
+  "icon": "icon.svg"
+}

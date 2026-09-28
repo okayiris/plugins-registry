@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Stripe">
+  <rect width="64" height="64" rx="14" fill="#635BFF"/>
+  <rect x="13" y="17" width="38" height="30" rx="5" fill="#fff"/>
+  <rect x="13" y="24" width="38" height="6" fill="#635BFF"/>
+  <rect x="20" y="35" width="12" height="6" rx="2" fill="#635BFF"/>
+  <rect x="35" y="35" width="9" height="6" rx="2" fill="#B9B5FF"/>
+</svg>

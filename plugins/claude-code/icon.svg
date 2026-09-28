@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="Claude Code">
+  <rect width="64" height="64" rx="14" fill="#2B1D16"/>
+  <path d="M20 22l-9 10 9 10M44 22l9 10-9 10" fill="none" stroke="#F0A57E" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  <g stroke="#D97757" stroke-width="3.5" stroke-linecap="round">
+    <path d="M32 21v22M21 32h22M24.2 24.2l15.6 15.6M39.8 24.2L24.2 39.8"/>
+  </g>
+</svg>

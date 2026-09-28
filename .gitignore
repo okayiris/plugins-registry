@@ -2,6 +2,8 @@
 plugins/*/values.json
 plugins/*/data.db*
 plugins/*/.*.json
+plugins/*/.claude/
+plugins/*/.cli/
 plugins/*/*.tmp
 __pycache__/
 # The test environment: its tools, lasting homes and screenshots.

@@ -1,0 +1,5 @@
+{
+  "description": "Claude Code in je eigen huis: vraag het iets over je projecten, of geef het een programmeertaak die het in de werkruimte van het huis doet, meteen of op de achtergrond. Alleen lezen tenzij je het laat bewerken, en opdrachten alleen als je dat toestaat.",
+  "slash": { "claude-code": "een programmeertaak of een vraag over je code, gedaan door Claude Code in het huis" },
+  "texts": {}
+}

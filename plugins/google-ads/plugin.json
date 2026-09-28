@@ -1,0 +1,11 @@
+{
+  "name": "google-ads",
+  "version": "1.0.0",
+  "author": "Iris",
+  "description": "Read your Google Ads campaigns, spend and reports through the Google Ads API, with your own developer token and OAuth app. Read-only, nothing is changed.",
+  "permissions": ["internet", "secrets"],
+  "commands": { "ads": "ads.py" },
+  "slash": { "ads": "your Google Ads campaigns, spend and reports" },
+  "category": "finance",
+  "icon": "icon.svg"
+}

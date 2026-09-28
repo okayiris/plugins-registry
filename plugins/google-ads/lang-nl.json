@@ -1,0 +1,6 @@
+{
+  "description": "Lees je Google Ads-campagnes, kosten en rapporten via de Google Ads API, met je eigen ontwikkelaarstoken en OAuth-app. Alleen lezen, er wordt niets aangepast.",
+  "slash": {
+    "ads": "je Google Ads-campagnes, kosten en rapporten"
+  }
+}

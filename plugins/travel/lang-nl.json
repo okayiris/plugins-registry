@@ -1,0 +1,6 @@
+{
+  "description": "Reistijd van thuis naar een adres, gratis via OSRM en desgewenst met live verkeer via TomTom, inclusief hoe laat je weg moet.",
+  "slash": {
+    "travel": "reistijd van thuis naar een adres"
+  }
+}

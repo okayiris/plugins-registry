@@ -1,0 +1,6 @@
+{
+  "description": "Sen açamadığında telefonuna Iris bakar. Cep telefonunu onun numarasına yönlendir; aramayı o karşılar, arayanın kim olduğunu ve ne istediğini öğrenir, sana söyler.",
+  "slash": {
+    "phone": "telefonunu Iris'in açmasını sağla ya da açıp açmadığına bak"
+  }
+}

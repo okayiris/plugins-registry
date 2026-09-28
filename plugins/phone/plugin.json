@@ -1,0 +1,23 @@
+{
+  "name": "phone",
+  "version": "1.1.2",
+  "author": "Iris",
+  "description": "Iris answers your phone when you can't, and calls people for you. Paid plans only (Iris, Plus, Max); calls cost $0.05 a minute from your extra usage.",
+  "permissions": [
+    "phone"
+  ],
+  "commands": {
+    "phone": "phone.py"
+  },
+  "slash": {
+    "phone": "let Iris answer your phone, or see whether she does"
+  },
+  "category": "communication",
+  "icon": "icon.svg",
+  "usage": [
+    {
+      "what": "Phone calls, in or out",
+      "price": "$0.05 per started minute"
+    }
+  ]
+}

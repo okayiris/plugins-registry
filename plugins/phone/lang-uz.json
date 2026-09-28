@@ -1,0 +1,6 @@
+{
+  "description": "Iris sen javob bera olmaganingda telefoningga javob beradi. Mobil raqamingni uning raqamiga yo'naltir: u qo'ng'iroqni qabul qiladi, kim ekanini va nima kerakligini bilib, senga aytadi.",
+  "slash": {
+    "phone": "Iris telefoningga javob bersin yoki javob berayotganini ko'r"
+  }
+}

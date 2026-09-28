@@ -1,0 +1,6 @@
+{
+  "description": "Iris vastaa puhelimeesi, kun et itse pysty. Ohjaa matkapuhelimesi hänen numeroonsa: hän ottaa puhelun vastaan, selvittää kuka soittaa ja mitä he tarvitsevat, ja kertoo sinulle.",
+  "slash": {
+    "phone": "anna Irisin vastata puhelimeesi tai katso, vastaako hän"
+  }
+}

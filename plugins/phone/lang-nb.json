@@ -1,0 +1,6 @@
+{
+  "description": "Iris tar telefonen når du ikke kan. Videresend mobilen din til nummeret hennes, så tar hun samtalen, finner ut hvem det er og hva de trenger, og sier fra til deg.",
+  "slash": {
+    "phone": "la Iris ta telefonen din, eller se om hun gjør det"
+  }
+}

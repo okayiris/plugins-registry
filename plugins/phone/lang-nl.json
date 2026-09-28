@@ -1,0 +1,6 @@
+{
+  "description": "Iris neemt je telefoon op als jij dat niet kunt. Zet je mobiel door naar haar nummer: zij neemt op, vraagt wie er belt en wat diegene nodig heeft, en laat het je weten.",
+  "slash": {
+    "phone": "laat Iris je telefoon opnemen, of kijk of ze dat doet"
+  }
+}

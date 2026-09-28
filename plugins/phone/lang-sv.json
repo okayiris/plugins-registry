@@ -1,0 +1,6 @@
+{
+  "description": "Iris svarar i din telefon när du inte kan. Vidarekoppla din mobil till hennes nummer; hon tar samtalet, tar reda på vem det är och vad de behöver, och berättar för dig.",
+  "slash": {
+    "phone": "låt Iris svara i din telefon, eller se om hon gör det"
+  }
+}

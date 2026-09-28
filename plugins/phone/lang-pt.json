@@ -1,0 +1,6 @@
+{
+  "description": "A Iris atende o teu telefone quando não podes. Reencaminha o teu telemóvel para o número dela; ela atende a chamada, descobre quem é e o que quer, e conta-te.",
+  "slash": {
+    "phone": "deixa a Iris atender o teu telefone, ou vê se ela já atende"
+  }
+}

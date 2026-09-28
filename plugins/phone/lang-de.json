@@ -1,0 +1,6 @@
+{
+  "description": "Iris nimmt deine Anrufe an, wenn du nicht kannst. Leite dein Handy auf ihre Nummer um: Sie nimmt ab, findet heraus, wer dran ist und was er braucht, und sagt es dir.",
+  "slash": {
+    "phone": "lass Iris deine Anrufe annehmen oder prüfe, ob sie es tut"
+  }
+}

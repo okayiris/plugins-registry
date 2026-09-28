@@ -1,0 +1,6 @@
+{
+  "description": "Iris atbild uz tavu tālruni, kad tu nevari. Pāradresē savu mobilo uz viņas numuru: viņa pieņem zvanu, noskaidro, kas zvana un ko vajag, un pastāsta tev.",
+  "slash": {
+    "phone": "ļauj Iris atbildēt uz tavu tālruni vai paskaties, vai viņa to dara"
+  }
+}

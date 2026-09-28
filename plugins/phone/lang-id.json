@@ -1,0 +1,6 @@
+{
+  "description": "Iris menjawab teleponmu saat kamu tidak bisa. Alihkan nomor ponselmu ke nomornya; dia mengangkat telepon, mencari tahu siapa yang menelepon dan apa keperluannya, lalu memberi tahu kamu.",
+  "slash": {
+    "phone": "biarkan Iris menjawab teleponmu, atau cek apakah dia sudah melakukannya"
+  }
+}

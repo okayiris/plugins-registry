@@ -1,0 +1,6 @@
+{
+  "description": "Iris respon el teu telèfon quan tu no pots. Desvia el mòbil al seu número: ella agafa la trucada, esbrina qui és i què necessita, i t'ho explica.",
+  "slash": {
+    "phone": "deixa que Iris respongui el teu telèfon, o mira si ho fa"
+  }
+}

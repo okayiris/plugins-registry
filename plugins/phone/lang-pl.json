@@ -1,0 +1,6 @@
+{
+  "description": "Iris odbiera telefon, gdy ty nie możesz. Przekieruj swoją komórkę na jej numer: ona odbierze, sprawdzi, kto dzwoni i czego chce, i da ci znać.",
+  "slash": {
+    "phone": "pozwól Iris odbierać telefon albo sprawdź, czy to robi"
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "description": "Iris répond à ton téléphone quand tu ne peux pas. Renvoie ton mobile vers son numéro : elle décroche, découvre qui appelle et ce qu'il veut, puis te le dit.",
+  "slash": {
+    "phone": "laisse Iris répondre à ton téléphone, ou vois si c'est le cas"
+  }
+}

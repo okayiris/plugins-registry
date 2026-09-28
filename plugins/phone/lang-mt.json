@@ -1,0 +1,6 @@
+{
+  "description": "Iris twieġeb it-telefon tiegħek meta ma tistax int. Ibgħat il-mobile tiegħek lejn in-numru tagħha: hi tieħu s-sejħa, issir taf min hu u xi jrid, u tgħidlek.",
+  "slash": {
+    "phone": "ħalli lil Iris twieġeb it-telefon tiegħek, jew ara jekk qed twieġeb"
+  }
+}

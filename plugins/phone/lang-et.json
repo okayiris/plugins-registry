@@ -1,0 +1,6 @@
+{
+  "description": "Iris vastab su telefonile, kui sa ise ei saa. Suuna oma mobiil tema numbrile: ta võtab kõne vastu, uurib välja, kes helistab ja mida ta vajab, ning annab sulle teada.",
+  "slash": {
+    "phone": "lase Iris'el oma telefonile vastata või vaata, kas ta seda teeb"
+  }
+}

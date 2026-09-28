@@ -1,0 +1,6 @@
+{
+  "description": "Iris se oglasi na tvoj telefon, ko ti ne moreš. Preusmeri svojo mobilno številko na njeno; sprejme klic, ugotovi, kdo kliče in kaj potrebuje, ter ti sporoči.",
+  "slash": {
+    "phone": "naj Iris odgovarja na tvoje klice, ali preveri, ali to že počne"
+  }
+}

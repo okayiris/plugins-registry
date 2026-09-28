@@ -1,0 +1,6 @@
+{
+  "description": "Iris nghe điện thoại thay bạn khi bạn không nghe được. Chuyển cuộc gọi từ số di động của bạn sang số của cô ấy; cô ấy sẽ nghe máy, hỏi xem ai gọi và cần gì, rồi báo lại cho bạn.",
+  "slash": {
+    "phone": "để Iris nghe điện thoại thay bạn, hoặc xem cô ấy có đang làm vậy không"
+  }
+}

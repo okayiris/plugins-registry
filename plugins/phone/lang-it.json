@@ -1,0 +1,6 @@
+{
+  "description": "Iris risponde al telefono quando non puoi. Inoltra il tuo cellulare al suo numero: lei prende la chiamata, scopre chi è e di cosa ha bisogno, e ti avvisa.",
+  "slash": {
+    "phone": "lascia che Iris risponda al telefono, o controlla se lo fa"
+  }
+}

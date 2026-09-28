@@ -1,0 +1,6 @@
+{
+  "description": "Iris menjawab telefon kamu bila kamu tak dapat. Pastikan panggilan mudah alih kamu dipanjangkan ke nombornya; dia menjawab panggilan, mengetahui siapa yang menelefon dan apa yang mereka perlukan, lalu memberitahu kamu.",
+  "slash": {
+    "phone": "biar Iris jawab telefon kamu, atau semak sama ada dia melakukannya"
+  }
+}

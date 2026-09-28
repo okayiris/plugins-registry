@@ -1,0 +1,6 @@
+{
+  "description": "A Iris atende seu telefone quando você não pode. Encaminhe seu celular para o número dela: ela atende a ligação, descobre quem é e o que a pessoa precisa, e te conta.",
+  "slash": {
+    "phone": "deixe a Iris atender seu telefone, ou veja se ela já atende"
+  }
+}

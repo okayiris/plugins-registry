@@ -1,0 +1,17 @@
+{
+  "command": "phone",
+  "fields": [
+    {
+      "key": "numbers",
+      "label": "Your mobile numbers",
+      "type": "list",
+      "help": "One or more phones Iris answers for, like +31612345678. Each new number gets a short code to dial on it once."
+    },
+    {
+      "key": "name",
+      "label": "Your name for callers",
+      "type": "text",
+      "help": "Iris says she answers for you: \"You've reached Sam, this is Iris.\""
+    }
+  ]
+}

@@ -1,0 +1,6 @@
+{
+  "description": "Iris felveszi a telefonodat, ha te nem tudod. Irányítsd át hozzá a mobilszámodat: ő fogadja a hívást, kideríti, ki hív és mit szeretne, és szól neked.",
+  "slash": {
+    "phone": "hagyd, hogy Iris felvegye a telefonod, vagy nézd meg, felveszi-e"
+  }
+}

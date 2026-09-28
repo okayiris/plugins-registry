@@ -1,0 +1,6 @@
+{
+  "description": "Iris zdvihne tvoj telefón, keď nemôžeš ty. Presmeruj svoj mobil na jej číslo. Ona hovor prijme, zistí, kto volá a čo potrebuje, a dá ti vedieť.",
+  "slash": {
+    "phone": "nechaj Irisu dvíhať tvoj telefón, alebo zisti, či to robí"
+  }
+}

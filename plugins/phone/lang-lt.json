@@ -1,0 +1,6 @@
+{
+  "description": "Iris atsiliepia į tavo telefoną, kai pats negali. Nukreipk mobilųjį į jos numerį: ji priims skambutį, išsiaiškins, kas skambina ir ko nori, ir tau pasakys.",
+  "slash": {
+    "phone": "leisk Iris atsiliepti į telefoną arba pažiūrėk, ar ji tai daro"
+  }
+}

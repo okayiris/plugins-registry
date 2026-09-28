@@ -1,0 +1,6 @@
+{
+  "description": "Sinasagot ni Iris ang phone mo kapag hindi mo kaya. I-forward ang mobile mo sa number niya; sasagutin niya ang tawag, aalamin kung sino ang tumatawag at ano ang kailangan nila, at sasabihin niya sa iyo.",
+  "slash": {
+    "phone": "papasagot ang tawag kay Iris, o tingnan kung sinasagot na niya"
+  }
+}

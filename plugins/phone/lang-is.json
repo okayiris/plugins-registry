@@ -1,0 +1,6 @@
+{
+  "description": "Iris svarar símanum þínum þegar þú getur það ekki. Áframsendu farsímann þinn í númerið hennar; hún tekur símtalið, kemst að því hver hringir og hvað viðkomandi vill, og lætur þig vita.",
+  "slash": {
+    "phone": "láttu Iris svara í símann þinn, eða athugaðu hvort hún geri það"
+  }
+}

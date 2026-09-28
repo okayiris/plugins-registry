@@ -1,0 +1,6 @@
+{
+  "description": "Zoek en lees video's en kanalen met je eigen YouTube Data API-sleutel, en upload een video na jouw ja via je eigen Google OAuth-app.",
+  "slash": {
+    "youtube": "zoek of lees een video, of upload er een na jouw ja"
+  }
+}

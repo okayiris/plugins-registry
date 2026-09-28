@@ -1,0 +1,5 @@
+{
+  "description": "The time anywhere in the world, what your time is somewhere else, and the hours that work for a meeting across time zones.",
+  "slash": { "worldclock": "the time in your places" },
+  "texts": {}
+}

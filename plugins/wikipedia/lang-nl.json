@@ -1,0 +1,5 @@
+{
+  "description": "Zoek alles op in Wikipedia, in je eigen taal: een korte samenvatting, zoeken, en wat er op deze dag in de geschiedenis gebeurde.",
+  "slash": { "wikipedia": "zoek iets op in Wikipedia" },
+  "texts": {}
+}

@@ -1,0 +1,13 @@
+{
+  "description": "The news and blogs you follow, read out from their RSS or Atom feeds: the newest items, a search, and the summary of one.",
+  "slash": { "feeds": "the newest from the news and blogs you follow" },
+  "texts": {
+    "label": "Feeds",
+    "title": "What is new",
+    "intro": "The news and blogs you follow, newest first. The answer comes in the conversation.",
+    "latest": "The newest",
+    "list": "What I follow",
+    "refresh": "Read them again",
+    "add": "Follow a site by saying: follow the feed of, with its name and address."
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "command": "wikipedia",
+  "fields": [
+    { "key": "language", "label": "Language", "type": "text", "help": "The Wikipedia to read, by its code: en, nl, de, fr and so on. English by default." }
+  ]
+}

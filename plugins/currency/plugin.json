@@ -1,0 +1,11 @@
+{
+  "name": "currency",
+  "version": "1.0.0",
+  "author": "Iris",
+  "description": "Convert money between currencies at the European Central Bank's daily rates, and see how a rate moved. Free, no key needed.",
+  "permissions": ["internet"],
+  "commands": { "currency": "currency.py" },
+  "slash": { "currency": "convert an amount, like 25 USD EUR" },
+  "category": "finance",
+  "icon": "icon.svg"
+}

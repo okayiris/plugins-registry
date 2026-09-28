@@ -1,0 +1,12 @@
+{
+  "description": "Snelle notities die je hardop zegt en later terugvindt, met tags en vastgezette notities. Ze blijven in je eigen huis.",
+  "slash": { "notes": "je laatste notities" },
+  "texts": {
+    "label": "Notities",
+    "title": "Je notities",
+    "intro": "Zeg wat je wilt onthouden en vind het later terug. Woorden als #werk worden tags.",
+    "latest": "De laatste notities",
+    "tags": "Mijn tags",
+    "hint": "Zeg: noteer dat de loodgieter dinsdag komt."
+  }
+}

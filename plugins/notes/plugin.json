@@ -1,0 +1,13 @@
+{
+  "name": "notes",
+  "version": "1.0.0",
+  "author": "Iris",
+  "description": "Quick notes you say out loud and find again later, with tags and pins. Kept in your own house, nothing leaves it.",
+  "permissions": [],
+  "commands": { "notes": "notes.py" },
+  "slash": { "notes": "your latest notes" },
+  "window": "notes.jsx",
+  "database": true,
+  "category": "productivity",
+  "icon": "icon.svg"
+}

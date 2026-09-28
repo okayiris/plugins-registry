@@ -1,0 +1,7 @@
+{
+  "command": "currency",
+  "fields": [
+    { "key": "home", "label": "Your own currency", "type": "text", "help": "Three letters, like EUR. An amount without a target is converted to this one." },
+    { "key": "watch", "label": "Currencies you follow", "type": "list", "help": "Shown by currency rates, like USD, GBP, CHF." }
+  ]
+}

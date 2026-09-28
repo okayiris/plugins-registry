@@ -1,0 +1,5 @@
+{
+  "description": "Reken geld om tussen valuta tegen de dagkoersen van de Europese Centrale Bank, en zie hoe een koers bewoog. Gratis, zonder sleutel.",
+  "slash": { "currency": "reken een bedrag om, zoals 25 USD EUR" },
+  "texts": {}
+}

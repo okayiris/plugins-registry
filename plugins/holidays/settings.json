@@ -1,0 +1,6 @@
+{
+  "command": "holidays",
+  "fields": [
+    { "key": "country", "label": "Country", "type": "text", "help": "Two letters, like NL, BE, DE or US. The holidays you get when you name no country." }
+  ]
+}

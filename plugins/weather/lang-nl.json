@@ -1,0 +1,13 @@
+{
+  "description": "Het weer thuis of waar dan ook: nu, de komende uren, de week en of het straks gaat regenen. Gratis, zonder sleutel.",
+  "slash": { "weather": "het weer nu en de komende uren" },
+  "texts": {
+    "label": "Weer",
+    "title": "Het weer thuis",
+    "intro": "Vraag naar nu, de week of regen, hier of waar dan ook. Het antwoord komt in het gesprek.",
+    "now": "Nu en de komende uren",
+    "rain": "Gaat het straks regenen",
+    "week": "De komende week",
+    "home": "Stel je woonplaats in onder Integraties, of zeg: ik woon in Utrecht."
+  }
+}

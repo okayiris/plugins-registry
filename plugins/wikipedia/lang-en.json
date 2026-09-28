@@ -1,0 +1,5 @@
+{
+  "description": "Look anything up on Wikipedia in your own language: a short summary, a search, and what happened on this day in history.",
+  "slash": { "wikipedia": "look something up on Wikipedia" },
+  "texts": {}
+}

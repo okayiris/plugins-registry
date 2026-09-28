@@ -1,0 +1,11 @@
+{
+  "name": "worldclock",
+  "version": "1.0.0",
+  "author": "Iris",
+  "description": "The time anywhere in the world, what your time is somewhere else, and the hours that work for a meeting across time zones.",
+  "permissions": [],
+  "commands": { "worldclock": "worldclock.py" },
+  "slash": { "worldclock": "the time in your places" },
+  "category": "productivity",
+  "icon": "icon.svg"
+}

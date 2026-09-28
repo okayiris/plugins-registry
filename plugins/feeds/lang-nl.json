@@ -1,0 +1,13 @@
+{
+  "description": "Het nieuws en de blogs die je volgt, voorgelezen uit hun RSS- of Atom-feeds: het nieuwste, zoeken, en de samenvatting van een bericht.",
+  "slash": { "feeds": "het nieuwste uit het nieuws en de blogs die je volgt" },
+  "texts": {
+    "label": "Feeds",
+    "title": "Wat is er nieuw",
+    "intro": "Het nieuws en de blogs die je volgt, het nieuwste eerst. Het antwoord komt in het gesprek.",
+    "latest": "Het nieuwste",
+    "list": "Wat ik volg",
+    "refresh": "Opnieuw lezen",
+    "add": "Volg een site door te zeggen: volg de feed van, met de naam en het adres."
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "name": "search",
+  "version": "1.0.0",
+  "author": "Iris",
+  "description": "Web search through your own key, with Brave Search or Google Programmable Search. The key stays in the vault.",
+  "permissions": ["internet", "secrets"],
+  "commands": { "search": "search.py" },
+  "slash": { "search": "search the web for a question" },
+  "category": "knowledge",
+  "icon": "icon.svg"
+}

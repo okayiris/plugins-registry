@@ -1,0 +1,6 @@
+{
+  "description": "Zoek op het web via je eigen sleutel, met Brave Search of Google Programmable Search. De sleutel blijft in de kluis.",
+  "slash": {
+    "search": "zoek het web af naar een vraag"
+  }
+}

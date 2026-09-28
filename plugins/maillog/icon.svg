@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Maillog">
+  <rect width="64" height="64" rx="14" fill="#0B1220"/>
+  <rect x="13" y="19" width="38" height="26" rx="5" fill="none" stroke="#7DD3FC" stroke-width="2.6"/>
+  <path d="M15 22l17 13 17-13" fill="none" stroke="#7DD3FC" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="46" cy="44" r="8" fill="#0B1220"/>
+  <path d="M42.5 44.2l2.4 2.4 4.6-5" fill="none" stroke="#7DD3FC" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

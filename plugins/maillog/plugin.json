@@ -1,0 +1,12 @@
+{
+  "name": "maillog",
+  "version": "1.0.0",
+  "author": "Iris",
+  "description": "Send transactional mail through your own Maillog account and read the send log, delivery status, API log and daily numbers.",
+  "permissions": ["internet", "secrets", "messages"],
+  "commands": { "maillog": "maillog.py" },
+  "slash": { "maillog": "send transactional mail and see what Maillog delivered" },
+  "window": "maillog.jsx",
+  "category": "communication",
+  "icon": "icon.svg"
+}

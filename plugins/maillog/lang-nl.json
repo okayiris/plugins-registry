@@ -1,0 +1,6 @@
+{
+  "description": "Verstuur transactionele mail via je eigen Maillog-account en lees de zendlog, de bezorgstatus, het API-logboek en de dagcijfers.",
+  "slash": {
+    "maillog": "verstuur transactionele mail en zie wat Maillog bezorgde"
+  }
+}

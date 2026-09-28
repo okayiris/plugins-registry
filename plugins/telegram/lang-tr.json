@@ -1,0 +1,6 @@
+{
+  "description": "Iris ile Telegram'da konuş, sayfa kapalıyken bile. Cevabı orada verir, bir şey senden bekleniyorsa sana haber verir.",
+  "slash": {
+    "telegram": "Telegram'ı bağla ya da bağlı mı diye bak"
+  }
+}

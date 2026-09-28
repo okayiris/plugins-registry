@@ -1,0 +1,6 @@
+{
+  "description": "Berbual dengan Iris di Telegram, walaupun halaman ditutup. Dia menjawab di sana dan memberitahu kamu bila ada sesuatu yang perlukan kamu.",
+  "slash": {
+    "telegram": "sambungkan Telegram, atau semak sama ada ia sudah disambungkan"
+  }
+}

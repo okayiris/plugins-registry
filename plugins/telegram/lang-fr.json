@@ -1,0 +1,6 @@
+{
+  "description": "Parle à Iris sur Telegram, même quand la page est fermée. Elle te répond là-bas et te prévient quand quelque chose a besoin de toi.",
+  "slash": {
+    "telegram": "connecte Telegram, ou vois si c'est déjà fait"
+  }
+}

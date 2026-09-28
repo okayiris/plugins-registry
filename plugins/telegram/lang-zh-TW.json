@@ -1,0 +1,6 @@
+{
+  "description": "在 Telegram 上和 Iris 聊天，就算頁面關著也沒問題。她會在那裡回覆你，有事需要你時也會通知你。",
+  "slash": {
+    "telegram": "連接 Telegram，或查看是否已連接"
+  }
+}

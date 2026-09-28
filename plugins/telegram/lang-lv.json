@@ -1,0 +1,6 @@
+{
+  "description": "Runā ar Iris Telegram, arī tad, kad lapa ir aizvērta. Viņa tur atbild un dod tev ziņu, kad kaut kas prasa tavu uzmanību.",
+  "slash": {
+    "telegram": "savieno Telegram vai paskaties, vai tas jau ir savienots"
+  }
+}

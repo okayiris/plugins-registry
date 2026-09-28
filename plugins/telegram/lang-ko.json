@@ -1,0 +1,6 @@
+{
+  "description": "페이지를 닫아 둔 때도 Telegram에서 Iris와 대화해 보세요. 그녀가 거기서 답하고, 네가 필요한 일이 생기면 알려 줘요.",
+  "slash": {
+    "telegram": "Telegram 연결하기, 또는 연결 상태 확인하기"
+  }
+}

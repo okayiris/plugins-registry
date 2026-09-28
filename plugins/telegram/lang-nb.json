@@ -1,0 +1,6 @@
+{
+  "description": "Snakk med Iris på Telegram, også når siden er lukket. Hun svarer der og sier fra når noe trenger deg.",
+  "slash": {
+    "telegram": "koble til Telegram, eller se om det er koblet til"
+  }
+}

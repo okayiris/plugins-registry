@@ -1,0 +1,6 @@
+{
+  "description": "Ongea na Iris kwenye Telegram, hata ukurasa ukiwa umefungwa. Anajibu huko na kukujulisha kuna kitu kinakuhitaji.",
+  "slash": {
+    "telegram": "unganisha Telegram, au angalia kama imeunganishwa"
+  }
+}

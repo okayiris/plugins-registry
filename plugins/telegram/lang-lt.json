@@ -1,0 +1,6 @@
+{
+  "description": "Kalbėk su Iris Telegram, net kai puslapis uždarytas. Ji ten atsako ir pasako, kai ko nors reikia iš tavęs.",
+  "slash": {
+    "telegram": "prijunk Telegram arba pažiūrėk, ar jis prijungtas"
+  }
+}

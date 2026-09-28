@@ -1,0 +1,6 @@
+{
+  "description": "Puhu Iriksen kanssa Telegramissa, myös silloin kun sivu on kiinni. Hän vastaa siellä ja antaa tiedon, kun jokin tarvitsee sinua.",
+  "slash": {
+    "telegram": "yhdistä Telegram tai katso, onko se yhdistetty"
+  }
+}

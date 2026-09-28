@@ -1,0 +1,11 @@
+{
+  "command": "telegram",
+  "fields": [
+    {
+      "key": "connected",
+      "label": "Connected to Telegram",
+      "type": "toggle",
+      "help": "On gives you a link: open it where you have Telegram and tap Start. Off stops messages both ways."
+    }
+  ]
+}

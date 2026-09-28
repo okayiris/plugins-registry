@@ -1,0 +1,6 @@
+{
+  "description": "Piš si s Iris na Telegramu, i když je stránka zavřená. Odpovídá tam a ozve se, když tě něco potřebuje.",
+  "slash": {
+    "telegram": "propoj Telegram, nebo se podívej, jestli už je propojený"
+  }
+}

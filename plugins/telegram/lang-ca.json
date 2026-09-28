@@ -1,0 +1,6 @@
+{
+  "description": "Parla amb Iris a Telegram, també quan la pàgina és tancada. Ella hi respon i t'avisa quan alguna cosa et necessita.",
+  "slash": {
+    "telegram": "connecta Telegram, o mira si ja ho està"
+  }
+}

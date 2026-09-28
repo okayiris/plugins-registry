@@ -1,0 +1,6 @@
+{
+  "description": "喺 Telegram 同 Iris 傾偈,就算頁面閂咗都得。她會喺嗰度回覆你,有嘢要你處理就會通知你。",
+  "slash": {
+    "telegram": "連接 Telegram,或者睇下有冇連好"
+  }
+}

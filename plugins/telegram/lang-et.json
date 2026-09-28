@@ -1,0 +1,6 @@
+{
+  "description": "Räägi Irisega Telegramis, ka siis, kui leht on suletud. Ta vastab seal ja annab märku, kui midagi vajab sind.",
+  "slash": {
+    "telegram": "ühenda Telegram või vaata, kas see on ühendatud"
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "description": "Iris bilan Telegram'da gaplash, sahifa yopiq bo'lsa ham. U shu yerda javob beradi va senga biror narsa kerak bo'lsa, xabar qiladi.",
+  "slash": {
+    "telegram": "Telegram'ni ulash yoki ulanganini ko'rish"
+  }
+}

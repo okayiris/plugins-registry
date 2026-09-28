@@ -1,0 +1,6 @@
+{
+  "description": "Beszélgess Irisszel Telegramon, akkor is, ha az oldal be van zárva. Ott válaszol, és szól, ha szükség van rád.",
+  "slash": {
+    "telegram": "kösd össze a Telegramot, vagy nézd meg, össze van-e kötve"
+  }
+}

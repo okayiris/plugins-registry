@@ -1,0 +1,6 @@
+{
+  "description": "Yarn Iris for Telegram, even when the page don close. She go reply you there and tell you when something need you.",
+  "slash": {
+    "telegram": "connect Telegram, or check if e don connect"
+  }
+}

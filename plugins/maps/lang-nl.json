@@ -1,0 +1,6 @@
+{
+  "description": "Routes, reistijd en plaatsen via je eigen Google Maps-API-sleutel, met de sleutel in de kluis.",
+  "slash": {
+    "maps": "een route, reistijd of een plaats via Google Maps"
+  }
+}

@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="Maps">
+  <rect width="64" height="64" rx="14" fill="#1F6F78"/>
+  <path d="M16 14h32v36H16z" fill="#EAF7F8"/>
+  <path d="M22 20c0-5 4-9 9-9s9 4 9 9c0 7-9 17-9 17s-9-10-9-17z" fill="#1F6F78"/>
+  <circle cx="31" cy="20" r="3.4" fill="#EAF7F8"/>
+  <path d="M20 44h24" stroke="#1F6F78" stroke-width="4" stroke-linecap="round"/>
+</svg>

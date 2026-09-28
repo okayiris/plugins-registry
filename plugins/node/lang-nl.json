@@ -1,0 +1,6 @@
+{
+  "description": "Koppel je eigen computer of server één keer en laat Iris daar opdrachten op uitvoeren, zonder per opdracht toestemming. Intrekken kan altijd.",
+  "slash": {
+    "nodes": "een opdracht uitvoeren op je eigen computer of server"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "name": "node",
+  "version": "1.0.0",
+  "author": "Iris",
+  "description": "Pair your own computer or server once and run commands there from chat, without a prompt each time. Revoke the pairing whenever you want.",
+  "permissions": ["internet"],
+  "commands": { "nodes": "nodes.py" },
+  "slash": { "nodes": "run a command on one of your own computers or servers" },
+  "category": "developer",
+  "icon": "icon.svg"
+}

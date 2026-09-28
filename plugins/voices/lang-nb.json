@@ -1,0 +1,6 @@
+{
+  "description": "Gi Iris en annen stemme, og hør dem først. Start har to stemmer, Pro tjue, Max to hundre. På gratisabonnementet snakker hun med telefonens egen stemme.",
+  "slash": {
+    "voices": "velg stemmen Iris snakker med"
+  }
+}

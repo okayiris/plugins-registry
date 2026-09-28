@@ -1,0 +1,6 @@
+{
+  "description": "Iris'ga boshqa ovoz ber va avval eshitib ko'r. Start'da ikkita ovoz, Pro'da yigirmata, Max'da ikki yuzta. Bepul rejada u telefoningning o'z ovozi bilan gapiradi.",
+  "slash": {
+    "voices": "Iris gapiradigan ovozni tanla"
+  }
+}

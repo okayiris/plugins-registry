@@ -1,0 +1,6 @@
+{
+  "description": "Dá à Iris outra voz, e ouve-as primeiro. O Start tem duas vozes, o Pro vinte, o Max duzentas. No plano gratuito ela fala com a voz do teu telemóvel.",
+  "slash": {
+    "voices": "escolhe a voz com que a Iris fala"
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "description": "Daj Iris drug glas in ga najprej poslušaj. Start ima dva glasova, Pro dvajset, Max dvesto. V brezplačnem paketu govori z glasom tvojega telefona.",
+  "slash": {
+    "voices": "izberi glas, s katerim govori Iris"
+  }
+}

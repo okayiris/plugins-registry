@@ -1,0 +1,6 @@
+{
+  "description": "Gib Iris eine andere Stimme und hör sie dir vorher an. Start hat zwei Stimmen, Pro zwanzig, Max zweihundert. Im kostenlosen Tarif spricht sie mit der Stimme deines Handys.",
+  "slash": {
+    "voices": "wähle die Stimme, mit der Iris spricht"
+  }
+}

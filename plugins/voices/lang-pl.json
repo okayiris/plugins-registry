@@ -1,0 +1,6 @@
+{
+  "description": "Daj Iris inny głos i posłuchaj go wcześniej. Start ma dwa głosy, Pro dwadzieścia, Max dwieście. W darmowym planie mówi głosem twojego telefonu.",
+  "slash": {
+    "voices": "wybierz głos, którym mówi Iris"
+  }
+}

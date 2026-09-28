@@ -1,0 +1,6 @@
+{
+  "description": "Adj Irisnek másik hangot, és előbb hallgasd meg őket. A Startban két hang van, a Pro-ban húsz, a Maxban kétszáz. Az ingyenes csomagban a telefonod saját hangján szól.",
+  "slash": {
+    "voices": "válaszd ki, milyen hangon beszéljen Iris"
+  }
+}

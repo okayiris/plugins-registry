@@ -1,0 +1,6 @@
+{
+  "description": "Daj Iris iný hlas a najprv si ho vypočuj. Start má dva hlasy, Pro dvadsať, Max dvesto. V bezplatnom pláne hovorí hlasom tvojho telefónu.",
+  "slash": {
+    "voices": "vyber hlas, ktorým Iris hovorí"
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "description": "Beri Iris suara lain, dan dengar dulu sebelum pilih. Start ada dua suara, Pro dua puluh, Max dua ratus. Dalam pelan percuma, dia bercakap dengan suara asli telefon kamu.",
+  "slash": {
+    "voices": "pilih suara yang Iris gunakan untuk bercakap"
+  }
+}

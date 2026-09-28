@@ -1,0 +1,6 @@
+{
+  "description": "Iris'e başka bir ses ver, seçmeden önce dinle. Start'ta iki ses, Pro'da yirmi, Max'te iki yüz ses var. Ücretsiz planda Iris, telefonunun kendi sesiyle konuşur.",
+  "slash": {
+    "voices": "Iris'in konuşurken kullanacağı sesi seç"
+  }
+}

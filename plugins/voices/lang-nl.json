@@ -1,0 +1,6 @@
+{
+  "description": "Geef Iris een andere stem en luister eerst even mee. Start heeft twee stemmen, Pro twintig, Max tweehonderd. Op het gratis abonnement praat ze met de eigen stem van je telefoon.",
+  "slash": {
+    "voices": "kies de stem waarmee Iris praat"
+  }
+}

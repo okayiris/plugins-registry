@@ -1,0 +1,6 @@
+{
+  "description": "Duok Iris kitą balsą ir pirmiausia jį išgirsk. Start turi du balsus, Pro dvidešimt, Max du šimtus. Nemokamame plane ji kalba tavo telefono balsu.",
+  "slash": {
+    "voices": "pasirink balsą, kuriuo kalba Iris"
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "description": "Donne une autre voix à Iris, et écoute-les d'abord. Start propose deux voix, Pro vingt, Max deux cents. Avec l'offre gratuite, elle parle avec la voix de ton téléphone.",
+  "slash": {
+    "voices": "choisis la voix avec laquelle Iris parle"
+  }
+}

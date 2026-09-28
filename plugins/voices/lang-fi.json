@@ -1,0 +1,6 @@
+{
+  "description": "Anna Irikselle toinen ääni ja kuuntele ne ensin. Startissa on kaksi ääntä, Prossa kaksikymmentä, Maxissa kaksisataa. Ilmaisella tilauksella hän puhuu puhelimesi omalla äänellä.",
+  "slash": {
+    "voices": "valitse ääni, jolla Iris puhuu"
+  }
+}

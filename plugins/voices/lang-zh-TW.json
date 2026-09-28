@@ -1,0 +1,6 @@
+{
+  "description": "換一個聲音給 Iris，還能先試聽。Start 有兩種聲音，Pro 有二十種，Max 有兩百種。免費方案中，她會用你手機本身的聲音說話。",
+  "slash": {
+    "voices": "選擇 Iris 說話的聲音"
+  }
+}

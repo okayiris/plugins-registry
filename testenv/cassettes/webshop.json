@@ -1,0 +1,35 @@
+{
+ "synthetic": true,
+ "http": {
+  "GET https://api.mollie.com/v2/methods -": {
+   "status": 200,
+   "url": "https://api.mollie.com/v2/methods",
+   "type": "application/json",
+   "text": "{\"count\": 2, \"_embedded\": {\"methods\": [{\"id\": \"ideal\", \"description\": \"iDEAL\"}, {\"id\": \"creditcard\", \"description\": \"Card\"}]}}"
+  },
+  "GET https://api.mollie.com/v2/payments/tr_stub3 -": {
+   "status": 200,
+   "url": "https://api.mollie.com/v2/payments/tr_stub3",
+   "type": "application/json",
+   "text": "{\"resource\": \"payment\", \"id\": \"tr_stub3\", \"status\": \"paid\"}"
+  },
+  "GET https://api.mollie.com/v2/payments/tr_stub4 -": {
+   "status": 200,
+   "url": "https://api.mollie.com/v2/payments/tr_stub4",
+   "type": "application/json",
+   "text": "{\"resource\": \"payment\", \"id\": \"tr_stub4\", \"status\": \"expired\"}"
+  },
+  "POST https://api.mollie.com/v2/payments a447ff9ec8": {
+   "status": 201,
+   "url": "https://api.mollie.com/v2/payments",
+   "type": "application/json",
+   "text": "{\"resource\": \"payment\", \"id\": \"tr_stub3\", \"status\": \"open\", \"amount\": {\"currency\": \"EUR\", \"value\": \"12.50\"}, \"_links\": {\"checkout\": {\"href\": \"https://www.mollie.com/checkout/select-method/tr_stub3\"}}}"
+  },
+  "POST https://api.mollie.com/v2/payments b401c589f1": {
+   "status": 201,
+   "url": "https://api.mollie.com/v2/payments",
+   "type": "application/json",
+   "text": "{\"resource\": \"payment\", \"id\": \"tr_stub4\", \"status\": \"open\", \"amount\": {\"currency\": \"EUR\", \"value\": \"12.50\"}, \"_links\": {\"checkout\": {\"href\": \"https://www.mollie.com/checkout/select-method/tr_stub4\"}}}"
+  }
+ }
+}

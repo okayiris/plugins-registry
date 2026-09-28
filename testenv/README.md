@@ -27,6 +27,8 @@ Playwright; set `CHROMIUM_PATH` when yours is somewhere else.
 | the internet | answers from `testenv/cassettes/<plugin>.json` (see below) |
 | the vault (`kluis` / `vault`) | `runtime/vault.py`: `lijst`, `vraag`, `doe` and the English `list`, `ask`, `call` |
 | the clock | stands still at the scenario's `now` (Monday 28 September 2026, 10:00, Amsterdam) |
+| chance | `secrets.token_*` give a fixed series per home, so a request that carries a token can be found in a cassette |
+| a route page (`routes` in plugin.json) | served at `/<route>`, with `/<route>/api` running the plugin's command with the request as JSON on stdin, like the house does |
 | a window or screen | drawn with `runtime/kit.js`, a stand-in for the kit, with `/commands/run` answered by the plugin's own command |
 
 The stand-in kit is not the real one. It has the same components and props (English and Dutch names),
@@ -82,6 +84,8 @@ should do.
 }
 ```
 
+A step can send a request on stdin (`"stdin": {...}`, as a route does) and keep a value from its JSON answer for later steps (`"save": {"token1": "token"}`, used as `${token1}`).
+
 `expect` knows `code` (0 when left out), `contains`, `not_contains`, `matches` (regular expressions),
 `lines`, `json` (a path like `items.0.shop` with a value, or `{"min": 2}`, `{"contains": "..."}`,
 `{"present": true}`), `vault` (words that one vault call must hold) and `offline_ok` (a missing answer
@@ -92,7 +96,7 @@ so the scenario still holds after recording again.
 
 `screen` draws the plugin's window (in a narrow tile, a wide tile and on a phone) or screen (desktop and
 phone) and fails on a page error, anything wider than its tile, or a text key missing from
-lang-en.json. `before` runs commands first; `actions` are `click`, `expect`, `gone`, `said` (a sentence
+lang-en.json. `before` runs commands first; `actions` (for a window or screen) and `routes: {"shop": [...]}` (for a route page) are `click`, `expect`, `gone`, `said` (a sentence
 a button gave Iris), `wait` and `shot` (a screenshot). `house` answers other house paths with fixed JSON,
 like `"/mail": {...}` for the mailbox.
 

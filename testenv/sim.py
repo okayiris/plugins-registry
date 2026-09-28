@@ -229,18 +229,26 @@ def vault_items(sc):
     return ", ".join(sc.get("vault", []))
 
 
+def fill(text, saved):
+    """${name} in a step becomes a value saved from an earlier answer (like an order's token)."""
+    return re.sub(r"\$\{(\w+)\}", lambda m: saved.get(m.group(1), m.group(0)), text)
+
+
 def run_scenario(name, mode, verbose, pause=0):
     sc = load_scenario(name)
     plugin = sc.get("plugin", name)
     home = Home(plugin, mode=mode, now=sc.get("now", DEFAULT_NOW), vault=vault_items(sc), stub=sc.get("stub"))
-    failures, steps = [], sc.get("steps", [])
+    failures, steps, saved = [], sc.get("steps", []), {}
     try:
         for i, step in enumerate(steps, 1):
             if mode != "replay" and step.get("offline_only"):
                 continue
             if pause and i > 1:
                 time.sleep(pause)
-            code, out, err = home.run(step["run"], stdin=step.get("stdin"))
+            line, stdin = fill(step["run"], saved), step.get("stdin")
+            if stdin is not None:
+                stdin = fill(stdin if isinstance(stdin, str) else json.dumps(stdin), saved)
+            code, out, err = home.run(line, stdin=stdin)
             wrong = check(step.get("expect", {}), code, out, err, home)
             misses = home.take_misses()
             if misses and mode == "replay" and not step.get("expect", {}).get("offline_ok"):
@@ -256,6 +264,13 @@ def run_scenario(name, mode, verbose, pause=0):
                     print(f"        {RED}{w}{END}")
             if wrong:
                 failures.append((i, step["run"], wrong))
+            elif step.get("save"):
+                try:
+                    data = json.loads(out)
+                    for name, path in step["save"].items():
+                        saved[name] = str(dig(data, path))
+                except (ValueError, KeyError, IndexError, TypeError):
+                    failures.append((i, step["run"], ["could not save values from the answer"]))
     finally:
         home.remove()
     return len(steps), failures

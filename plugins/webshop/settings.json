@@ -1,0 +1,15 @@
+{
+  "command": "webshop",
+  "fields": [
+    { "key": "name", "label": "Shop name", "type": "text", "help": "Shown at the top of the shop page, and on Mollie's payment page." },
+    { "key": "open", "label": "Taking orders", "type": "toggle", "help": "Off: the page shows the products but takes no orders." },
+    { "key": "payments", "label": "Payment", "type": "choice", "options": ["request", "mollie"], "help": "request: you send a payment request yourself. mollie: customers pay online with your Mollie account (say: connect Mollie)." },
+    { "key": "pickup", "label": "Customers can pick up", "type": "toggle", "help": "Off: everything is sent." },
+    { "key": "shipping", "label": "Shipping cost", "type": "text", "help": "In euro, like 4,95. Leave empty for free shipping." },
+    { "key": "free_from", "label": "Free shipping from", "type": "text", "help": "In euro, like 50. Leave empty to always charge shipping." },
+    { "key": "email", "label": "Contact e-mail", "type": "text", "help": "Shown to customers. A Dutch web shop has to show how to reach it." },
+    { "key": "kvk", "label": "KvK number", "type": "text", "help": "Shown at the bottom of the shop page, as Dutch law asks of a business." },
+    { "key": "address", "label": "Business address", "type": "text", "help": "Shown at the bottom of the shop page." },
+    { "key": "terms", "label": "Delivery and return terms", "type": "text", "help": "Shown under every page: delivery time, the 14 days to return, how to return." }
+  ]
+}

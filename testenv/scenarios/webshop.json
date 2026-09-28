@@ -1,0 +1,748 @@
+{
+  "vault": [
+    "mollie|api.mollie.com"
+  ],
+  "stub": "stubs/mollie.py",
+  "steps": [
+    {
+      "run": "webshop",
+      "expect": {
+        "contains": [
+          "Your shop is open, with 0 products",
+          "Before you share the shop, add a shop name"
+        ]
+      }
+    },
+    {
+      "run": "webshop settings set name Atelier Anna",
+      "expect": {
+        "contains": [
+          "name: Atelier Anna."
+        ]
+      }
+    },
+    {
+      "run": "webshop add \"Mok met naam\" 12,50 stock 3 text \"Handgemaakt\"",
+      "expect": {
+        "contains": [
+          "#1 Mok met naam is in the shop for € 12,50, 3 in stock."
+        ]
+      }
+    },
+    {
+      "run": "webshop add Kaart 3 photo https://example.com/kaart.jpg",
+      "expect": {
+        "contains": [
+          "#2 Kaart is in the shop for € 3,00, no limit."
+        ]
+      }
+    },
+    {
+      "run": "webshop add Poster abc",
+      "expect": {
+        "code": 1,
+        "contains": [
+          "abc is not a price."
+        ]
+      }
+    },
+    {
+      "run": "webshop settings set shipping 4,95",
+      "expect": {
+        "contains": [
+          "shipping: 4,95."
+        ]
+      }
+    },
+    {
+      "run": "webshop settings set free_from 25",
+      "expect": {
+        "contains": [
+          "free_from: 25."
+        ]
+      }
+    },
+    {
+      "run": "webshop",
+      "stdin": {
+        "plugin": "webshop",
+        "route": "shop",
+        "method": "POST",
+        "path": "api",
+        "query": {},
+        "body": {
+          "action": "catalog"
+        },
+        "house": "anna",
+        "lang": "nl",
+        "public": true,
+        "owner": "Anna",
+        "at": 1790000000000
+      },
+      "expect": {
+        "json": {
+          "shop.name": "Atelier Anna",
+          "shop.shipping": 495,
+          "products.0.price": 1250,
+          "products.0.left": 3,
+          "products.length": 2
+        }
+      }
+    },
+    {
+      "run": "webshop",
+      "stdin": {
+        "plugin": "webshop",
+        "route": "shop",
+        "method": "POST",
+        "path": "api",
+        "query": {},
+        "body": {
+          "action": "order",
+          "items": [
+            {
+              "id": 1,
+              "qty": 2
+            },
+            {
+              "id": 2,
+              "qty": 1
+            }
+          ],
+          "customer": {
+            "name": "Piet",
+            "email": "piet@example.com",
+            "delivery": "ship",
+            "address": "Dorpsstraat 1, 1234 AB Ergens"
+          }
+        },
+        "house": "anna",
+        "lang": "nl",
+        "public": true,
+        "owner": "Anna",
+        "at": 1790000000000
+      },
+      "expect": {
+        "json": {
+          "order": 1,
+          "total": 2800,
+          "shipping": 0,
+          "status": "open"
+        }
+      },
+      "save": {
+        "token1": "token"
+      }
+    },
+    {
+      "run": "webshop",
+      "stdin": {
+        "plugin": "webshop",
+        "route": "shop",
+        "method": "POST",
+        "path": "api",
+        "query": {},
+        "body": {
+          "action": "order",
+          "items": [
+            {
+              "id": 1,
+              "qty": 2
+            }
+          ],
+          "customer": {
+            "name": "Kees",
+            "email": "kees@example.com"
+          }
+        },
+        "house": "anna",
+        "lang": "nl",
+        "public": true,
+        "owner": "Anna",
+        "at": 1790000000000
+      },
+      "expect": {
+        "json": {
+          "error": "stock",
+          "left": 1
+        }
+      }
+    },
+    {
+      "run": "webshop",
+      "stdin": {
+        "plugin": "webshop",
+        "route": "shop",
+        "method": "POST",
+        "path": "api",
+        "query": {},
+        "body": {
+          "action": "order",
+          "items": [
+            {
+              "id": 2,
+              "qty": 1
+            }
+          ],
+          "customer": {
+            "name": "X",
+            "email": "nope"
+          }
+        },
+        "house": "anna",
+        "lang": "nl",
+        "public": true,
+        "owner": "Anna",
+        "at": 1790000000000
+      },
+      "expect": {
+        "json": {
+          "error": "customer"
+        }
+      }
+    },
+    {
+      "run": "webshop",
+      "stdin": {
+        "plugin": "webshop",
+        "route": "shop",
+        "method": "POST",
+        "path": "api",
+        "query": {},
+        "body": {
+          "action": "order",
+          "items": [
+            {
+              "id": 2,
+              "qty": 1
+            }
+          ],
+          "customer": {
+            "name": "X",
+            "email": "x@example.com",
+            "delivery": "ship"
+          }
+        },
+        "house": "anna",
+        "lang": "nl",
+        "public": true,
+        "owner": "Anna",
+        "at": 1790000000000
+      },
+      "expect": {
+        "json": {
+          "error": "address"
+        }
+      }
+    },
+    {
+      "run": "webshop",
+      "stdin": {
+        "plugin": "webshop",
+        "route": "shop",
+        "method": "POST",
+        "path": "api",
+        "query": {},
+        "body": {
+          "action": "order",
+          "items": [
+            {
+              "id": 2,
+              "qty": 2
+            }
+          ],
+          "customer": {
+            "name": "Kees",
+            "email": "kees@example.com",
+            "delivery": "ship",
+            "address": "Kerkstraat 2, 1111 AA Dorp"
+          }
+        },
+        "house": "anna",
+        "lang": "nl",
+        "public": true,
+        "owner": "Anna",
+        "at": 1790000000000
+      },
+      "expect": {
+        "json": {
+          "total": 1095,
+          "shipping": 495
+        }
+      }
+    },
+    {
+      "run": "webshop",
+      "stdin": {
+        "plugin": "webshop",
+        "route": "shop",
+        "method": "POST",
+        "path": "api",
+        "query": {},
+        "body": {
+          "action": "status",
+          "order": 1,
+          "token": "wrong"
+        },
+        "house": "anna",
+        "lang": "nl",
+        "public": true,
+        "owner": "Anna",
+        "at": 1790000000000
+      },
+      "expect": {
+        "json": {
+          "error": "unknown"
+        }
+      }
+    },
+    {
+      "run": "webshop",
+      "stdin": {
+        "plugin": "webshop",
+        "route": "shop",
+        "method": "POST",
+        "path": "api",
+        "query": {},
+        "body": {
+          "action": "status",
+          "order": 1,
+          "token": "${token1}"
+        },
+        "house": "anna",
+        "lang": "nl",
+        "public": true,
+        "owner": "Anna",
+        "at": 1790000000000
+      },
+      "expect": {
+        "json": {
+          "status": "open",
+          "lines.0.name": "Mok met naam",
+          "lines.0.qty": 2
+        }
+      }
+    },
+    {
+      "run": "webshop",
+      "expect": {
+        "contains": [
+          "2 orders waiting for your payment request (€ 38,95).",
+          "Almost gone: Mok met naam (1 in stock)."
+        ]
+      }
+    },
+    {
+      "run": "webshop orders",
+      "expect": {
+        "contains": [
+          "#1  2026-09-28  Piet: 2 x Mok met naam, 1 x Kaart; € 28,00, send, waiting for payment"
+        ]
+      }
+    },
+    {
+      "run": "webshop order 1",
+      "expect": {
+        "contains": [
+          "Total € 28,00.",
+          "To send to: Dorpsstraat 1, 1234 AB Ergens"
+        ]
+      }
+    },
+    {
+      "run": "webshop paid 1",
+      "expect": {
+        "contains": [
+          "Order #1 of Piet is paid (€ 28,00)."
+        ]
+      }
+    },
+    {
+      "run": "webshop shipped 1",
+      "expect": {
+        "contains": [
+          "Order #1 of Piet is marked as sent."
+        ]
+      }
+    },
+    {
+      "run": "webshop cancel 1",
+      "expect": {
+        "code": 1,
+        "contains": [
+          "already sent"
+        ]
+      }
+    },
+    {
+      "run": "webshop cancel 2",
+      "expect": {
+        "contains": [
+          "Order #2 is cancelled and its stock is back."
+        ]
+      }
+    },
+    {
+      "run": "webshop edit 1 stock +5",
+      "expect": {
+        "contains": [
+          "Mok met naam: stock is now 6 in stock."
+        ]
+      }
+    },
+    {
+      "run": "webshop hide kaart",
+      "expect": {
+        "contains": [
+          "Kaart is out of the shop."
+        ]
+      }
+    },
+    {
+      "run": "webshop",
+      "stdin": {
+        "plugin": "webshop",
+        "route": "shop",
+        "method": "POST",
+        "path": "api",
+        "query": {},
+        "body": {
+          "action": "catalog"
+        },
+        "house": "anna",
+        "lang": "nl",
+        "public": true,
+        "owner": "Anna",
+        "at": 1790000000000
+      },
+      "expect": {
+        "json": {
+          "products.length": 1
+        }
+      }
+    },
+    {
+      "run": "webshop show kaart",
+      "expect": {
+        "contains": [
+          "Kaart is back in the shop."
+        ]
+      }
+    },
+    {
+      "run": "webshop close",
+      "expect": {
+        "contains": [
+          "The shop is closed"
+        ]
+      }
+    },
+    {
+      "run": "webshop",
+      "stdin": {
+        "plugin": "webshop",
+        "route": "shop",
+        "method": "POST",
+        "path": "api",
+        "query": {},
+        "body": {
+          "action": "order",
+          "items": [
+            {
+              "id": 2,
+              "qty": 1
+            }
+          ],
+          "customer": {
+            "name": "A",
+            "email": "a@example.com"
+          }
+        },
+        "house": "anna",
+        "lang": "nl",
+        "public": true,
+        "owner": "Anna",
+        "at": 1790000000000
+      },
+      "expect": {
+        "json": {
+          "error": "closed"
+        }
+      }
+    },
+    {
+      "run": "webshop open",
+      "expect": {
+        "contains": [
+          "The shop takes orders."
+        ]
+      }
+    },
+    {
+      "run": "webshop mollie",
+      "expect": {
+        "contains": [
+          "Mollie is connected",
+          "iDEAL, Card"
+        ]
+      }
+    },
+    {
+      "run": "webshop settings set payments mollie",
+      "expect": {
+        "contains": [
+          "payments: mollie."
+        ]
+      }
+    },
+    {
+      "run": "webshop",
+      "stdin": {
+        "plugin": "webshop",
+        "route": "shop",
+        "method": "POST",
+        "path": "api",
+        "query": {},
+        "body": {
+          "action": "order",
+          "items": [
+            {
+              "id": 1,
+              "qty": 1
+            }
+          ],
+          "customer": {
+            "name": "Els",
+            "email": "els@example.com"
+          }
+        },
+        "house": "anna",
+        "lang": "nl",
+        "public": true,
+        "owner": "Anna",
+        "at": 1790000000000
+      },
+      "expect": {
+        "json": {
+          "order": 3,
+          "pay": "https://www.mollie.com/checkout/select-method/tr_stub3"
+        }
+      }
+    },
+    {
+      "run": "webshop",
+      "stdin": {
+        "plugin": "webshop",
+        "route": "shop",
+        "method": "POST",
+        "path": "api",
+        "query": {},
+        "body": {
+          "action": "order",
+          "items": [
+            {
+              "id": 1,
+              "qty": 1
+            }
+          ],
+          "customer": {
+            "name": "Jan",
+            "email": "jan@example.com"
+          }
+        },
+        "house": "anna",
+        "lang": "nl",
+        "public": true,
+        "owner": "Anna",
+        "at": 1790000000000
+      },
+      "expect": {
+        "json": {
+          "order": 4
+        }
+      },
+      "save": {
+        "token4": "token"
+      }
+    },
+    {
+      "run": "webshop",
+      "stdin": {
+        "plugin": "webshop",
+        "route": "shop",
+        "method": "POST",
+        "path": "api",
+        "query": {
+          "hook": "mollie"
+        },
+        "body": "id=tr_stub3",
+        "house": "anna",
+        "lang": "nl",
+        "public": true,
+        "owner": "Anna",
+        "at": 1790000000000
+      },
+      "expect": {
+        "json": {
+          "ok": true
+        }
+      }
+    },
+    {
+      "run": "webshop order 3",
+      "expect": {
+        "contains": [
+          "Order #3",
+          ", paid."
+        ],
+        "vault": [
+          [
+            "GET",
+            "payments/tr_stub3",
+            "Authorization: Bearer {g}"
+          ]
+        ]
+      }
+    },
+    {
+      "run": "webshop",
+      "stdin": {
+        "plugin": "webshop",
+        "route": "shop",
+        "method": "POST",
+        "path": "api",
+        "query": {},
+        "body": {
+          "action": "status",
+          "order": 4,
+          "token": "${token4}"
+        },
+        "house": "anna",
+        "lang": "nl",
+        "public": true,
+        "owner": "Anna",
+        "at": 1790000000000
+      },
+      "expect": {
+        "json": {
+          "status": "cancelled"
+        }
+      }
+    },
+    {
+      "run": "webshop",
+      "stdin": {
+        "plugin": "webshop",
+        "route": "shop",
+        "method": "POST",
+        "path": "api",
+        "query": {},
+        "body": {
+          "action": "catalog"
+        },
+        "house": "anna",
+        "lang": "nl",
+        "public": true,
+        "owner": "Anna",
+        "at": 1790000000000
+      },
+      "expect": {
+        "json": {
+          "products.0.left": 5
+        }
+      }
+    },
+    {
+      "run": "webshop",
+      "expect": {
+        "contains": [
+          "To send: 1 paid order (€ 12,50)."
+        ]
+      }
+    },
+    {
+      "run": "webshop",
+      "stdin": {
+        "plugin": "webshop",
+        "route": "shop",
+        "method": "POST",
+        "path": "api",
+        "query": {
+          "hook": "mollie"
+        },
+        "body": "id=../../etc",
+        "house": "anna",
+        "lang": "nl",
+        "public": true,
+        "owner": "Anna",
+        "at": 1790000000000
+      },
+      "expect": {
+        "json": {
+          "ok": true
+        }
+      }
+    }
+  ],
+  "screen": {
+    "lang": "nl",
+    "before": [
+      "webshop settings set name Atelier Anna",
+      "webshop settings set kvk 12345678",
+      "webshop settings set email anna@example.com",
+      "webshop settings set shipping 4,95",
+      "webshop settings set terms Binnen 3 werkdagen in huis. 14 dagen bedenktijd.",
+      "webshop add \"Mok met naam\" 12,50 stock 3 text \"Handgemaakt, vaatwasserbestendig\"",
+      "webshop add Kaart 3",
+      "webshop add \"Poster A3\" 19,95 stock 0"
+    ],
+    "actions": [
+      {
+        "click": "text=Bestellingen om af te handelen"
+      },
+      {
+        "said": "webshop orders"
+      }
+    ],
+    "routes": {
+      "shop": [
+        {
+          "shot": "products"
+        },
+        {
+          "expect": "text=Uitverkocht"
+        },
+        {
+          "expect": "text=Nog maar 3 over"
+        },
+        {
+          "click": ".k-btn:has-text('In winkelmand')"
+        },
+        {
+          "click": ".k-btn:has-text('+')"
+        },
+        {
+          "expect": "text=Winkelmand: 2"
+        },
+        {
+          "click": "text=Afrekenen"
+        },
+        {
+          "expect": "text=Je gegevens"
+        },
+        {
+          "click": "text=Opsturen"
+        },
+        {
+          "click": "text=Bestelling plaatsen"
+        },
+        {
+          "expect": "text=Vul je naam en een geldig e-mailadres in."
+        },
+        {
+          "shot": "checkout"
+        }
+      ]
+    }
+  }
+}

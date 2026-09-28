@@ -16,7 +16,8 @@ const spec = JSON.parse(fs.readFileSync(process.argv[2], "utf8"));
 const PLUGINS = path.join(__dirname, "..", "..", "plugins");
 const folder = path.join(PLUGINS, spec.plugin);
 const manifest = JSON.parse(fs.readFileSync(path.join(folder, "plugin.json"), "utf8"));
-const views = [["window", manifest.window], ["screen", manifest.screen]].filter(([, f]) => f);
+const views = [["window", manifest.window], ["screen", manifest.screen]].filter(([, f]) => f)
+  .concat(Object.entries(manifest.routes || {}).map(([name, r]) => [`route:${name}`, r.page]));
 const lang = spec.lang || "en";
 const readJson = (f) => { try { return JSON.parse(fs.readFileSync(f, "utf8")); } catch (e) { return {}; } };
 const texts = { ...(readJson(path.join(folder, "lang-en.json")).texts || {}),
@@ -40,9 +41,10 @@ function words(line) {
   return out;
 }
 
-function runCommand(cmd, args) {
+function runCommand(cmd, args, stdin) {
   return new Promise((resolve) => {
     const p = spawn(cmd, words(args || ""), { cwd: spec.home, env: spec.env });
+    p.stdin.end(stdin || "");
     let out = "", err = "";
     p.stdout.on("data", (d) => (out += d));
     p.stderr.on("data", (d) => (err += d));
@@ -83,9 +85,9 @@ const CSS = `
 .k-btn:disabled{opacity:.45;cursor:default}.k-primary{background:var(--accent);color:#06121e;border-color:transparent;font-weight:600}
 .k-icon{display:inline-block;border-radius:4px;background:var(--faint);vertical-align:middle}.k-list{margin:.3rem 0;padding-left:1.2rem}`;
 
-function page(tileWidth) {
+function page(tileWidth, route) {
   return `<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<style>${CSS}#tile{width:${tileWidth}}</style><script>window.SIM_LANG=${JSON.stringify(texts)};</script></head>
+<style>${CSS}#tile{width:${tileWidth}}</style><script>window.SIM_LANG=${JSON.stringify(texts)};window.SIM_ROUTE=${JSON.stringify(route || "")};</script></head>
 <body><div id="stage"><div id="tile"></div></div><script src="/view.js"></script></body></html>`;
 }
 
@@ -106,6 +108,20 @@ async function main() {
         : { ok: false, tekst: `${ask.cmd} is not a command of ${spec.plugin}` };
       res.setHeader("content-type", "application/json"); return res.end(JSON.stringify(answer));
     }
+    // A route: GET /<name> is the page, POST (or GET) /<name>/api runs its command with the request on stdin.
+    const [, first, rest] = url.pathname.split("/");
+    const route = (manifest.routes || {})[first];
+    if (route && rest === "api") {
+      let body = ""; req.on("data", (d) => (body += d)); await new Promise((r) => req.on("end", r));
+      let parsed = body; try { parsed = body ? JSON.parse(body) : {}; } catch (e) {}
+      const request = { plugin: spec.plugin, route: first, method: req.method, path: "api",
+        query: Object.fromEntries(url.searchParams), body: parsed, house: "test", lang, public: !!route.public,
+        owner: "Test", at: Date.now() };
+      const answer = await runCommand(route.command, "", JSON.stringify(request));
+      res.setHeader("content-type", "application/json");
+      return res.end(answer.ok ? answer.tekst : JSON.stringify({ error: answer.tekst }));
+    }
+    if (route && !rest) { res.setHeader("content-type", "text/html"); return res.end(page(tileWidth, first)); }
     const fixed = house[url.pathname + url.search] ?? house[url.pathname];
     if (fixed !== undefined) { res.setHeader("content-type", "application/json"); return res.end(JSON.stringify(fixed)); }
     res.statusCode = 404; res.end("not in this test house");
@@ -128,6 +144,7 @@ async function main() {
       if (!(key in texts)) problems.push(`${file}: text "${key}" has no entry in lang-en.json`);
     }
     // A window lives in a tile the owner resizes; a screen fills the page. Both go on a phone too.
+    const at = kind.startsWith("route:") ? `/${kind.slice(6)}` : "/";
     const sizes = kind === "window"
       ? [["narrow", "20rem", 1024, 800], ["wide", "40rem", 1024, 800], ["phone", "100%", 390, 844]]
       : [["desktop", "100%", 1280, 900], ["phone", "100%", 390, 844]];
@@ -146,9 +163,10 @@ async function main() {
         }
         return route.abort();
       });
-      await p.goto(`http://127.0.0.1:${port}/`);
+      await p.goto(`http://127.0.0.1:${port}${at}`);
       await p.waitForTimeout(spec.settle || 1500);
-      const actions = label === sizes[0][0] ? spec.actions || [] : [];
+      const own = kind.startsWith("route:") ? ((spec.routes || {})[kind.slice(6)] || []) : (spec.actions || []);
+      const actions = label === sizes[0][0] ? own : [];
       for (const a of actions) {
         try {
           if (a.click) await p.locator(a.click).first().click({ timeout: 8000 });
@@ -159,7 +177,7 @@ async function main() {
             const said = await p.evaluate(() => window.SIM_SAID);
             if (!said.some((s) => s.includes(a.said))) problems.push(`${kind}: nothing said with "${a.said}" (said: ${said.join(" | ") || "nothing"})`);
           }
-          if (a.shot) await p.screenshot({ path: path.join(spec.out, `${kind}-${a.shot}.png`), fullPage: true });
+          if (a.shot) await p.screenshot({ path: path.join(spec.out, `${kind.replace(":", "-")}-${a.shot}.png`), fullPage: true });
           if (!a.click && !a.expect) continue;
           await p.waitForTimeout(a.settle || 600);
         } catch (e) {
@@ -167,7 +185,7 @@ async function main() {
           break;
         }
       }
-      await p.screenshot({ path: path.join(spec.out, `${kind}-${label}.png`), fullPage: true });
+      await p.screenshot({ path: path.join(spec.out, `${kind.replace(":", "-")}-${label}.png`), fullPage: true });
       const over = await p.evaluate(() => {
         const tile = document.getElementById("tile");
         const wide = [];

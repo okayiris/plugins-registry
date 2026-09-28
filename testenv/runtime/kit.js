@@ -54,8 +54,14 @@ const Icon = (p) => h("span", { class: "k-icon", "data-icon": pick(p, "name", "n
 const text = (key, fallback) => (LANG[key] !== undefined ? LANG[key] : fallback);
 
 async function pageApi(payload, method = "POST") {
-  const r = await fetch("api", { method, body: JSON.stringify(payload || {}) });
-  return r.json();
+  // A route page lives at /<route>; its command answers at /<route>/api.
+  const base = `/${window.SIM_ROUTE || location.pathname.split("/")[1] || ""}/api`;
+  try {
+    const r = await fetch(base, { method, body: JSON.stringify(payload || {}) });
+    return await r.json();
+  } catch (e) {
+    return { error: String(e && e.message || e) };
+  }
 }
 
 Object.assign(window, {

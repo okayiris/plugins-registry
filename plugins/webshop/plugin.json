@@ -1,0 +1,16 @@
+{
+  "name": "webshop",
+  "version": "1.0.0",
+  "author": "Iris",
+  "description": "Start your own web shop on your house's address: add products by talking, customers order on your shop page, and they pay through your own Mollie or a payment request you send.",
+  "permissions": ["internet", "secrets"],
+  "commands": { "webshop": "webshop.py" },
+  "slash": { "webshop": "your web shop: orders and products" },
+  "window": "webshop.jsx",
+  "routes": {
+    "shop": { "page": "shop.jsx", "command": "webshop", "public": true }
+  },
+  "database": true,
+  "category": "finance",
+  "icon": "icon.svg"
+}

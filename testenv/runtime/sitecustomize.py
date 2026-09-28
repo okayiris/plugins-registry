@@ -61,6 +61,37 @@ if NOW:
     _time.time = lambda: _frozen_ts
 
 
+# --- chance ---------------------------------------------------------------------------------------
+# Secret tokens are random, and a request that carries one (a payment's return address) would differ on
+# every run and never be found in a cassette. With SIM_NOW set, secrets.token_* give a fixed series per
+# home instead: the first command of a scenario gets the first value, the next command the next, and so on.
+
+if NOW:
+    import random as _random
+    import secrets as _secrets
+
+    def _next_seed():
+        counter = os.path.join(os.environ.get("HOME", "."), ".sim-chance")
+        try:
+            with open(counter, encoding="utf-8") as f:
+                n = int(f.read().strip() or 0)
+        except (OSError, ValueError):
+            n = 0
+        try:
+            with open(counter, "w", encoding="utf-8") as f:
+                f.write(str(n + 1))
+        except OSError:
+            pass
+        return n
+
+    _chance = _random.Random(f"iris-sim-{_next_seed()}")
+
+    def _token_bytes(nbytes=None):
+        return bytes(_chance.getrandbits(8) for _ in range(nbytes or 32))
+
+    _secrets.token_bytes = _token_bytes
+
+
 # --- the internet ---------------------------------------------------------------------------------
 
 _real_urlopen = urllib.request.urlopen

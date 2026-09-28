@@ -1,0 +1,6 @@
+{
+  "description": "Lees en bedien je slimme apparaten via Home Assistant: staten bekijken en dingen aan, uit of op een waarde zetten.",
+  "slash": {
+    "home": "bekijk of bedien je Home Assistant-apparaten"
+  }
+}

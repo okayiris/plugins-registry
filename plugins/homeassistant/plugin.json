@@ -1,0 +1,11 @@
+{
+  "name": "homeassistant",
+  "version": "1.0.0",
+  "author": "Iris",
+  "description": "Read and steer the smart devices in your house through Home Assistant: states, and turn things on, off or to a value.",
+  "permissions": ["internet", "secrets"],
+  "commands": { "home": "home.py" },
+  "slash": { "home": "read or control your Home Assistant devices" },
+  "category": "home",
+  "icon": "icon.svg"
+}

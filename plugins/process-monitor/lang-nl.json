@@ -1,0 +1,4 @@
+{
+  "description": "Proces Monitor: zie wat er in dit huis draait: elk proces met zijn gebruiker, cpu, geheugen en leeftijd, en de werkplek-boxen die nu bezig zijn. Alleen lezen, en stoppen vraagt eerst en raakt de basis nooit.",
+  "slash": { "processes": "wat er in dit huis draait, en een proces stoppen na bevestiging" }
+}

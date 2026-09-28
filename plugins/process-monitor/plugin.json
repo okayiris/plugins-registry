@@ -1,0 +1,12 @@
+{
+  "name": "process-monitor",
+  "version": "1.0.0",
+  "author": "Iris",
+  "description": "Process Monitor: see what runs inside this house: every process with its user, cpu, memory and age, and the workbench boxes that are busy right now. Read-only, and stopping a process asks first and never touches the floor.",
+  "permissions": ["files"],
+  "commands": { "processes": "process-monitor.py" },
+  "slash": { "processes": "what runs in this house, and stopping a process after a confirmation" },
+  "screen": "process-monitor.jsx",
+  "category": "developer",
+  "icon": "icon.svg"
+}

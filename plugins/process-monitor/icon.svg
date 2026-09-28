@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="Process Monitor">
+  <rect width="64" height="64" rx="14" fill="#14343B"/>
+  <path d="M11 26h7l4-9 5 17 4-11 3 6h19" fill="none" stroke="#7FE3C8" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <g fill="#7FE3C8" opacity=".55">
+    <rect x="16" y="44" width="6" height="7" rx="2"/>
+    <rect x="26" y="40" width="6" height="11" rx="2"/>
+    <rect x="36" y="46" width="6" height="5" rx="2"/>
+    <rect x="46" y="42" width="6" height="9" rx="2"/>
+  </g>
+</svg>

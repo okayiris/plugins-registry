@@ -1,0 +1,12 @@
+{
+  "name": "openrouter",
+  "version": "1.0.0",
+  "author": "Iris",
+  "description": "Use your own OpenRouter account and key for text, images and video, paid from your own credit.",
+  "permissions": ["internet", "secrets", "files"],
+  "commands": { "openrouter": "openrouter.py" },
+  "slash": { "openrouter": "ask, draw or list models on your own OpenRouter account" },
+  "window": "openrouter.jsx",
+  "category": "developer",
+  "icon": "icon.svg"
+}

@@ -1,0 +1,9 @@
+{
+  "defaults": {
+    "ask": "google/gemini-3.8-flash",
+    "image": "google/gemini-3.1-flash-image",
+    "video": ""
+  },
+  "vault_item": "openrouter-api",
+  "vault_domain": "openrouter.ai"
+}

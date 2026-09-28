@@ -1,0 +1,11 @@
+{
+  "name": "github",
+  "version": "1.0.0",
+  "author": "Iris",
+  "description": "Read public repositories, files, issues and pull requests on GitHub, and write branches, commits and pull requests with a token from the vault. Also registers webhooks and calls any GitHub endpoint.",
+  "permissions": ["internet", "secrets"],
+  "commands": { "gh": "github.py" },
+  "slash": { "gh": "GitHub: read a repository, and commit or open a pull request" },
+  "category": "developer",
+  "icon": "icon.svg"
+}

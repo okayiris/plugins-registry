@@ -1,0 +1,6 @@
+{
+  "description": "Lees publieke repositories, bestanden, issues en pull requests op GitHub, en schrijf branches, commits en pull requests met een token uit de kluis. Registreert ook webhooks en kan elk GitHub-endpoint aanroepen.",
+  "slash": {
+    "gh": "GitHub: lees een repository, en commit of open een pull request"
+  }
+}

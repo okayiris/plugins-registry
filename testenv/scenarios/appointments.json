@@ -1,0 +1,757 @@
+{
+  "steps": [
+    {
+      "run": "appointments",
+      "expect": {
+        "contains": [
+          "with 0 appointment types",
+          "Before you share the page"
+        ]
+      }
+    },
+    {
+      "run": "appointments settings set name Studio Noord",
+      "expect": {
+        "contains": [
+          "name: Studio Noord."
+        ]
+      }
+    },
+    {
+      "run": "appointments type add Kennismaking 30 video text \"Een eerste gesprek van een half uur\"",
+      "expect": {
+        "contains": [
+          "New: #1  Kennismaking, 30 min, video call."
+        ]
+      }
+    },
+    {
+      "run": "appointments type add Advies 60 place \"Dorpsstraat 1, Utrecht\"",
+      "expect": {
+        "contains": [
+          "#2  Advies, 60 min, at a place, Dorpsstraat 1, Utrecht"
+        ]
+      }
+    },
+    {
+      "run": "appointments type add Masterclass 90 webinar seats 2",
+      "expect": {
+        "contains": [
+          "#3  Masterclass, 90 min, webinar, 2 seats",
+          "appointments webinar 3"
+        ]
+      }
+    },
+    {
+      "run": "appointments type add Iets 30 phone",
+      "expect": {
+        "code": 1,
+        "contains": [
+          "place, video or webinar"
+        ]
+      }
+    },
+    {
+      "run": "appointments webinar 3 2026-10-01 19:30",
+      "expect": {
+        "contains": [
+          "Masterclass on Thu 01 Oct 19:30, 2 seats."
+        ]
+      }
+    },
+    {
+      "run": "appointments hours mon-fri 09:00-12:00, fri 13:00-17:00",
+      "expect": {
+        "contains": [
+          "Your hours are now: mon-fri 09:00-12:00, fri 13:00-17:00."
+        ]
+      }
+    },
+    {
+      "run": "appointments hours every day always",
+      "expect": {
+        "code": 1,
+        "contains": [
+          "I could not read"
+        ]
+      }
+    },
+    {
+      "run": "appointments block tue",
+      "expect": {
+        "contains": [
+          "Block #1: not available Tue 29 Sep the whole day."
+        ]
+      }
+    },
+    {
+      "run": "appointments",
+      "stdin": {
+        "plugin": "appointments",
+        "route": "book",
+        "method": "POST",
+        "path": "api",
+        "query": {},
+        "body": {
+          "action": "types"
+        },
+        "house": "anna",
+        "lang": "nl",
+        "public": true,
+        "owner": "Anna",
+        "at": 1790000000000
+      },
+      "expect": {
+        "json": {
+          "host": "Studio Noord",
+          "types.length": 3,
+          "types.2.kind": "webinar",
+          "types.2.sessions.0.left": 2
+        }
+      }
+    },
+    {
+      "run": "appointments",
+      "stdin": {
+        "plugin": "appointments",
+        "route": "book",
+        "method": "POST",
+        "path": "api",
+        "query": {},
+        "body": {
+          "action": "slots",
+          "type": 1
+        },
+        "house": "anna",
+        "lang": "nl",
+        "public": true,
+        "owner": "Anna",
+        "at": 1790000000000
+      },
+      "expect": {
+        "json": {
+          "days.0.day": "2026-09-30",
+          "days.0.slots.0": "09:00",
+          "days.0.slots.length": 6
+        }
+      }
+    },
+    {
+      "run": "appointments",
+      "stdin": {
+        "plugin": "appointments",
+        "route": "book",
+        "method": "POST",
+        "path": "api",
+        "query": {},
+        "body": {
+          "action": "slots",
+          "type": 2
+        },
+        "house": "anna",
+        "lang": "nl",
+        "public": true,
+        "owner": "Anna",
+        "at": 1790000000000
+      },
+      "expect": {
+        "json": {
+          "days.0.day": "2026-09-30",
+          "days.0.slots.length": 5
+        }
+      }
+    },
+    {
+      "run": "appointments",
+      "stdin": {
+        "plugin": "appointments",
+        "route": "book",
+        "method": "POST",
+        "path": "api",
+        "query": {},
+        "body": {
+          "action": "book",
+          "type": 1,
+          "day": "2026-09-30",
+          "time": "09:30",
+          "name": "Piet",
+          "email": "piet@example.com"
+        },
+        "house": "anna",
+        "lang": "nl",
+        "public": true,
+        "owner": "Anna",
+        "at": 1790000000000
+      },
+      "expect": {
+        "json": {
+          "booking": 1,
+          "status": "booked",
+          "starts": "2026-09-30T09:30+02:00",
+          "link": {
+            "contains": "https://meet.jit.si/studio-noord-call-"
+          }
+        }
+      },
+      "save": {
+        "token1": "token"
+      }
+    },
+    {
+      "run": "appointments",
+      "stdin": {
+        "plugin": "appointments",
+        "route": "book",
+        "method": "POST",
+        "path": "api",
+        "query": {},
+        "body": {
+          "action": "book",
+          "type": 2,
+          "day": "2026-09-30",
+          "time": "09:00",
+          "name": "Kees",
+          "email": "kees@example.com"
+        },
+        "house": "anna",
+        "lang": "nl",
+        "public": true,
+        "owner": "Anna",
+        "at": 1790000000000
+      },
+      "expect": {
+        "json": {
+          "error": "taken"
+        }
+      }
+    },
+    {
+      "run": "appointments",
+      "stdin": {
+        "plugin": "appointments",
+        "route": "book",
+        "method": "POST",
+        "path": "api",
+        "query": {},
+        "body": {
+          "action": "book",
+          "type": 1,
+          "day": "2026-09-30",
+          "time": "09:30",
+          "name": "Els",
+          "email": "els@example.com"
+        },
+        "house": "anna",
+        "lang": "nl",
+        "public": true,
+        "owner": "Anna",
+        "at": 1790000000000
+      },
+      "expect": {
+        "json": {
+          "error": "taken"
+        }
+      }
+    },
+    {
+      "run": "appointments",
+      "stdin": {
+        "plugin": "appointments",
+        "route": "book",
+        "method": "POST",
+        "path": "api",
+        "query": {},
+        "body": {
+          "action": "book",
+          "type": 1,
+          "day": "2026-09-28",
+          "time": "11:00",
+          "name": "Els",
+          "email": "els@example.com"
+        },
+        "house": "anna",
+        "lang": "nl",
+        "public": true,
+        "owner": "Anna",
+        "at": 1790000000000
+      },
+      "expect": {
+        "json": {
+          "error": "taken"
+        }
+      }
+    },
+    {
+      "run": "appointments",
+      "stdin": {
+        "plugin": "appointments",
+        "route": "book",
+        "method": "POST",
+        "path": "api",
+        "query": {},
+        "body": {
+          "action": "book",
+          "type": 1,
+          "day": "2026-09-30",
+          "time": "10:00",
+          "name": "X",
+          "email": "nope"
+        },
+        "house": "anna",
+        "lang": "nl",
+        "public": true,
+        "owner": "Anna",
+        "at": 1790000000000
+      },
+      "expect": {
+        "json": {
+          "error": "guest"
+        }
+      }
+    },
+    {
+      "run": "appointments",
+      "stdin": {
+        "plugin": "appointments",
+        "route": "book",
+        "method": "POST",
+        "path": "api",
+        "query": {},
+        "body": {
+          "action": "slots",
+          "type": 1
+        },
+        "house": "anna",
+        "lang": "nl",
+        "public": true,
+        "owner": "Anna",
+        "at": 1790000000000
+      },
+      "expect": {
+        "json": {
+          "days.0.slots.0": "09:00",
+          "days.0.slots.1": "10:00"
+        }
+      }
+    },
+    {
+      "run": "appointments",
+      "stdin": {
+        "plugin": "appointments",
+        "route": "book",
+        "method": "POST",
+        "path": "api",
+        "query": {},
+        "body": {
+          "action": "book",
+          "type": 3,
+          "session": 1,
+          "name": "Ann",
+          "email": "ann@example.com"
+        },
+        "house": "anna",
+        "lang": "nl",
+        "public": true,
+        "owner": "Anna",
+        "at": 1790000000000
+      },
+      "expect": {
+        "json": {
+          "booking": 2,
+          "kind": "webinar",
+          "link": {
+            "contains": "meet.jit.si"
+          }
+        }
+      }
+    },
+    {
+      "run": "appointments",
+      "stdin": {
+        "plugin": "appointments",
+        "route": "book",
+        "method": "POST",
+        "path": "api",
+        "query": {},
+        "body": {
+          "action": "book",
+          "type": 3,
+          "session": 1,
+          "name": "Ann",
+          "email": "ANN@example.com"
+        },
+        "house": "anna",
+        "lang": "nl",
+        "public": true,
+        "owner": "Anna",
+        "at": 1790000000000
+      },
+      "expect": {
+        "json": {
+          "error": "twice"
+        }
+      }
+    },
+    {
+      "run": "appointments",
+      "stdin": {
+        "plugin": "appointments",
+        "route": "book",
+        "method": "POST",
+        "path": "api",
+        "query": {},
+        "body": {
+          "action": "book",
+          "type": 3,
+          "session": 1,
+          "name": "Bob",
+          "email": "bob@example.com"
+        },
+        "house": "anna",
+        "lang": "nl",
+        "public": true,
+        "owner": "Anna",
+        "at": 1790000000000
+      },
+      "expect": {
+        "json": {
+          "booking": 3
+        }
+      }
+    },
+    {
+      "run": "appointments",
+      "stdin": {
+        "plugin": "appointments",
+        "route": "book",
+        "method": "POST",
+        "path": "api",
+        "query": {},
+        "body": {
+          "action": "book",
+          "type": 3,
+          "session": 1,
+          "name": "Cor",
+          "email": "cor@example.com"
+        },
+        "house": "anna",
+        "lang": "nl",
+        "public": true,
+        "owner": "Anna",
+        "at": 1790000000000
+      },
+      "expect": {
+        "json": {
+          "error": "full"
+        }
+      }
+    },
+    {
+      "run": "appointments",
+      "stdin": {
+        "plugin": "appointments",
+        "route": "book",
+        "method": "POST",
+        "path": "api",
+        "query": {},
+        "body": {
+          "action": "view",
+          "booking": 1,
+          "token": "wrong"
+        },
+        "house": "anna",
+        "lang": "nl",
+        "public": true,
+        "owner": "Anna",
+        "at": 1790000000000
+      },
+      "expect": {
+        "json": {
+          "error": "unknown"
+        }
+      }
+    },
+    {
+      "run": "appointments",
+      "stdin": {
+        "plugin": "appointments",
+        "route": "book",
+        "method": "POST",
+        "path": "api",
+        "query": {},
+        "body": {
+          "action": "view",
+          "booking": 1,
+          "token": "${token1}"
+        },
+        "house": "anna",
+        "lang": "nl",
+        "public": true,
+        "owner": "Anna",
+        "at": 1790000000000
+      },
+      "expect": {
+        "json": {
+          "type": "Kennismaking",
+          "status": "booked"
+        }
+      }
+    },
+    {
+      "run": "appointments sessions",
+      "expect": {
+        "contains": [
+          "Masterclass: 2 of 2 seats taken"
+        ]
+      }
+    },
+    {
+      "run": "appointments list",
+      "expect": {
+        "contains": [
+          "#1  Wed 30 Sep 09:30  Kennismaking with Piet (video)",
+          "Masterclass with Ann",
+          "Masterclass with Bob"
+        ]
+      }
+    },
+    {
+      "run": "appointments show 1",
+      "expect": {
+        "contains": [
+          "#1 Kennismaking, Wed 30 Sep 09:30 to 10:00, booked.",
+          "Piet, piet@example.com",
+          "Video: https://meet.jit.si/"
+        ]
+      }
+    },
+    {
+      "run": "appointments",
+      "stdin": {
+        "plugin": "appointments",
+        "route": "book",
+        "method": "POST",
+        "path": "api",
+        "query": {},
+        "body": {
+          "action": "cancel",
+          "booking": 1,
+          "token": "${token1}"
+        },
+        "house": "anna",
+        "lang": "nl",
+        "public": true,
+        "owner": "Anna",
+        "at": 1790000000000
+      },
+      "expect": {
+        "json": {
+          "status": "cancelled",
+          "link": ""
+        }
+      }
+    },
+    {
+      "run": "appointments",
+      "stdin": {
+        "plugin": "appointments",
+        "route": "book",
+        "method": "POST",
+        "path": "api",
+        "query": {},
+        "body": {
+          "action": "slots",
+          "type": 1
+        },
+        "house": "anna",
+        "lang": "nl",
+        "public": true,
+        "owner": "Anna",
+        "at": 1790000000000
+      },
+      "expect": {
+        "json": {
+          "days.0.slots.1": "09:30"
+        }
+      }
+    },
+    {
+      "run": "appointments settings set video_link https://zoom.us/j/123",
+      "expect": {
+        "contains": [
+          "video_link: https://zoom.us/j/123."
+        ]
+      }
+    },
+    {
+      "run": "appointments",
+      "stdin": {
+        "plugin": "appointments",
+        "route": "book",
+        "method": "POST",
+        "path": "api",
+        "query": {},
+        "body": {
+          "action": "book",
+          "type": 1,
+          "day": "2026-10-02",
+          "time": "14:00",
+          "name": "Dirk",
+          "email": "dirk@example.com"
+        },
+        "house": "anna",
+        "lang": "nl",
+        "public": true,
+        "owner": "Anna",
+        "at": 1790000000000
+      },
+      "expect": {
+        "json": {
+          "starts": "2026-10-02T14:00+02:00",
+          "link": "https://zoom.us/j/123"
+        }
+      }
+    },
+    {
+      "run": "appointments cancel 3",
+      "expect": {
+        "contains": [
+          "Booking #3 of Bob is cancelled"
+        ]
+      }
+    },
+    {
+      "run": "appointments close",
+      "expect": {
+        "contains": [
+          "closed"
+        ]
+      }
+    },
+    {
+      "run": "appointments",
+      "stdin": {
+        "plugin": "appointments",
+        "route": "book",
+        "method": "POST",
+        "path": "api",
+        "query": {},
+        "body": {
+          "action": "book",
+          "type": 1,
+          "day": "2026-10-02",
+          "time": "15:00",
+          "name": "E",
+          "email": "e@example.com"
+        },
+        "house": "anna",
+        "lang": "nl",
+        "public": true,
+        "owner": "Anna",
+        "at": 1790000000000
+      },
+      "expect": {
+        "json": {
+          "error": "closed"
+        }
+      }
+    },
+    {
+      "run": "appointments",
+      "expect": {
+        "contains": [
+          "Studio Noord is closed for bookings, with 3 appointment types.",
+          "Coming up:"
+        ]
+      }
+    }
+  ],
+  "screen": {
+    "lang": "nl",
+    "before": [
+      "appointments settings set name Studio Noord",
+      "appointments settings set email hallo@studionoord.nl",
+      "appointments type add Kennismaking 30 video text \"Een eerste gesprek van een half uur, om te kijken wat ik voor je kan doen.\"",
+      "appointments type add Advies 60 place \"Dorpsstraat 1, Utrecht\"",
+      "appointments type add Masterclass 90 webinar seats 20",
+      "appointments webinar 3 2026-10-12 19:30"
+    ],
+    "actions": [
+      {
+        "click": "text=Vandaag"
+      },
+      {
+        "said": "appointments list today"
+      }
+    ],
+    "routes": {
+      "book": [
+        {
+          "shot": "types"
+        },
+        {
+          "click": ".k-btn:has-text('Kies een moment')"
+        },
+        {
+          "expect": "text=Kies een dag"
+        },
+        {
+          "click": ".k-btn:text-matches('^\\\\d{2}:\\\\d{2}$')"
+        },
+        {
+          "expect": "text=Je gegevens"
+        },
+        {
+          "click": "text=Afspraak bevestigen"
+        },
+        {
+          "expect": "text=Vul je naam en een geldig e-mailadres in."
+        },
+        {
+          "fill": "input[type=text] >> nth=0",
+          "value": "Piet de Vries"
+        },
+        {
+          "fill": "input[type=email]",
+          "value": "piet@example.com"
+        },
+        {
+          "shot": "details"
+        },
+        {
+          "click": "text=Afspraak bevestigen"
+        },
+        {
+          "expect": "text=Je afspraak staat vast."
+        },
+        {
+          "expect": "text=meet.jit.si"
+        },
+        {
+          "shot": "confirmed"
+        },
+        {
+          "click": "text=Afspraak annuleren"
+        },
+        {
+          "click": "text=Ja, annuleren"
+        },
+        {
+          "expect": "text=Deze afspraak is geannuleerd."
+        },
+        {
+          "click": "text=Iets anders boeken"
+        },
+        {
+          "click": ".k-btn:has-text('Bekijk de sessies')"
+        },
+        {
+          "expect": "text=Nog 20 plaatsen"
+        },
+        {
+          "shot": "webinar"
+        }
+      ]
+    }
+  }
+}

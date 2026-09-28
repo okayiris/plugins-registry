@@ -1,0 +1,14 @@
+{
+  "command": "appointments",
+  "fields": [
+    { "key": "name", "label": "Your name or business", "type": "text", "help": "Shown at the top of the booking page, like Anna de Vries or Studio Noord." },
+    { "key": "open", "label": "Taking bookings", "type": "toggle", "help": "Off: the page shows the types but takes no bookings." },
+    { "key": "hours", "label": "When you can be booked", "type": "text", "help": "Days and times, like: mon-fri 09:00-17:00, sat 10:00-12:00." },
+    { "key": "notice", "label": "Notice, in hours", "type": "number", "help": "How far ahead a booking must at least be. 2 by default." },
+    { "key": "days", "label": "Days ahead", "type": "number", "help": "How far ahead people can book. 30 by default." },
+    { "key": "step", "label": "Start times every ... minutes", "type": "number", "help": "30: slots start on the hour and half hour." },
+    { "key": "buffer", "label": "Minutes between appointments", "type": "number", "help": "Kept free before and after every appointment. 0 by default." },
+    { "key": "video_link", "label": "Your own video link", "type": "text", "help": "Your Zoom, Teams or Meet room. Empty: every video call gets its own room on meet.jit.si, which needs no account." },
+    { "key": "email", "label": "Contact e-mail", "type": "text", "help": "Shown to guests, for questions and changes." }
+  ]
+}

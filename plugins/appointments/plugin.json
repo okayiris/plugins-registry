@@ -1,0 +1,16 @@
+{
+  "name": "appointments",
+  "version": "1.0.0",
+  "author": "Iris",
+  "description": "Let people book time with you on your house's address: appointment types with their own length, at a place or by video call, and webinars with a number of seats.",
+  "permissions": [],
+  "commands": { "appointments": "appointments.py" },
+  "slash": { "appointments": "your bookings and booking page" },
+  "window": "appointments.jsx",
+  "routes": {
+    "book": { "page": "book.jsx", "command": "appointments", "public": true }
+  },
+  "database": true,
+  "category": "productivity",
+  "icon": "icon.svg"
+}

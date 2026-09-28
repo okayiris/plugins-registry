@@ -86,7 +86,7 @@ const CSS = `
 .k-icon{display:inline-block;border-radius:4px;background:var(--faint);vertical-align:middle}.k-list{margin:.3rem 0;padding-left:1.2rem}`;
 
 function page(tileWidth, route) {
-  return `<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  return `<!doctype html><html lang="${lang}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <style>${CSS}#tile{width:${tileWidth}}</style><script>window.SIM_LANG=${JSON.stringify(texts)};window.SIM_ROUTE=${JSON.stringify(route || "")};</script></head>
 <body><div id="stage"><div id="tile"></div></div><script src="/view.js"></script></body></html>`;
 }
@@ -169,6 +169,7 @@ async function main() {
       const actions = label === sizes[0][0] ? own : [];
       for (const a of actions) {
         try {
+          if (a.fill) await p.locator(a.fill).first().fill(String(a.value ?? ""), { timeout: 8000 });
           if (a.click) await p.locator(a.click).first().click({ timeout: 8000 });
           if (a.wait) await p.waitForTimeout(a.wait);
           if (a.expect) await p.locator(a.expect).first().waitFor({ timeout: a.timeout || 10000 });
@@ -178,7 +179,7 @@ async function main() {
             if (!said.some((s) => s.includes(a.said))) problems.push(`${kind}: nothing said with "${a.said}" (said: ${said.join(" | ") || "nothing"})`);
           }
           if (a.shot) await p.screenshot({ path: path.join(spec.out, `${kind.replace(":", "-")}-${a.shot}.png`), fullPage: true });
-          if (!a.click && !a.expect) continue;
+          if (!a.click && !a.expect && !a.fill) continue;
           await p.waitForTimeout(a.settle || 600);
         } catch (e) {
           problems.push(`${kind}: ${JSON.stringify(a)} failed: ${String(e.message || e).split("\n")[0]}`);

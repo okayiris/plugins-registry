@@ -1,0 +1,16 @@
+{
+  "description": "De familieagenda in een paar regels: vandaag en morgen, de week, een zoekopdracht, en een venster met datum- en tijdkiezer om iets met het gezin te plannen.",
+  "slash": {
+    "family-agenda": "de familieagenda van vandaag en morgen"
+  },
+  "texts": {
+    "title": "Iets in de familieagenda zetten",
+    "what": "Wat",
+    "date": "Datum",
+    "time": "Tijd",
+    "who": "Wie (optioneel)",
+    "where": "Waar (optioneel)",
+    "plan": "Zet in de agenda",
+    "empty": "Vul eerst in wat er gepland moet worden."
+  }
+}

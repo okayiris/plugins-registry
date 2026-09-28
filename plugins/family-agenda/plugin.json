@@ -1,0 +1,12 @@
+{
+  "name": "family-agenda",
+  "version": "1.0.0",
+  "author": "Iris",
+  "description": "The family agenda in a few lines: today and tomorrow, the week, a search, and a window with a date and time picker to plan something with the family.",
+  "permissions": ["internet"],
+  "commands": { "family-agenda": "family-agenda.py" },
+  "slash": { "family-agenda": "the family agenda for today and tomorrow" },
+  "window": "family-agenda.jsx",
+  "category": "productivity",
+  "icon": "icon.svg"
+}

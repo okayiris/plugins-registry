@@ -1,0 +1,17 @@
+{
+  "name": "sun",
+  "version": "1.0.0",
+  "author": "Iris",
+  "description": "Sunrise, sunset, daylight, twilight and golden hour at home or anywhere, and the moon's phase. Calculated offline.",
+  "permissions": [
+    "internet"
+  ],
+  "commands": {
+    "sun": "sun.py"
+  },
+  "slash": {
+    "sun": "sunrise, sunset and the moon"
+  },
+  "category": "home",
+  "icon": "icon.svg"
+}

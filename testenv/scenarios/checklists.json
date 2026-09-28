@@ -1,0 +1,124 @@
+{
+  "steps": [
+    {
+      "run": "checklists",
+      "expect": {
+        "contains": [
+          "No lists yet."
+        ]
+      }
+    },
+    {
+      "run": "checklists new Packing",
+      "expect": {
+        "contains": [
+          "New list Packing."
+        ]
+      }
+    },
+    {
+      "run": "checklists add Packing: passport, charger, sunscreen, towel, charger",
+      "expect": {
+        "contains": [
+          "Packing now has 4 items (1 already on it)."
+        ]
+      }
+    },
+    {
+      "run": "checklists check Packing: pass, 2",
+      "expect": {
+        "contains": [
+          "Ticked off passport, charger. Still open: sunscreen, towel."
+        ]
+      }
+    },
+    {
+      "run": "checklists show packing",
+      "expect": {
+        "contains": [
+          "Packing, 2 of 4 done:",
+          "1. [x] passport",
+          "3. [ ] sunscreen"
+        ]
+      }
+    },
+    {
+      "run": "checklists check Packing: s",
+      "expect": {
+        "code": 1,
+        "contains": [
+          "Several items fit 's'"
+        ]
+      }
+    },
+    {
+      "run": "checklists new Pool from packing",
+      "expect": {
+        "contains": [
+          "New list Pool, with the 4 items of Packing."
+        ]
+      }
+    },
+    {
+      "run": "checklists check Packing: sunscreen, towel",
+      "expect": {
+        "contains": [
+          "Packing is all done."
+        ]
+      }
+    },
+    {
+      "run": "checklists",
+      "expect": {
+        "contains": [
+          "Packing: all done",
+          "Pool: 0 of 4 done"
+        ]
+      }
+    },
+    {
+      "run": "checklists reset packing",
+      "expect": {
+        "contains": [
+          "Packing is open again: 4 items to go."
+        ]
+      }
+    },
+    {
+      "run": "checklists remove Packing: towel",
+      "expect": {
+        "contains": [
+          "Took towel off Packing."
+        ]
+      }
+    },
+    {
+      "run": "checklists delete pool",
+      "expect": {
+        "contains": [
+          "Threw away the list Pool."
+        ]
+      }
+    },
+    {
+      "run": "checklists show nothing",
+      "expect": {
+        "code": 1,
+        "contains": [
+          "There is no list called nothing."
+        ]
+      }
+    }
+  ],
+  "screen": {
+    "lang": "nl",
+    "actions": [
+      {
+        "click": "text=Al mijn lijstjes"
+      },
+      {
+        "said": "checklists"
+      }
+    ]
+  }
+}

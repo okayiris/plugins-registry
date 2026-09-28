@@ -1,0 +1,7 @@
+{
+  "description": "Vind podcasts, volg ze, en hoor wat er deze week nieuw is, met de audiolink van elke aflevering.",
+  "slash": {
+    "podcasts": "nieuwe afleveringen van je podcasts"
+  },
+  "texts": {}
+}

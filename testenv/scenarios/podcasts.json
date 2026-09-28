@@ -1,0 +1,74 @@
+{
+  "steps": [
+    {
+      "run": "podcasts",
+      "expect": {
+        "contains": [
+          "You follow no podcasts yet."
+        ]
+      }
+    },
+    {
+      "run": "podcasts search de dag",
+      "expect": {
+        "contains": [
+          "Podcasts for de dag:",
+          "De Dag (NPO Luister / NOS"
+        ]
+      }
+    },
+    {
+      "run": "podcasts follow 1",
+      "expect": {
+        "matches": [
+          "^Following De Dag\\. The newest: "
+        ]
+      }
+    },
+    {
+      "run": "podcasts list",
+      "expect": {
+        "contains": [
+          "You follow 1 podcast: De Dag."
+        ]
+      }
+    },
+    {
+      "run": "podcasts episodes de dag 3",
+      "expect": {
+        "contains": [
+          "The latest of De Dag:"
+        ],
+        "matches": [
+          "^ 3\\. De Dag: "
+        ]
+      }
+    },
+    {
+      "run": "podcasts play 1",
+      "expect": {
+        "matches": [
+          "^De Dag: ",
+          "https?://"
+        ]
+      }
+    },
+    {
+      "run": "podcasts unfollow de dag",
+      "expect": {
+        "contains": [
+          "No longer following De Dag."
+        ]
+      }
+    },
+    {
+      "run": "podcasts play 99",
+      "expect": {
+        "code": 1,
+        "contains": [
+          "not in the last list of episodes"
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "command": "podcasts",
+  "fields": [
+    {
+      "key": "shows",
+      "label": "Podcasts you follow",
+      "type": "list",
+      "help": "Filled in by saying: follow The Daily."
+    },
+    {
+      "key": "country",
+      "label": "Directory country",
+      "type": "text",
+      "help": "Two letters, like NL. Which shop's directory to search."
+    }
+  ]
+}

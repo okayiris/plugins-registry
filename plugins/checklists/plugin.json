@@ -1,0 +1,17 @@
+{
+  "name": "checklists",
+  "version": "1.0.0",
+  "author": "Iris",
+  "description": "Checklists you use again and again: packing for a trip, weekly chores, the swimming bag. Tick things off by saying so, and start fresh next time.",
+  "permissions": [],
+  "commands": {
+    "checklists": "checklists.py"
+  },
+  "slash": {
+    "checklists": "your checklists"
+  },
+  "window": "checklists.jsx",
+  "database": true,
+  "category": "productivity",
+  "icon": "icon.svg"
+}

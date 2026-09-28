@@ -1,0 +1,15 @@
+{
+  "description": "Checklists you use again and again: packing for a trip, weekly chores, the swimming bag. Tick things off by saying so, and start fresh next time.",
+  "slash": {
+    "checklists": "your checklists"
+  },
+  "texts": {
+    "label": "Checklists",
+    "title": "Your lists",
+    "intro": "Lists you use again and again. Say what is done; Iris ticks it off.",
+    "all": "All my lists",
+    "packSay": "Show my packing list",
+    "pack": "Packing list",
+    "hint": "Say: make a packing list with passport, charger and sunscreen."
+  }
+}

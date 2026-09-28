@@ -1,0 +1,7 @@
+{
+  "description": "Recepten voor vanavond: zoek op gerecht, op wat er in de koelkast ligt of op keuken, met ingrediënten, stappen en een boodschappenregel.",
+  "slash": {
+    "recipes": "zoek een recept"
+  },
+  "texts": {}
+}

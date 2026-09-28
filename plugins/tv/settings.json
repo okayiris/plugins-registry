@@ -1,0 +1,17 @@
+{
+  "command": "tv",
+  "fields": [
+    {
+      "key": "country",
+      "label": "Country for tonight",
+      "type": "text",
+      "help": "Two letters, like NL or BE."
+    },
+    {
+      "key": "shows",
+      "label": "Shows you follow",
+      "type": "list",
+      "help": "Filled in by saying: follow The Bear."
+    }
+  ]
+}

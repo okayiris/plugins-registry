@@ -1,0 +1,17 @@
+{
+  "name": "tv",
+  "version": "1.0.0",
+  "author": "Iris",
+  "description": "What is on TV tonight, and when the next episode of the shows you follow comes out.",
+  "permissions": [
+    "internet"
+  ],
+  "commands": {
+    "tv": "tv.py"
+  },
+  "slash": {
+    "tv": "what is on tonight, and your shows"
+  },
+  "category": "media",
+  "icon": "icon.svg"
+}

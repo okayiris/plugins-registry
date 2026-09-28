@@ -1,0 +1,10 @@
+{
+ "http": {
+  "GET https://geocoding-api.open-meteo.com/v1/search?name=Utrecht&count=1&format=json -": {
+   "status": 200,
+   "url": "https://geocoding-api.open-meteo.com/v1/search?name=Utrecht&count=1&format=json",
+   "type": "application/json; charset=utf-8",
+   "text": "{\"results\":[{\"id\":2745912,\"name\":\"Utrecht\",\"latitude\":52.09083,\"longitude\":5.12222,\"elevation\":13.0,\"feature_code\":\"PPLA\",\"country_code\":\"NL\",\"admin1_id\":2745909,\"admin2_id\":2745911,\"timezone\":\"Europe/Amsterdam\",\"population\":376435,\"postcodes\":[\"3454\",\"3511\",\"3512\",\"3513\",\"3514\",\"3515\",\"3521\",\"3522\",\"3523\",\"3524\",\"3525\",\"3526\",\"3527\",\"3528\",\"3531\",\"3532\",\"3533\",\"3534\",\"3541\",\"3542\",\"3543\",\"3544\",\"3545\",\"3546\",\"3551\",\"3552\",\"3553\",\"3554\",\"3555\",\"3561\",\"3562\",\"3563\",\"3564\",\"3565\",\"3566\",\"3571\",\"3572\",\"3573\",\"3581\",\"3582\",\"3583\",\"3584\",\"3585\"],\"country_id\":2750405,\"country\":\"The Netherlands\",\"admin1\":\"Utrecht\",\"admin2\":\"Gemeente Utrecht\"}],\"generationtime_ms\":0.96797943}"
+  }
+ }
+}

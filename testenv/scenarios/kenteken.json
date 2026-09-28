@@ -1,0 +1,81 @@
+{
+  "steps": [
+    {
+      "run": "kenteken",
+      "expect": {
+        "contains": [
+          "No cars kept yet."
+        ]
+      }
+    },
+    {
+      "run": "kenteken 16-RSL-9",
+      "expect": {
+        "contains": [
+          "16-RSL-9: Toyota Auris",
+          "petrol"
+        ],
+        "matches": [
+          "APK (valid until|runs out|expired)"
+        ]
+      }
+    },
+    {
+      "run": "kenteken 16rsl9",
+      "expect": {
+        "contains": [
+          "16-RSL-9: Toyota Auris"
+        ]
+      }
+    },
+    {
+      "run": "kenteken add 16-RSL-9 Toyota",
+      "expect": {
+        "contains": [
+          "Keeping 16-RSL-9 (Toyota)."
+        ]
+      }
+    },
+    {
+      "run": "kenteken",
+      "expect": {
+        "contains": [
+          "16-RSL-9 (Toyota): APK"
+        ]
+      }
+    },
+    {
+      "run": "kenteken settings",
+      "expect": {
+        "json": {
+          "cars": "16-RSL-9|Toyota"
+        }
+      }
+    },
+    {
+      "run": "kenteken remove toyota",
+      "expect": {
+        "contains": [
+          "Forgot toyota."
+        ]
+      }
+    },
+    {
+      "run": "kenteken ZZ999Z",
+      "expect": {
+        "contains": [
+          "The RDW knows no vehicle with plate ZZ-999-Z."
+        ]
+      }
+    },
+    {
+      "run": "kenteken x",
+      "expect": {
+        "code": 1,
+        "contains": [
+          "is not a Dutch licence plate"
+        ]
+      }
+    }
+  ]
+}

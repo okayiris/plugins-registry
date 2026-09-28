@@ -1,0 +1,17 @@
+{
+  "name": "kenteken",
+  "version": "1.0.0",
+  "author": "Iris",
+  "description": "Look up a Dutch licence plate: make, model, colour, fuel and when its APK runs out, from the RDW's open data. Keep your own cars to see their APK coming.",
+  "permissions": [
+    "internet"
+  ],
+  "commands": {
+    "kenteken": "kenteken.py"
+  },
+  "slash": {
+    "kenteken": "look up a licence plate"
+  },
+  "category": "other",
+  "icon": "icon.svg"
+}

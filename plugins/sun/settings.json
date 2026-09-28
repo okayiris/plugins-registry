@@ -1,0 +1,11 @@
+{
+  "command": "sun",
+  "fields": [
+    {
+      "key": "place",
+      "label": "Home",
+      "type": "text",
+      "help": "Your town, like Utrecht, or coordinates like 52.09,5.12."
+    }
+  ]
+}

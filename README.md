@@ -27,6 +27,12 @@ with a listed plugin.
 | [deepl](plugins/deepl) | `translate`: into thirty languages with your own DeepL key, free or Pro, with a polite form. | internet, secrets |
 | [personal-shopper](plugins/personal-shopper) | `shopper`: search every shop you like at once, compare on a shopping screen, one cart across shops, and after your yes each shop's checkout opens with everything in it. You pay there. Own database. Screen. | internet |
 | [ns](plugins/ns) | `trains`: Dutch trains live, departures with delays and track changes, trips A to B, disruptions. Your own free NS key. Window. | internet, secrets |
+| [kenteken](plugins/kenteken) | `kenteken`: a Dutch licence plate's make, model, fuel and APK from RDW open data; your own cars and their APK. | internet |
+| [recipes](plugins/recipes) | Recipes by dish, ingredient or cuisine from TheMealDB, with steps and one grocery line. | internet |
+| [tv](plugins/tv) | What is on tonight, and the next episode of the shows you follow, from TVmaze. | internet |
+| [podcasts](plugins/podcasts) | Find and follow podcasts, new episodes this week, and each episode's audio link. | internet |
+| [checklists](plugins/checklists) | Reusable checklists (packing, chores) ticked off by voice, in the plugin's own database. Window. | none |
+| [sun](plugins/sun) | Sunrise, sunset, daylight, twilight, golden hour and the moon's phases, calculated offline. | internet (place lookup only) |
 
 Only todoist, deepl and ns need a key of your own. It goes into the vault with `<command> key ask`, and
 every call is made by the vault with the key as `{g}`, so the plugin itself never sees it.

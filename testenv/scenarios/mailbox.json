@@ -1,0 +1,71 @@
+{
+  "steps": [
+    {
+      "run": "mailbox --help",
+      "expect": {
+        "code": 2,
+        "contains": [
+          "Read-only",
+          "mailbox inbox [n]"
+        ]
+      }
+    },
+    {
+      "run": "mailbox",
+      "expect": {
+        "code": 1,
+        "contains": [
+          "the bridge is not reachable"
+        ],
+        "offline_ok": true
+      }
+    }
+  ],
+  "screen": {
+    "house": {
+      "/mail": {
+        "address": "anna@anna.okayiris.com",
+        "drafts": [
+          {
+            "id": "d1",
+            "to": [
+              "piet@example.com"
+            ],
+            "subject": "Birthday on Saturday"
+          }
+        ],
+        "sent": [
+          {
+            "id": "s1",
+            "to": [
+              "huisarts@example.com"
+            ],
+            "subject": "Appointment",
+            "sentAt": 1790500000000
+          }
+        ]
+      },
+      "/mail/inbox": {
+        "mail": [
+          {
+            "id": "m1",
+            "from": "school@example.com",
+            "subject": "Sports day",
+            "at": 1790550000000
+          }
+        ]
+      }
+    },
+    "actions": [
+      {
+        "expect": "text=anna@anna.okayiris.com"
+      },
+      {
+        "click": "text=Latest sent"
+      },
+      {
+        "expect": "text=Appointment"
+      }
+    ]
+  }
+}

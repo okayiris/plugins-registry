@@ -1,0 +1,80 @@
+{
+  "steps": [
+    {
+      "run": "countdown",
+      "expect": {
+        "contains": [
+          "No days kept yet"
+        ]
+      }
+    },
+    {
+      "run": "countdown add \"Holiday Italy\" 2026-12-20",
+      "expect": {
+        "contains": [
+          "in 83 days (11 weeks and 6 days)"
+        ]
+      }
+    },
+    {
+      "run": "countdown add \"Anna's birthday\" 14 March",
+      "expect": {
+        "contains": [
+          "Sun 14 Mar 2027, every year"
+        ]
+      }
+    },
+    {
+      "run": "countdown add Leap 02-29",
+      "expect": {
+        "contains": [
+          "Tue 29 Feb 2028",
+          "74 weeks and 1 day)"
+        ]
+      }
+    },
+    {
+      "run": "countdown add Old 2026-01-02",
+      "expect": {
+        "contains": [
+          "That day has already been."
+        ]
+      }
+    },
+    {
+      "run": "countdown",
+      "expect": {
+        "matches": [
+          "^Holiday Italy: in 83 days",
+          "Old: was 02 Jan 2026"
+        ]
+      }
+    },
+    {
+      "run": "countdown until 25 Dec",
+      "expect": {
+        "contains": [
+          "88 days",
+          "64 of them working days"
+        ]
+      }
+    },
+    {
+      "run": "countdown remove old",
+      "expect": {
+        "contains": [
+          "Dropped Old."
+        ]
+      }
+    },
+    {
+      "run": "countdown add Bad 2026-02-30",
+      "expect": {
+        "code": 1,
+        "contains": [
+          "could not read that date"
+        ]
+      }
+    }
+  ]
+}

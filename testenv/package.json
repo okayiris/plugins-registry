@@ -1,0 +1,10 @@
+{
+  "name": "iris-plugins-testenv",
+  "private": true,
+  "description": "Tools to draw and check plugin windows and screens outside a house.",
+  "dependencies": {
+    "esbuild": "0.23.1",
+    "playwright-core": "1.56.1",
+    "preact": "10.24.3"
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "steps": [
+    {
+      "run": "processes --json",
+      "expect": {
+        "json": {
+          "procs.0.pid": {
+            "present": true
+          },
+          "dienst.bereikbaar": false
+        },
+        "offline_ok": true
+      }
+    }
+  ],
+  "screen": {
+    "actions": [
+      {
+        "expect": "text=Stop"
+      },
+      {
+        "click": ".k-btn:text-is('Stop')"
+      },
+      {
+        "expect": "text=Are you sure?"
+      },
+      {
+        "shot": "confirm"
+      },
+      {
+        "click": ".k-btn:has-text('No')"
+      },
+      {
+        "gone": "text=Are you sure?"
+      }
+    ]
+  }
+}

@@ -1,0 +1,108 @@
+{
+  "vault": [
+    "todoist|api.todoist.com"
+  ],
+  "stub": "stubs/todoist.py",
+  "steps": [
+    {
+      "run": "todoist key",
+      "expect": {
+        "contains": [
+          "A Todoist token is in the vault as \"todoist\"."
+        ]
+      }
+    },
+    {
+      "run": "todoist",
+      "expect": {
+        "contains": [
+          "3 tasks for today:",
+          "Pay rent  (2 days late, repeats)",
+          "Call the plumber (urgent)  (today 12:00, Work)"
+        ],
+        "vault": [
+          [
+            "doe",
+            "todoist",
+            "GET",
+            "tasks/filter",
+            "Authorization: Bearer {g}"
+          ]
+        ]
+      }
+    },
+    {
+      "run": "todoist done 1",
+      "expect": {
+        "contains": [
+          "Done: Pay rent."
+        ],
+        "vault": [
+          [
+            "POST",
+            "/tasks/2/close"
+          ]
+        ]
+      }
+    },
+    {
+      "run": "todoist add \"Call mom\" tomorrow 9am",
+      "expect": {
+        "contains": [
+          "Added: Call mom, tomorrow 09:00."
+        ],
+        "vault": [
+          [
+            "POST",
+            "due_string",
+            "tomorrow 9am"
+          ]
+        ]
+      }
+    },
+    {
+      "run": "todoist add \"Water plants\"",
+      "expect": {
+        "contains": [
+          "Added: Water plants, no date."
+        ]
+      }
+    },
+    {
+      "run": "todoist done buy",
+      "expect": {
+        "contains": [
+          "Several tasks fit; say the number:",
+          "Buy milk",
+          "Buy bread"
+        ]
+      }
+    },
+    {
+      "run": "todoist done milk",
+      "expect": {
+        "contains": [
+          "Done: Buy milk."
+        ]
+      }
+    },
+    {
+      "run": "todoist projects",
+      "expect": {
+        "contains": [
+          "Work: 1 open",
+          "Inbox: 3 open"
+        ]
+      }
+    },
+    {
+      "run": "todoist project work",
+      "expect": {
+        "contains": [
+          "Work, 1 open:",
+          "Call the plumber"
+        ]
+      }
+    }
+  ]
+}

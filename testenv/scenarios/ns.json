@@ -1,0 +1,132 @@
+{
+  "vault": [
+    "ns|gateway.apiportal.ns.nl"
+  ],
+  "stub": "stubs/ns.py",
+  "steps": [
+    {
+      "run": "trains",
+      "expect": {
+        "code": 1,
+        "contains": [
+          "No home station is set."
+        ]
+      }
+    },
+    {
+      "run": "trains settings set home utrecht",
+      "expect": {
+        "contains": [
+          "Your home station is Utrecht Centraal."
+        ],
+        "vault": [
+          [
+            "doe",
+            "ns",
+            "GET",
+            "v2/stations",
+            "Ocp-Apim-Subscription-Key: {g}"
+          ]
+        ]
+      }
+    },
+    {
+      "run": "trains",
+      "expect": {
+        "contains": [
+          "Departures from Utrecht Centraal:",
+          "10:04 +3  IC Amsterdam Centraal  track 7 (not 5)",
+          "SPR Zwolle  CANCELLED"
+        ]
+      }
+    },
+    {
+      "run": "trains to amsterdam",
+      "expect": {
+        "contains": [
+          "Utrecht Centraal to Amsterdam Centraal:",
+          "27 min, direct, track 5",
+          "change at Amsterdam Sloterdijk"
+        ]
+      }
+    },
+    {
+      "run": "trains to \"The Hague\" from Utrecht at 17:30",
+      "expect": {
+        "contains": [
+          "Utrecht Centraal to Den Haag Centraal:"
+        ],
+        "vault": [
+          [
+            "dateTime=2026-09-28T17%3A30%3A00%2B02%3A00"
+          ]
+        ]
+      }
+    },
+    {
+      "run": "trains work",
+      "expect": {
+        "code": 1,
+        "contains": [
+          "No work station is set."
+        ]
+      }
+    },
+    {
+      "run": "trains settings set work Amsterdam CS",
+      "expect": {
+        "contains": [
+          "Your work station is Amsterdam Centraal."
+        ]
+      }
+    },
+    {
+      "run": "trains home",
+      "expect": {
+        "contains": [
+          "Amsterdam Centraal to Utrecht Centraal:"
+        ]
+      }
+    },
+    {
+      "run": "trains disruptions",
+      "expect": {
+        "contains": [
+          "2 now:",
+          "works: Utrecht Centraal - Amersfoort Centraal"
+        ]
+      }
+    },
+    {
+      "run": "trains disruptions zwolle",
+      "expect": {
+        "contains": [
+          "1 now:",
+          "Zwolle - Groningen"
+        ]
+      }
+    },
+    {
+      "run": "trains to nowhere",
+      "expect": {
+        "code": 1,
+        "contains": [
+          "There is no station called nowhere."
+        ]
+      }
+    }
+  ],
+  "screen": {
+    "before": [
+      "trains settings set home utrecht"
+    ],
+    "actions": [
+      {
+        "click": "text=Disruptions"
+      },
+      {
+        "said": "trains disruptions"
+      }
+    ]
+  }
+}

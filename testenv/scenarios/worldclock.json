@@ -1,0 +1,74 @@
+{
+  "steps": [
+    {
+      "run": "worldclock",
+      "expect": {
+        "contains": [
+          "London: 09:00",
+          "New York: 04:00",
+          "Tokyo: 17:00"
+        ]
+      }
+    },
+    {
+      "run": "worldclock Sydney",
+      "expect": {
+        "contains": [
+          "Sydney: 18:00",
+          "8 h ahead"
+        ]
+      }
+    },
+    {
+      "run": "worldclock at 4pm in San Francisco",
+      "expect": {
+        "contains": [
+          "16:00 in San Francisco is:",
+          "here: 01:00, tomorrow"
+        ]
+      }
+    },
+    {
+      "run": "worldclock meet London, New York",
+      "expect": {
+        "contains": [
+          "Working hours overlap",
+          "New York 09:00"
+        ]
+      }
+    },
+    {
+      "run": "worldclock add Singapore",
+      "expect": {
+        "contains": [
+          "Keeping Singapore, where it is 16:00 now."
+        ]
+      }
+    },
+    {
+      "run": "worldclock remove tokyo",
+      "expect": {
+        "contains": [
+          "Dropped tokyo."
+        ]
+      }
+    },
+    {
+      "run": "worldclock settings",
+      "expect": {
+        "json": {
+          "places": "London, New York, Singapore"
+        }
+      }
+    },
+    {
+      "run": "worldclock Nowhereville",
+      "expect": {
+        "code": 1,
+        "contains": [
+          "I do not know the time zone of Nowhereville"
+        ]
+      }
+    }
+  ]
+}

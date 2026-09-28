@@ -1,0 +1,87 @@
+{
+  "steps": [
+    {
+      "run": "weather",
+      "expect": {
+        "code": 1,
+        "contains": [
+          "No home is set yet."
+        ]
+      }
+    },
+    {
+      "run": "weather settings set place Utrecht",
+      "expect": {
+        "contains": [
+          "Home is Utrecht, The Netherlands."
+        ]
+      }
+    },
+    {
+      "run": "weather",
+      "expect": {
+        "matches": [
+          "^Utrecht, The Netherlands: .+, -?\\d+°C \\(feels like",
+          "Today between",
+          "Next hours:"
+        ]
+      }
+    },
+    {
+      "run": "weather week",
+      "expect": {
+        "contains": [
+          "the next seven days:",
+          "Today "
+        ],
+        "lines": [
+          8,
+          8
+        ]
+      }
+    },
+    {
+      "run": "weather rain",
+      "expect": {
+        "matches": [
+          "^Utrecht, The Netherlands: (dry for the next three hours|it is raining now|rain from about)"
+        ]
+      }
+    },
+    {
+      "run": "weather Lisbon",
+      "expect": {
+        "contains": [
+          "Lisbon"
+        ]
+      }
+    },
+    {
+      "run": "weather settings set units imperial",
+      "expect": {
+        "contains": [
+          "Units are imperial."
+        ]
+      }
+    },
+    {
+      "run": "weather settings set units kelvin",
+      "expect": {
+        "code": 1,
+        "contains": [
+          "metric or imperial"
+        ]
+      }
+    }
+  ],
+  "screen": {
+    "actions": [
+      {
+        "click": "text=Will it rain soon"
+      },
+      {
+        "said": "weather rain"
+      }
+    ]
+  }
+}

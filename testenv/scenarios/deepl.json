@@ -1,0 +1,82 @@
+{
+  "vault": [
+    "deepl|deepl.com"
+  ],
+  "stub": "stubs/deepl.py",
+  "steps": [
+    {
+      "run": "translate Goedemorgen allemaal",
+      "expect": {
+        "contains": [
+          "Good morning everyone",
+          "(NL to EN-GB)"
+        ],
+        "vault": [
+          [
+            "doe",
+            "deepl",
+            "POST",
+            "https://api.deepl.com/v2/translate",
+            "Authorization: DeepL-Auth-Key {g}"
+          ]
+        ]
+      }
+    },
+    {
+      "run": "translate settings",
+      "expect": {
+        "json": {
+          "plan": "pro"
+        }
+      }
+    },
+    {
+      "run": "translate to german Good morning",
+      "expect": {
+        "contains": [
+          "Guten Morgen",
+          "(EN to DE)"
+        ]
+      }
+    },
+    {
+      "run": "translate formal to dutch How are you?",
+      "expect": {
+        "contains": [
+          "Hoe gaat het met u?"
+        ],
+        "vault": [
+          [
+            "prefer_more"
+          ]
+        ]
+      }
+    },
+    {
+      "run": "translate to klingon hi",
+      "expect": {
+        "code": 1,
+        "contains": [
+          "do not know the language klingon"
+        ]
+      }
+    },
+    {
+      "run": "translate usage",
+      "expect": {
+        "contains": [
+          "12,345 of 500,000 characters used this month (2%)."
+        ]
+      }
+    },
+    {
+      "run": "translate languages",
+      "expect": {
+        "contains": [
+          "German (DE)",
+          "Dutch (NL)"
+        ]
+      }
+    }
+  ]
+}

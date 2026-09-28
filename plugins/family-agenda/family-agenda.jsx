@@ -9,13 +9,16 @@ export default () => {
   const veld = {
     width: "100%", boxSizing: "border-box",
     background: "var(--glass)", color: "var(--fg)",
-    border: "1px solid var(--edge)", borderRadius: 10,
+    border: "1px solid var(--edge)", borderRadius: 10, minWidth: 0,
     padding: "0.55rem 0.7rem", fontSize: "0.95rem",
   };
   const label = {
-    display: "flex", flexDirection: "column", gap: "0.3rem",
+    display: "flex", flexDirection: "column", gap: "0.3rem", minWidth: 0,
     fontSize: "0.85rem", color: "var(--dim)",
   };
+  // Two fields side by side, or under each other when the tile is too narrow for both.
+  const pair = { display: "flex", flexWrap: "wrap", gap: "0.6rem" };
+  const half = { ...label, flex: "1 1 9rem" };
 
   const klaar = wat.trim().length > 0;
   const boodschap = "family-agenda plan " + JSON.stringify(wat.trim()) + " " + datum + " " + tijd
@@ -31,23 +34,23 @@ export default () => {
                onInput={(e) => setWat(e.currentTarget.value)} />
       </label>
 
-      <div style={{display: "flex", gap: "0.6rem"}}>
-        <label style={{...label, flex: 1}}>{text("date", "Date")}
+      <div style={pair}>
+        <label style={half}>{text("date", "Date")}
           <input style={veld} type="date" value={datum}
                  onInput={(e) => setDatum(e.currentTarget.value)} />
         </label>
-        <label style={{...label, flex: 1}}>{text("time", "Time")}
+        <label style={half}>{text("time", "Time")}
           <input style={veld} type="time" value={tijd}
                  onInput={(e) => setTijd(e.currentTarget.value)} />
         </label>
       </div>
 
-      <div style={{display: "flex", gap: "0.6rem"}}>
-        <label style={{...label, flex: 1}}>{text("who", "Who (optional)")}
+      <div style={pair}>
+        <label style={half}>{text("who", "Who (optional)")}
           <input style={veld} type="text" value={wie}
                  onInput={(e) => setWie(e.currentTarget.value)} />
         </label>
-        <label style={{...label, flex: 1}}>{text("where", "Where (optional)")}
+        <label style={half}>{text("where", "Where (optional)")}
           <input style={veld} type="text" value={waar}
                  onInput={(e) => setWaar(e.currentTarget.value)} />
         </label>

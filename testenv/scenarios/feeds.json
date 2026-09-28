@@ -1,0 +1,85 @@
+{
+  "steps": [
+    {
+      "run": "feeds",
+      "expect": {
+        "code": 1,
+        "contains": [
+          "No feeds yet."
+        ]
+      }
+    },
+    {
+      "run": "feeds add NOS https://feeds.nos.nl/nosnieuwsalgemeen",
+      "expect": {
+        "matches": [
+          "^Following NOS, \\d+ items"
+        ]
+      }
+    },
+    {
+      "run": "feeds add https://github.blog/",
+      "expect": {
+        "matches": [
+          "^Following github.blog, \\d+ items"
+        ]
+      }
+    },
+    {
+      "run": "feeds latest 5",
+      "expect": {
+        "contains": [
+          "The newest:",
+          "feeds read <number>"
+        ],
+        "matches": [
+          "^ 5\\. "
+        ]
+      }
+    },
+    {
+      "run": "feeds read 1",
+      "expect": {
+        "matches": [
+          "https?://"
+        ]
+      }
+    },
+    {
+      "run": "feeds list",
+      "expect": {
+        "contains": [
+          "You follow 2 feeds:",
+          "https://github.blog/feed/"
+        ]
+      }
+    },
+    {
+      "run": "feeds remove nos",
+      "expect": {
+        "contains": [
+          "No longer following NOS."
+        ]
+      }
+    },
+    {
+      "run": "feeds read 99",
+      "expect": {
+        "code": 1,
+        "contains": [
+          "not in the last list"
+        ]
+      }
+    }
+  ],
+  "screen": {
+    "actions": [
+      {
+        "click": "text=The newest"
+      },
+      {
+        "said": "feeds"
+      }
+    ]
+  }
+}

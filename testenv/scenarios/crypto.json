@@ -1,0 +1,56 @@
+{
+  "steps": [
+    {
+      "run": "crypto",
+      "expect": {
+        "matches": [
+          "^Bitcoin \\(BTC\\): [\\d,.]+ EUR",
+          "Ethereum \\(ETH\\)"
+        ]
+      }
+    },
+    {
+      "run": "crypto btc",
+      "expect": {
+        "contains": [
+          "Bitcoin (BTC):",
+          "Market cap",
+          "All-time high"
+        ]
+      }
+    },
+    {
+      "run": "crypto 0.5 eth usd",
+      "expect": {
+        "matches": [
+          "^0\\.5 ETH is [\\d,.]+ USD"
+        ]
+      }
+    },
+    {
+      "run": "crypto add sol",
+      "expect": {
+        "contains": [
+          "Following Solana."
+        ]
+      }
+    },
+    {
+      "run": "crypto settings",
+      "expect": {
+        "json": {
+          "coins": "bitcoin, ethereum, solana"
+        }
+      }
+    },
+    {
+      "run": "crypto notacoinzzzq",
+      "expect": {
+        "code": 1,
+        "contains": [
+          "knows no coin called notacoinzzzq"
+        ]
+      }
+    }
+  ]
+}

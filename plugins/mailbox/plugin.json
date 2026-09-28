@@ -1,6 +1,6 @@
 {
   "name": "mailbox",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "author": "Iris",
   "description": "Read this house's mailbox: the address, the open drafts and the latest received and sent mail, with the full text of each mail. Read-only.",
   "permissions": [

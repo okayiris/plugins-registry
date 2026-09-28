@@ -31,6 +31,18 @@ with a listed plugin.
 Only todoist, deepl and ns need a key of your own. It goes into the vault with `<command> key ask`, and
 every call is made by the vault with the key as `{g}`, so the plugin itself never sees it.
 
+## Test
+
+`testenv/` runs plugins as they run in an Iris home, offline and repeatable: commands against recorded
+answers, a stand-in vault, a frozen clock, and every window and screen drawn and checked in Chromium.
+See [testenv/README.md](testenv/README.md).
+
+```sh
+python3 testenv/sim.py test      # scenarios
+python3 testenv/sim.py smoke     # nothing crashes
+python3 testenv/sim.py screen    # windows and screens, screenshots in testenv/out/
+```
+
 ## Check and publish
 
 ```sh

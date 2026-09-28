@@ -1,0 +1,65 @@
+{
+  "steps": [
+    {
+      "run": "currency 25 USD EUR",
+      "expect": {
+        "matches": [
+          "^25\\.00 USD is [\\d.,]+ EUR \\(rate of 2026-"
+        ]
+      }
+    },
+    {
+      "run": "currency 80 dollars to euros",
+      "expect": {
+        "contains": [
+          "80.00 USD is"
+        ]
+      }
+    },
+    {
+      "run": "currency 1.234,56 GBP",
+      "expect": {
+        "contains": [
+          "1,234.56 GBP is"
+        ]
+      }
+    },
+    {
+      "run": "currency 100 EUR",
+      "expect": {
+        "contains": [
+          "USD",
+          "GBP",
+          "CHF",
+          "JPY"
+        ]
+      }
+    },
+    {
+      "run": "currency rates",
+      "expect": {
+        "contains": [
+          "1 EUR on 2026-"
+        ]
+      }
+    },
+    {
+      "run": "currency history USD EUR 90",
+      "expect": {
+        "contains": [
+          "the last 90 days",
+          "Lowest"
+        ]
+      }
+    },
+    {
+      "run": "currency 5 XYZ EUR",
+      "expect": {
+        "code": 1,
+        "contains": [
+          "not known"
+        ]
+      }
+    }
+  ]
+}

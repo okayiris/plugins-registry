@@ -1,0 +1,45 @@
+name: plugins
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Manifests and design rules
+        run: python3 tools/check.py
+      - name: Every command runs without crashing
+        run: python3 testenv/sim.py smoke
+      - name: Scenarios, from the recorded answers
+        run: python3 testenv/sim.py test
+
+  screens:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Tools
+        working-directory: testenv
+        run: |
+          npm install --no-audit --no-fund
+          npx --yes playwright@1.56.1 install --with-deps chromium
+      - name: Every window and screen
+        run: python3 testenv/sim.py screen
+      - name: Screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: screenshots
+          path: testenv/out/

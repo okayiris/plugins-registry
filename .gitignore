@@ -4,3 +4,7 @@ plugins/*/data.db*
 plugins/*/.*.json
 plugins/*/*.tmp
 __pycache__/
+# The test environment: its tools, lasting homes and screenshots.
+testenv/node_modules/
+testenv/.home/
+testenv/out/

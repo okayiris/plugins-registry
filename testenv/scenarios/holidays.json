@@ -1,0 +1,65 @@
+{
+  "steps": [
+    {
+      "run": "holidays",
+      "expect": {
+        "contains": [
+          "The next public holidays in Netherlands:",
+          "Christmas Day"
+        ]
+      }
+    },
+    {
+      "run": "holidays next Germany",
+      "expect": {
+        "contains": [
+          "German Unity Day",
+          "in 5 days",
+          "only in"
+        ]
+      }
+    },
+    {
+      "run": "holidays year 2027 BE",
+      "expect": {
+        "contains": [
+          "Public holidays in Belgium, 2027:",
+          "New Year's Day"
+        ]
+      }
+    },
+    {
+      "run": "holidays today",
+      "expect": {
+        "contains": [
+          "No, today is not a public holiday in Netherlands."
+        ]
+      }
+    },
+    {
+      "run": "holidays long",
+      "expect": {
+        "contains": [
+          "Long weekends in Netherlands, 2026:"
+        ]
+      }
+    },
+    {
+      "run": "holidays settings set country Belgium",
+      "expect": {
+        "contains": [
+          "Home is Belgium."
+        ]
+      }
+    },
+    {
+      "run": "holidays next Atlantis",
+      "expect": {
+        "code": 1,
+        "contains": [
+          "not a country I know"
+        ]
+      }
+    }
+  ]
+}

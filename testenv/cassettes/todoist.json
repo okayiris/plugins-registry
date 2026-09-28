@@ -1,0 +1,53 @@
+{
+ "synthetic": true,
+ "http": {
+  "GET https://api.todoist.com/api/v1/projects?limit=200 -": {
+   "status": 200,
+   "url": "https://api.todoist.com/api/v1/projects?limit=200",
+   "type": "application/json",
+   "text": "{\"results\": [{\"id\": \"p1\", \"name\": \"Work\"}, {\"id\": \"p2\", \"name\": \"Inbox\"}], \"next_cursor\": null}"
+  },
+  "GET https://api.todoist.com/api/v1/tasks/filter?query=today+%7C+overdue&limit=200 -": {
+   "status": 200,
+   "url": "https://api.todoist.com/api/v1/tasks/filter?query=today+%7C+overdue&limit=200",
+   "type": "application/json",
+   "text": "{\"results\": [{\"id\": \"1\", \"content\": \"Call the plumber\", \"priority\": 4, \"project_id\": \"p1\", \"description\": \"\", \"due\": {\"date\": \"2026-09-28\", \"datetime\": \"2026-09-28T12:00:00+0200\", \"is_recurring\": false, \"string\": \"today 12:00\"}}, {\"id\": \"2\", \"content\": \"Pay rent\", \"priority\": 1, \"project_id\": \"p2\", \"description\": \"\", \"due\": {\"date\": \"2026-09-26\", \"is_recurring\": true, \"string\": \"every month\"}}, {\"id\": \"3\", \"content\": \"Buy milk\", \"priority\": 1, \"project_id\": \"p2\", \"description\": \"\", \"due\": {\"date\": \"2026-09-28\"}}], \"next_cursor\": null}"
+  },
+  "GET https://api.todoist.com/api/v1/tasks?limit=200 -": {
+   "status": 200,
+   "url": "https://api.todoist.com/api/v1/tasks?limit=200",
+   "type": "application/json",
+   "text": "{\"results\": [{\"id\": \"1\", \"content\": \"Call the plumber\", \"priority\": 4, \"project_id\": \"p1\", \"description\": \"\", \"due\": {\"date\": \"2026-09-28\", \"datetime\": \"2026-09-28T12:00:00+0200\", \"is_recurring\": false, \"string\": \"today 12:00\"}}, {\"id\": \"2\", \"content\": \"Pay rent\", \"priority\": 1, \"project_id\": \"p2\", \"description\": \"\", \"due\": {\"date\": \"2026-09-26\", \"is_recurring\": true, \"string\": \"every month\"}}, {\"id\": \"3\", \"content\": \"Buy milk\", \"priority\": 1, \"project_id\": \"p2\", \"description\": \"\", \"due\": {\"date\": \"2026-09-28\"}}, {\"id\": \"4\", \"content\": \"Buy bread\", \"priority\": 1, \"project_id\": \"p2\", \"description\": \"\", \"due\": null}], \"next_cursor\": null}"
+  },
+  "GET https://api.todoist.com/api/v1/tasks?project_id=p1&limit=200 -": {
+   "status": 200,
+   "url": "https://api.todoist.com/api/v1/tasks?project_id=p1&limit=200",
+   "type": "application/json",
+   "text": "{\"results\": [{\"id\": \"1\", \"content\": \"Call the plumber\", \"priority\": 4, \"project_id\": \"p1\", \"description\": \"\", \"due\": {\"date\": \"2026-09-28\", \"datetime\": \"2026-09-28T12:00:00+0200\", \"is_recurring\": false, \"string\": \"today 12:00\"}}], \"next_cursor\": null}"
+  },
+  "POST https://api.todoist.com/api/v1/tasks d0462b22fd": {
+   "status": 200,
+   "url": "https://api.todoist.com/api/v1/tasks",
+   "type": "application/json",
+   "text": "{\"id\": \"9\", \"content\": \"Water plants\", \"due\": null, \"priority\": 1, \"project_id\": \"p2\"}"
+  },
+  "POST https://api.todoist.com/api/v1/tasks f64504eb31": {
+   "status": 200,
+   "url": "https://api.todoist.com/api/v1/tasks",
+   "type": "application/json",
+   "text": "{\"id\": \"9\", \"content\": \"Call mom\", \"due\": {\"date\": \"2026-09-29\", \"datetime\": \"2026-09-29T09:00:00+0200\", \"string\": \"tomorrow 9am\", \"is_recurring\": false}, \"priority\": 1, \"project_id\": \"p2\"}"
+  },
+  "POST https://api.todoist.com/api/v1/tasks/2/close -": {
+   "status": 204,
+   "url": "https://api.todoist.com/api/v1/tasks/2/close",
+   "type": "application/json",
+   "text": ""
+  },
+  "POST https://api.todoist.com/api/v1/tasks/3/close -": {
+   "status": 204,
+   "url": "https://api.todoist.com/api/v1/tasks/3/close",
+   "type": "application/json",
+   "text": ""
+  }
+ }
+}

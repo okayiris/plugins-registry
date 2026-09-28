@@ -1,0 +1,46 @@
+{
+  "steps": [
+    {
+      "run": "wikipedia Eiffel Tower",
+      "expect": {
+        "contains": [
+          "Eiffel Tower",
+          "https://en.wikipedia.org/wiki/Eiffel_Tower"
+        ]
+      }
+    },
+    {
+      "run": "wikipedia search tallest tower",
+      "expect": {
+        "contains": [
+          "On Wikipedia for tallest tower:"
+        ]
+      }
+    },
+    {
+      "run": "wikipedia today",
+      "expect": {
+        "contains": [
+          "On 28 September:"
+        ]
+      }
+    },
+    {
+      "run": "wikipedia settings set language nl",
+      "expect": {
+        "contains": [
+          "Reading nl.wikipedia.org"
+        ]
+      }
+    },
+    {
+      "run": "wikipedia Afsluitdijk",
+      "expect": {
+        "contains": [
+          "Afsluitdijk",
+          "https://nl.wikipedia.org/wiki/"
+        ]
+      }
+    }
+  ]
+}

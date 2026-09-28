@@ -1,0 +1,37 @@
+{
+  "description": "Read this house's mailbox: the address, the open drafts and the latest received and sent mail, with the full text of each mail. Read-only.",
+  "slash": {
+    "mailbox": "read the mailbox of this house (read-only)"
+  },
+  "texts": {
+    "label": "Mailbox",
+    "title": "The mailbox of this house",
+    "intro": "Everything this house received and sent. Read-only: nothing here sends and nothing here makes a draft.",
+    "received": "received",
+    "sent": "sent",
+    "drafts": "drafts",
+    "inbox": "Inbox",
+    "sentTitle": "Sent by this house",
+    "openDrafts": "Open drafts",
+    "emptyInbox": "No mail yet.",
+    "emptySent": "No mail sent yet.",
+    "read": "Read",
+    "cantRead": "This window cannot read the mailbox",
+    "from": "From",
+    "to": "To",
+    "date": "Date",
+    "id": "Id",
+    "subject": "Subject",
+    "noSubject": "(no subject)",
+    "noBody": "(no text)",
+    "noText": "This house keeps no text for sent mail; the bridge stores only when it went and to whom.",
+    "back": "Back",
+    "reload": "Reload",
+    "overview": "Overview",
+    "recent": "Recent received",
+    "latest": "Latest sent",
+    "readAt": "Read at",
+    "reading": "Reading the mailbox",
+    "noDrafts": "No open draft."
+  }
+}

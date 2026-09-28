@@ -1,0 +1,37 @@
+{
+  "description": "Lees de mailbox van dit huis: het adres, de open concepten en de laatste ontvangen en verzonden post, met de volledige tekst van elke mail. Alleen lezen.",
+  "slash": {
+    "mailbox": "lees de mailbox van dit huis (alleen lezen)"
+  },
+  "texts": {
+    "label": "Mailbox",
+    "title": "De mailbox van dit huis",
+    "intro": "Alles wat dit huis ontving en verzond. Alleen lezen: hier wordt niets verstuurd en geen concept gemaakt.",
+    "received": "ontvangen",
+    "sent": "verzonden",
+    "drafts": "concepten",
+    "inbox": "Postvak in",
+    "sentTitle": "Verzonden door dit huis",
+    "openDrafts": "Open concepten",
+    "emptyInbox": "Nog geen post.",
+    "emptySent": "Nog geen post verzonden.",
+    "read": "Lezen",
+    "cantRead": "Dit venster kan de mailbox niet lezen",
+    "from": "Van",
+    "to": "Aan",
+    "date": "Datum",
+    "id": "Id",
+    "subject": "Onderwerp",
+    "noSubject": "(geen onderwerp)",
+    "noBody": "(geen tekst)",
+    "noText": "Dit huis bewaart geen tekst van verzonden post; de brug bewaart alleen wanneer het wegging en naar wie.",
+    "back": "Terug",
+    "reload": "Verversen",
+    "overview": "Overzicht",
+    "recent": "Recent ontvangen",
+    "latest": "Laatst verzonden",
+    "readAt": "Gelezen om",
+    "reading": "De mailbox wordt gelezen",
+    "noDrafts": "Geen open concept."
+  }
+}

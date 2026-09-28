@@ -1,0 +1,18 @@
+{
+  "name": "mailbox",
+  "version": "1.0.1",
+  "author": "Iris",
+  "description": "Read this house's mailbox: the address, the open drafts and the latest received and sent mail, with the full text of each mail. Read-only.",
+  "permissions": [
+    "internet"
+  ],
+  "commands": {
+    "mailbox": "mailbox.py"
+  },
+  "slash": {
+    "mailbox": "read the mailbox of this house (read-only)"
+  },
+  "window": "mailbox.jsx",
+  "category": "communication",
+  "icon": "icon.svg"
+}

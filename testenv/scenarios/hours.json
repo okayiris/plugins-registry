@@ -1,0 +1,587 @@
+{
+  "steps": [
+    {
+      "run": "hours",
+      "expect": {
+        "contains": [
+          "No timer running.",
+          "Today: 0:00. This week: 0:00 of 40:00.",
+          "Start with"
+        ]
+      }
+    },
+    {
+      "run": "hours project add \"Website Bakker\" client \"Bakker BV\" rate 85",
+      "expect": {
+        "contains": [
+          "New: #1  Website Bakker, Bakker BV, 85.00 EUR an hour."
+        ]
+      }
+    },
+    {
+      "run": "hours project add Intern nobill",
+      "expect": {
+        "contains": [
+          "#2  Intern, not billable."
+        ]
+      }
+    },
+    {
+      "run": "hours project add \"website bakker\"",
+      "expect": {
+        "code": 1,
+        "contains": [
+          "a project called website bakker already"
+        ]
+      }
+    },
+    {
+      "run": "hours start Bakker homepage",
+      "expect": {
+        "contains": [
+          "Timer on Website Bakker since 10:00 (#1)."
+        ]
+      }
+    },
+    {
+      "run": "hours",
+      "now": "2026-09-28T11:15:00",
+      "expect": {
+        "contains": [
+          "Timer: Website Bakker since 10:00 (1:15), homepage.",
+          "Today: 1:15."
+        ]
+      }
+    },
+    {
+      "run": "hours start Intern",
+      "now": "2026-09-28T11:30:00",
+      "expect": {
+        "contains": [
+          "Stopped Website Bakker: 1:30, #1.",
+          "Timer on Intern since 11:30 (#2)."
+        ]
+      }
+    },
+    {
+      "run": "hours stop at 12:10 \"planning\"",
+      "now": "2026-09-28T13:00:00",
+      "expect": {
+        "contains": [
+          "Stopped Intern: 0:40, #2.",
+          "This week: 2:10."
+        ]
+      }
+    },
+    {
+      "run": "hours stop",
+      "now": "2026-09-28T13:00:00",
+      "expect": {
+        "code": 1,
+        "contains": [
+          "No timer is running."
+        ]
+      }
+    },
+    {
+      "run": "hours add 2,5 Bakker yesterday \"ontwerp\"",
+      "now": "2026-09-28T13:00:00",
+      "expect": {
+        "contains": [
+          "Kept #3: 2:30 on Website Bakker, yesterday, ontwerp."
+        ]
+      }
+    },
+    {
+      "run": "hours add 09:00-09:30 Intern",
+      "now": "2026-09-28T13:00:00",
+      "expect": {
+        "contains": [
+          "Kept #4: 0:30 on Intern, today. This week: 2:40."
+        ]
+      }
+    },
+    {
+      "run": "hours add 1:30 \"Nieuw project\" fri",
+      "now": "2026-09-28T13:00:00",
+      "expect": {
+        "contains": [
+          "New project #3: Nieuw project.",
+          "Kept #5: 1:30 on Nieuw project, Fri 25 Sep."
+        ]
+      }
+    },
+    {
+      "run": "hours add 2 Bakker tomorrow",
+      "now": "2026-09-28T13:00:00",
+      "expect": {
+        "code": 1,
+        "contains": [
+          "still to come"
+        ]
+      }
+    },
+    {
+      "run": "hours add 2 Bakker 2026-10-02",
+      "now": "2026-09-28T13:00:00",
+      "expect": {
+        "code": 1,
+        "contains": [
+          "still to come"
+        ]
+      }
+    },
+    {
+      "run": "hours add 14:00-15:00 Bakker",
+      "now": "2026-09-28T13:00:00",
+      "expect": {
+        "code": 1,
+        "contains": [
+          "15:00 is still to come."
+        ]
+      }
+    },
+    {
+      "run": "hours add lots Bakker",
+      "now": "2026-09-28T13:00:00",
+      "expect": {
+        "code": 1,
+        "contains": [
+          "is not a length of time"
+        ]
+      }
+    },
+    {
+      "run": "hours add 25 Bakker",
+      "now": "2026-09-28T13:00:00",
+      "expect": {
+        "code": 1,
+        "contains": [
+          "is not a length of time"
+        ]
+      }
+    },
+    {
+      "run": "hours add 1 Nergens",
+      "now": "2026-09-28T13:00:00",
+      "expect": {
+        "contains": [
+          "New project #4: Nergens."
+        ]
+      }
+    },
+    {
+      "run": "hours project archive Nergens",
+      "now": "2026-09-28T13:00:00",
+      "expect": {
+        "contains": [
+          "Nergens is archived; its hours stay."
+        ]
+      }
+    },
+    {
+      "run": "hours week",
+      "now": "2026-09-28T13:00:00",
+      "expect": {
+        "contains": [
+          "Week 40, Mon 28 Sep to Sun 04 Oct: 3:40 of 40:00.",
+          "Mon 28 Sep  3:40",
+          "Website Bakker (Bakker BV)  1:30  127.50 EUR",
+          "Billable: 2:30, 127.50 EUR. Not billable: 1:10."
+        ]
+      }
+    },
+    {
+      "run": "hours week last",
+      "now": "2026-09-28T13:00:00",
+      "expect": {
+        "contains": [
+          "Week 39, Mon 21 Sep to Sun 27 Sep: 4:00 of 40:00.",
+          "Fri 25 Sep  1:30  Nieuw project 1:30",
+          "Website Bakker (Bakker BV)  2:30  212.50 EUR"
+        ]
+      }
+    },
+    {
+      "run": "hours list week",
+      "now": "2026-09-28T13:00:00",
+      "expect": {
+        "contains": [
+          "#4  Mon 28 Sep  09:00-09:30  0:30  Intern  (not billable)",
+          "#1  Mon 28 Sep  10:00-11:30  1:30  Website Bakker, homepage",
+          "#2  Mon 28 Sep  11:30-12:10  0:40  Intern, planning  (not billable)"
+        ]
+      }
+    },
+    {
+      "run": "hours edit 2 hours 0:50",
+      "now": "2026-09-28T13:00:00",
+      "expect": {
+        "contains": [
+          "#2: 0:50."
+        ]
+      }
+    },
+    {
+      "run": "hours edit 2 billable on",
+      "now": "2026-09-28T13:00:00",
+      "expect": {
+        "contains": [
+          "#2: billable."
+        ]
+      }
+    },
+    {
+      "run": "hours edit 99 note x",
+      "now": "2026-09-28T13:00:00",
+      "expect": {
+        "code": 1,
+        "contains": [
+          "There is no entry #99."
+        ]
+      }
+    },
+    {
+      "run": "hours remove 5",
+      "now": "2026-09-28T13:00:00",
+      "expect": {
+        "contains": [
+          "Removed #5: 1:30 on Nieuw project, Fri 25 Sep."
+        ]
+      }
+    },
+    {
+      "run": "hours remove 6",
+      "now": "2026-09-28T13:00:00",
+      "expect": {
+        "contains": [
+          "Removed #6: 1:00 on Nergens, today."
+        ]
+      }
+    },
+    {
+      "run": "hours invoice Bakker",
+      "now": "2026-09-28T13:00:00",
+      "expect": {
+        "contains": [
+          "Website Bakker for Bakker BV, still to invoice:",
+          "Sun 27 Sep  2:30  ontwerp",
+          "Together 4:00 (4.00 hours) at 85.00 EUR = 340.00 EUR, before VAT.",
+          "hours invoice 1 done"
+        ]
+      }
+    },
+    {
+      "run": "hours invoice Bakker done",
+      "now": "2026-09-28T13:00:00",
+      "expect": {
+        "contains": [
+          "Marked 2 entries of Website Bakker (4:00) as invoiced."
+        ]
+      }
+    },
+    {
+      "run": "hours invoice Bakker",
+      "now": "2026-09-28T13:00:00",
+      "expect": {
+        "contains": [
+          "Nothing of Website Bakker is still to invoice."
+        ]
+      }
+    },
+    {
+      "run": "hours edit 1 hours 2",
+      "now": "2026-09-28T13:00:00",
+      "expect": {
+        "code": 1,
+        "contains": [
+          "on an invoice since 2026-09-28"
+        ]
+      }
+    },
+    {
+      "run": "hours remove 3",
+      "now": "2026-09-28T13:00:00",
+      "expect": {
+        "code": 1,
+        "contains": [
+          "on an invoice"
+        ]
+      }
+    },
+    {
+      "run": "hours month",
+      "now": "2026-09-28T13:00:00",
+      "expect": {
+        "contains": [
+          "September 2026: 5:20.",
+          "Website Bakker (Bakker BV)  4:00  340.00 EUR",
+          "Intern  1:20",
+          "Billable: 4:50, 340.00 EUR. Not billable: 0:30."
+        ]
+      }
+    },
+    {
+      "run": "hours projects",
+      "now": "2026-09-28T13:00:00",
+      "expect": {
+        "contains": [
+          "#1  Website Bakker, Bakker BV, 85.00 EUR an hour, this month 4:00",
+          "#2  Intern, not billable, this month 1:20"
+        ],
+        "not_contains": [
+          "Nergens"
+        ]
+      }
+    },
+    {
+      "run": "hours project edit Intern rate 50",
+      "now": "2026-09-28T13:00:00",
+      "expect": {
+        "contains": [
+          "#2  Intern, 50.00 EUR an hour, not billable"
+        ]
+      }
+    },
+    {
+      "run": "hours settings set separator semicolon",
+      "expect": {
+        "contains": [
+          "separator: semicolon."
+        ]
+      }
+    },
+    {
+      "run": "hours export month",
+      "now": "2026-09-28T13:00:00",
+      "expect": {
+        "contains": [
+          "Written 4 entries (5:20) to ~/plugins/hours/exports/hours-2026-09.csv"
+        ]
+      }
+    },
+    {
+      "run": "cat plugins/hours/exports/hours-2026-09.csv",
+      "expect": {
+        "contains": [
+          "date;start;end;project;client;hours;note;billable;rate;amount;invoiced",
+          "2026-09-27;;;Website Bakker;Bakker BV;2,50;ontwerp;yes;85,00;212,50;2026-09-28",
+          "2026-09-28;;;Intern;;0,83;planning;yes;50,00;41,67;"
+        ]
+      }
+    },
+    {
+      "run": "hours export week Intern",
+      "now": "2026-09-28T13:00:00",
+      "expect": {
+        "contains": [
+          "Written 2 entries (1:20) to ~/plugins/hours/exports/hours-2026-W40-intern.csv"
+        ]
+      }
+    },
+    {
+      "run": "hours settings set round 15",
+      "expect": {
+        "contains": [
+          "round: 15."
+        ]
+      }
+    },
+    {
+      "run": "hours start Intern at 13:05",
+      "now": "2026-09-28T13:10:00",
+      "expect": {
+        "contains": [
+          "Timer on Intern since 13:05"
+        ]
+      }
+    },
+    {
+      "run": "hours stop",
+      "now": "2026-09-28T13:25:00",
+      "expect": {
+        "contains": [
+          "Stopped Intern: 0:30"
+        ]
+      }
+    },
+    {
+      "run": "hours start",
+      "now": "2026-09-28T13:30:00",
+      "expect": {
+        "contains": [
+          "Timer on Intern since 13:30"
+        ]
+      }
+    },
+    {
+      "run": "hours data --json",
+      "now": "2026-09-28T13:45:00",
+      "expect": {
+        "json": {
+          "running.project": "Intern",
+          "week.total": 215,
+          "week.days.0.minutes": 215,
+          "todayMinutes": 215,
+          "entries.0.running": true,
+          "target": 2400,
+          "projects.2.name": "Nieuw project"
+        }
+      }
+    },
+    {
+      "run": "hours data -1 --json",
+      "now": "2026-09-28T13:45:00",
+      "expect": {
+        "json": {
+          "week.start": "2026-09-21",
+          "week.total": 150,
+          "week.projects.0.name": "Website Bakker",
+          "week.amount": 21250
+        }
+      }
+    },
+    {
+      "run": "hours today",
+      "now": "2026-09-28T13:45:00",
+      "expect": {
+        "contains": [
+          "Today: 3:35.",
+          "running"
+        ]
+      }
+    },
+    {
+      "run": "hours stop at 12:00",
+      "now": "2026-09-28T13:45:00",
+      "expect": {
+        "code": 1,
+        "contains": [
+          "cannot stop before that"
+        ]
+      }
+    },
+    {
+      "run": "hours start Bakker at 14:00",
+      "now": "2026-09-28T13:45:00",
+      "expect": {
+        "code": 1,
+        "contains": [
+          "not later"
+        ]
+      }
+    },
+    {
+      "run": "hours",
+      "now": "2026-09-28T23:45:00",
+      "expect": {
+        "contains": [
+          "Timer: Intern since 13:30",
+          "That is a long time"
+        ]
+      }
+    },
+    {
+      "run": "hours settings set target lots",
+      "expect": {
+        "code": 1,
+        "contains": [
+          "whole number"
+        ]
+      }
+    },
+    {
+      "run": "hours settings set currency usd",
+      "expect": {
+        "contains": [
+          "currency: USD."
+        ]
+      }
+    },
+    {
+      "run": "hours help",
+      "expect": {
+        "contains": [
+          "hours invoice <project>"
+        ]
+      }
+    }
+  ],
+  "screen": {
+    "lang": "nl",
+    "before": [
+      "hours project add \"Website Bakker\" client \"Bakker BV\" rate 85",
+      "hours project add Intern nobill",
+      "hours add 2,5 Bakker yesterday \"ontwerp homepage\"",
+      "hours add 09:00-09:45 Intern \"weekstart\"",
+      "hours start Bakker \"offerte\""
+    ],
+    "actions": [
+      {
+        "shot": "timer"
+      },
+      {
+        "fill": "input[placeholder^='2,5']",
+        "value": "1:15"
+      },
+      {
+        "fill": "label:has-text('Wat je deed') input",
+        "value": "overleg"
+      },
+      {
+        "click": ".k-btn:has-text('Toevoegen')"
+      },
+      {
+        "expect": "text=Toegevoegd."
+      },
+      {
+        "expect": ".k-card:has-text('Regels') >> text=overleg"
+      },
+      {
+        "click": ".k-btn:has-text('Stop')"
+      },
+      {
+        "expect": "text=Geen timer actief"
+      },
+      {
+        "click": ".k-btn:has-text('Start Intern')"
+      },
+      {
+        "expect": "text=Sinds 10:00"
+      },
+      {
+        "click": "text=Weggooien"
+      },
+      {
+        "click": "text=Ja, weggooien"
+      },
+      {
+        "expect": "text=Geen timer actief"
+      },
+      {
+        "click": ".k-btn:has-text('Verwijder') >> nth=0"
+      },
+      {
+        "click": "text=Ja, verwijder"
+      },
+      {
+        "expect": "text=Verwijderd."
+      },
+      {
+        "click": "text=Week ervoor"
+      },
+      {
+        "expect": "text=ontwerp homepage"
+      },
+      {
+        "shot": "last-week"
+      },
+      {
+        "click": "text=Exporteer als CSV"
+      },
+      {
+        "said": "hours export last week"
+      }
+    ]
+  }
+}

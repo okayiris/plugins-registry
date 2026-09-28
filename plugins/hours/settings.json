@@ -1,0 +1,41 @@
+{
+  "command": "hours",
+  "fields": [
+    {
+      "key": "currency",
+      "label": "Currency",
+      "type": "text",
+      "help": "Three letters, like EUR. Used for rates and amounts."
+    },
+    {
+      "key": "target",
+      "label": "Hours in a working week",
+      "type": "number",
+      "help": "What the week is measured against. 40 by default; 0 shows no target."
+    },
+    {
+      "key": "round",
+      "label": "Round the timer up to ... minutes",
+      "type": "choice",
+      "options": [
+        "0",
+        "5",
+        "6",
+        "10",
+        "15",
+        "30"
+      ],
+      "help": "0 keeps the exact minutes. 15: a timer of 20 minutes counts as 30."
+    },
+    {
+      "key": "separator",
+      "label": "CSV for",
+      "type": "choice",
+      "options": [
+        "comma",
+        "semicolon"
+      ],
+      "help": "Semicolon, with decimal commas, opens right in a Dutch Excel."
+    }
+  ]
+}

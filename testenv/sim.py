@@ -245,6 +245,7 @@ def run_scenario(name, mode, verbose, pause=0):
                 continue
             if pause and i > 1:
                 time.sleep(pause)
+            home.now = step.get("now", sc.get("now", DEFAULT_NOW))
             line, stdin = fill(step["run"], saved), step.get("stdin")
             if stdin is not None:
                 stdin = fill(stdin if isinstance(stdin, str) else json.dumps(stdin), saved)

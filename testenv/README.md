@@ -84,7 +84,7 @@ should do.
 }
 ```
 
-A step can send a request on stdin (`"stdin": {...}`, as a route does) and keep a value from its JSON answer for later steps (`"save": {"token1": "token"}`, used as `${token1}`).
+A step can have its own `"now"` (a timer that runs from 10:00 to 11:30), send a request on stdin (`"stdin": {...}`, as a route does), and keep a value from its JSON answer for later steps (`"save": {"token1": "token"}`, used as `${token1}`).
 
 `expect` knows `code` (0 when left out), `contains`, `not_contains`, `matches` (regular expressions),
 `lines`, `json` (a path like `items.0.shop` with a value, or `{"min": 2}`, `{"contains": "..."}`,

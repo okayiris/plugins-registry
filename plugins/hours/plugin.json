@@ -1,0 +1,17 @@
+{
+  "name": "hours",
+  "version": "1.0.0",
+  "author": "Iris",
+  "description": "Keep the hours you work: start and stop a timer or add hours afterwards, per project and client with an hourly rate. See your week and month, what is still to invoice, and export a CSV for your bookkeeping.",
+  "permissions": [],
+  "commands": {
+    "hours": "hours.py"
+  },
+  "slash": {
+    "hours": "your hours: the timer, today and this week"
+  },
+  "screen": "hours.jsx",
+  "database": true,
+  "category": "productivity",
+  "icon": "icon.svg"
+}

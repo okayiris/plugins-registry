@@ -35,6 +35,7 @@ with a listed plugin.
 | [sun](plugins/sun) | Sunrise, sunset, daylight, twilight, golden hour and the moon's phases, calculated offline. | internet (place lookup only) |
 | [webshop](plugins/webshop) | Your own web shop on the house's address (`/shop`): products by voice, a public shop page with cart and checkout, stock, orders, and payment through your own Mollie or a payment request. Own database. Window and route. | internet, secrets |
 | [appointments](plugins/appointments) | A booking page on the house's address (`/book`): kinds of appointments with their own length, at a place or by video call (own link or a free meet.jit.si room), and webinars with seats. Weekly hours, blocked time, never booked twice. Own database. Window and route. | none |
+| [hours](plugins/hours) | Time tracking: a timer to start and stop, or hours added afterwards, per project and client with an hourly rate. The day, week and month, what is still to invoice (marked once invoiced, at the rate of that moment), and a CSV export. Own database. Screen. | none |
 
 Only todoist, deepl and ns need a key of your own. It goes into the vault with `<command> key ask`, and
 every call is made by the vault with the key as `{g}`, so the plugin itself never sees it.

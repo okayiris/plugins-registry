@@ -1,0 +1,11 @@
+{
+  "name": "microsoft-365",
+  "version": "1.0.0",
+  "author": "Iris",
+  "description": "Read Outlook mail, make drafts and send them only after your approval, read the calendar and make appointments, and read your contacts, through Microsoft Graph.",
+  "permissions": ["internet", "secrets", "messages"],
+  "commands": { "outlook": "outlook.py" },
+  "slash": { "outlook": "your Outlook mail, calendar and contacts" },
+  "category": "communication",
+  "icon": "icon.svg"
+}

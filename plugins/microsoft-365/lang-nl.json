@@ -1,0 +1,6 @@
+{
+  "description": "Lees Outlook-mail, maak concepten en verstuur ze pas na jouw goedkeuring, lees de agenda en maak afspraken, en lees je contacten, via Microsoft Graph.",
+  "slash": {
+    "outlook": "je Outlook-mail, agenda en contacten"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "description": "Zie live welke werkers er voor dit huis draaien en wat ze doen, op een eigen pagina.",
+  "slash": { "workers": "welke werkers er nu draaien" },
+  "texts": {
+    "title": "Werkers",
+    "intro": "Waar dit huis nu mee bezig is.",
+    "live": "actief",
+    "noAnswer": "geen antwoord",
+    "none": "Er draait nu geen werker.",
+    "keepsAnEye": "Talvi houdt ze in het oog en pakt op wat klaar is.",
+    "working": "Bezig",
+    "waiting": "Wacht",
+    "done": "Klaar",
+    "stuck": "Vast"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "name": "workers",
+  "version": "1.0.0",
+  "author": "Talvi",
+  "description": "See live which workers are running for this house and what they are doing, on a page of its own.",
+  "permissions": [],
+  "commands": { "workers": "workers.py" },
+  "slash": { "workers": "which workers are running right now" },
+  "routes": { "workers": { "page": "workers.jsx", "command": "workers" } },
+  "category": "productivity",
+  "icon": "icon.svg"
+}

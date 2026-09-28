@@ -1,0 +1,16 @@
+{
+  "description": "See live which workers are running for this house and what they are doing, on a page of its own.",
+  "slash": { "workers": "which workers are running right now" },
+  "texts": {
+    "title": "Workers",
+    "intro": "What this house is working on right now.",
+    "live": "live",
+    "noAnswer": "no answer",
+    "none": "No worker is running right now.",
+    "keepsAnEye": "Talvi keeps an eye on these and picks up what is done.",
+    "working": "Working",
+    "waiting": "Waiting",
+    "done": "Done",
+    "stuck": "Stuck"
+  }
+}

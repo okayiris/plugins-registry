@@ -1,6 +1,6 @@
 {
   "name": "weather",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": "Iris",
   "description": "The weather at home or anywhere else: now, the next hours, the week and whether it will rain soon. Free, no key needed.",
   "permissions": ["internet"],

@@ -166,16 +166,19 @@ def check(folder):
 
 def check_jsx(src, texts):
     problems = []
-    if re.search(r"<\s*(button|a|input|select|textarea)\b", src):
-        problems.append("uses a bare element where the kit has a component; everything you press is a Button")
+    # Everything you press is a Button. Text fields, dates and times have no kit component, so a form
+    # may use <input>, <select> and <textarea>.
+    if re.search(r"<\s*(button|a)\b", src):
+        problems.append("a bare <button> or <a>; everything you press is a Button")
     if re.search(r"<div[^>]*onClick", src):
         problems.append("a clickable <div>; use a Button")
     if re.search(r"position\s*:\s*['\"]?fixed", src):
         problems.append("position: fixed")
     if re.search(r"outline\s*:\s*['\"]?none|transition\s*:\s*['\"]?none", src):
         problems.append("outline: none or transition: none")
-    if re.search(r"font-?family", src, re.I):
-        problems.append("an own font")
+    for value in re.findall(r"font-?family\s*[:=]\s*['\"]?([^'\";,}]+)", src, re.I):
+        if value.strip().lower() != "inherit":
+            problems.append(f"an own font ({value.strip()})")
     if re.search(r"#[0-9a-fA-F]{3,8}\b|rgba?\(|hsla?\(", src):
         problems.append("a colour that is not a house colour var(--...)")
     for px in re.findall(r"(\d+)\s*px", src):

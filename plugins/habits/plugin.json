@@ -1,6 +1,6 @@
 {
   "name": "habits",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": "Iris",
   "description": "Keep small daily habits by telling Iris when they are done, and see your week and your streaks. Kept in your own house.",
   "permissions": [],

@@ -1,6 +1,6 @@
 {
   "name": "spotify",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": "Iris",
   "description": "See what is playing on Spotify, search tracks, and play, pause or skip; player control needs Spotify Premium.",
   "permissions": ["internet", "secrets"],

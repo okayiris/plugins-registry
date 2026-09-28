@@ -1,0 +1,7 @@
+{
+  "description": "Read and steer the smart devices in your house through Home Assistant: states, and turn things on, off or to a value.",
+  "slash": {
+    "home": "read or control your Home Assistant devices"
+  },
+  "texts": {}
+}

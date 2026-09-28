@@ -1,0 +1,11 @@
+{
+  "description": "Plan the meals of the week and turn them into one grocery list. Everything stays in the plugin folder, no keys and no internet.",
+  "slash": {
+    "maaltijd": "de maaltijden van deze week en de boodschappen"
+  },
+  "texts": {
+    "week": "This week",
+    "empty": "nothing yet",
+    "groceries": "Groceries"
+  }
+}

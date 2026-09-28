@@ -1,6 +1,6 @@
 {
   "name": "moneybird",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": "Iris",
   "description": "Read your Moneybird bookkeeping: administrations, contacts, invoices and what is still outstanding. Read-only, nothing is ever changed.",
   "permissions": ["internet", "secrets"],

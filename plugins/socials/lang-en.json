@@ -1,0 +1,7 @@
+{
+  "description": "Manage your Facebook Page and Instagram: read your posts, and publish only after your approval.",
+  "slash": {
+    "socials": "your Facebook and Instagram, or connect them"
+  },
+  "texts": {}
+}

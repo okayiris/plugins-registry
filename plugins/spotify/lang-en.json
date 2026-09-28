@@ -1,0 +1,7 @@
+{
+  "description": "See what is playing on Spotify, search tracks, and play, pause or skip; player control needs Spotify Premium.",
+  "slash": {
+    "spotify": "see, search or steer your Spotify player"
+  },
+  "texts": {}
+}

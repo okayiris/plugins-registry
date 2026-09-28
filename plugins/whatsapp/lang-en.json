@@ -1,0 +1,7 @@
+{
+  "description": "Read your WhatsApp chats and answer them by talking. Nothing is sent without your yes.",
+  "slash": {
+    "whatsapp": "your latest WhatsApp chats"
+  },
+  "texts": {}
+}

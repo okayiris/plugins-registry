@@ -1,0 +1,7 @@
+{
+  "description": "Read public repositories, files, issues and pull requests on GitHub, and write branches, commits and pull requests with a token from the vault. Also registers webhooks and calls any GitHub endpoint.",
+  "slash": {
+    "gh": "GitHub: read a repository, and commit or open a pull request"
+  },
+  "texts": {}
+}

@@ -1,6 +1,6 @@
 {
   "name": "search",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": "Iris",
   "description": "Web search through your own key, with Brave Search or Google Programmable Search. The key stays in the vault.",
   "permissions": ["internet", "secrets"],

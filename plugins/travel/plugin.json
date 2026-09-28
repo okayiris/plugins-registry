@@ -1,6 +1,6 @@
 {
   "name": "travel",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": "Iris",
   "description": "Travel time from home to an address, free via OSRM and optionally with live traffic via TomTom, including when to leave.",
   "permissions": ["internet", "secrets"],

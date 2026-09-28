@@ -1,6 +1,6 @@
 {
   "name": "x",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": "Iris",
   "description": "Read and post on X (Twitter) through the X API v2, only after your approval.",
   "permissions": ["internet", "secrets", "messages"],

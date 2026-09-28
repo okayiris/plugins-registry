@@ -1,17 +1,7 @@
 {
-  "name": "voices",
-  "version": "1.1.4",
-  "author": "Iris",
   "description": "Give Iris another voice, and hear them first. The Iris plan has two voices, Plus twenty, Max two hundred. On the free plan she speaks with your phone's own voice.",
-  "permissions": [
-    "voice"
-  ],
-  "commands": {
-    "voices": "voices.py"
-  },
   "slash": {
     "voices": "pick the voice Iris speaks with"
   },
-  "category": "media",
-  "icon": "icon.svg"
+  "texts": {}
 }

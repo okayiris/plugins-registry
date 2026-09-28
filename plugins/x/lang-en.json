@@ -1,0 +1,7 @@
+{
+  "description": "Read and post on X (Twitter) through the X API v2, only after your approval.",
+  "slash": {
+    "x": "your X timeline, or connect your X app"
+  },
+  "texts": {}
+}

@@ -1,6 +1,6 @@
 {
   "name": "homeassistant",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": "Iris",
   "description": "Read and steer the smart devices in your house through Home Assistant: states, and turn things on, off or to a value.",
   "permissions": ["internet", "secrets"],

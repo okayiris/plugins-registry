@@ -24,39 +24,39 @@ export default () => {
 
   return (
     <div style={{display: "flex", flexDirection: "column", gap: "0.7rem", padding: "0.5rem", maxWidth: "min(92vw, 34rem)"}}>
-      <div style={{fontWeight: 600, fontSize: "1.1rem"}}>Iets in de familieagenda zetten</div>
+      <div style={{fontWeight: 600, fontSize: "1.1rem"}}>{text("title", "Put something in the family agenda")}</div>
 
-      <label style={label}>Wat
-        <input style={veld} type="text" value={wat} placeholder="bijv. tandarts"
+      <label style={label}>{text("what", "What")}
+        <input style={veld} type="text" value={wat} placeholder={text("example", "e.g. dentist")}
                onInput={(e) => setWat(e.currentTarget.value)} />
       </label>
 
       <div style={{display: "flex", gap: "0.6rem"}}>
-        <label style={{...label, flex: 1}}>Datum
+        <label style={{...label, flex: 1}}>{text("date", "Date")}
           <input style={veld} type="date" value={datum}
                  onInput={(e) => setDatum(e.currentTarget.value)} />
         </label>
-        <label style={{...label, flex: 1}}>Tijd
+        <label style={{...label, flex: 1}}>{text("time", "Time")}
           <input style={veld} type="time" value={tijd}
                  onInput={(e) => setTijd(e.currentTarget.value)} />
         </label>
       </div>
 
       <div style={{display: "flex", gap: "0.6rem"}}>
-        <label style={{...label, flex: 1}}>Wie (optioneel)
+        <label style={{...label, flex: 1}}>{text("who", "Who (optional)")}
           <input style={veld} type="text" value={wie}
                  onInput={(e) => setWie(e.currentTarget.value)} />
         </label>
-        <label style={{...label, flex: 1}}>Waar (optioneel)
+        <label style={{...label, flex: 1}}>{text("where", "Where (optional)")}
           <input style={veld} type="text" value={waar}
                  onInput={(e) => setWaar(e.currentTarget.value)} />
         </label>
       </div>
 
-      <Knop primair uit={!klaar} onClick={() => nova(boodschap)}>Zet in de agenda</Knop>
+      <Knop primair uit={!klaar} onClick={() => nova(boodschap)}>{text("plan", "Put it in the agenda")}</Knop>
 
       <div style={{fontSize: "0.8rem", color: "var(--dim)"}}>
-        {klaar ? boodschap : "Vul eerst in wat er gepland moet worden."}
+        {klaar ? boodschap : text("empty", "First fill in what is planned.")}
       </div>
     </div>
   );

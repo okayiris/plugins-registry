@@ -1,6 +1,6 @@
 {
   "name": "github",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": "Iris",
   "description": "Read public repositories, files, issues and pull requests on GitHub, and write branches, commits and pull requests with a token from the vault. Also registers webhooks and calls any GitHub endpoint.",
   "permissions": ["internet", "secrets"],

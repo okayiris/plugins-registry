@@ -58,15 +58,6 @@ export default () => {
 
   const mb = (x) => (x >= 1024 ? `${(x / 1024).toFixed(1)} GB` : `${x} MB`);
 
-  const kleinKnop = (extra) => ({
-    display: "inline-flex", alignItems: "center", gap: ".3rem",
-    background: extra?.primair ? "var(--accent)" : "var(--glass)",
-    color: extra?.primair ? "#07090c" : "var(--fg)",
-    border: "1px solid var(--edge)", borderRadius: ".5rem",
-    padding: ".3rem .55rem", font: "inherit", fontSize: ".78rem",
-    fontWeight: 600, cursor: "pointer",
-  });
-
   if (!beeld) {
     return (
       <Scherm titel="Process Monitor" sub="what runs inside this house" icoon="meter">
@@ -114,18 +105,13 @@ export default () => {
         ) : bevestig === p.pid ? (
           <>
             <span style={{ color: "var(--dim)", fontSize: ".8rem" }}>Are you sure?</span>
-            <button type="button" style={kleinKnop({ primair: true })} disabled={bezig === p.pid}
-                    onClick={() => void stop(p.pid)}>
-              <Icoon naam="stop" maat={12} /> Yes, stop
-            </button>
-            <button type="button" style={kleinKnop()} onClick={() => setBevestig(0)}>
-              <Icoon naam="kruis" maat={12} /> No
-            </button>
+            <Knoppen>
+              <Knop icoon="stop" primair uit={bezig === p.pid} onClick={() => void stop(p.pid)}>Yes, stop</Knop>
+              <Knop icoon="kruis" onClick={() => setBevestig(0)}>No</Knop>
+            </Knoppen>
           </>
         ) : (
-          <button type="button" style={kleinKnop()} onClick={() => setBevestig(p.pid)}>
-            <Icoon naam="stop" maat={12} /> Stop
-          </button>
+          <Knop icoon="stop" onClick={() => setBevestig(p.pid)}>Stop</Knop>
         )}
       </div>
     </div>
@@ -170,9 +156,9 @@ export default () => {
       <Kaart label="PROCESSES" icoon="server">
         {zicht.map(procesRij)}
         <div style={{ borderTop: "1px solid var(--edge)", paddingTop: ".5rem", marginTop: ".2rem" }}>
-          <button type="button" style={kleinKnop()} onClick={() => setZombies(!zombies)}>
+          <Knop onClick={() => setZombies(!zombies)}>
             {zombies ? "Hide zombies" : `Show zombies (${alle.length - levend.length})`}
-          </button>
+          </Knop>
         </div>
       </Kaart>
 

@@ -1,0 +1,6 @@
+{
+  "description": "Beri svoje pogovore na WhatsAppu in nanje odgovarjaj kar z govorom. Nič ni poslano brez tvojega da.",
+  "slash": {
+    "whatsapp": "tvoji zadnji pogovori na WhatsAppu"
+  }
+}

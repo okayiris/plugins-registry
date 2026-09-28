@@ -1,0 +1,6 @@
+{
+  "description": "Lê as tuas conversas do WhatsApp e responde-lhes a falar. Nada é enviado sem o teu sim.",
+  "slash": {
+    "whatsapp": "as tuas últimas conversas do WhatsApp"
+  }
+}

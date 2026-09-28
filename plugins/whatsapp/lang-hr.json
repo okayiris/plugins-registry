@@ -1,0 +1,6 @@
+{
+  "description": "Čitaj svoje WhatsApp razgovore i odgovaraj na njih govorom. Ništa se ne šalje bez tvog da.",
+  "slash": {
+    "whatsapp": "tvoji najnoviji WhatsApp razgovori"
+  }
+}

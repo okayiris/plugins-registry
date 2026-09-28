@@ -1,0 +1,6 @@
+{
+  "description": "Čti své chaty na WhatsAppu a odpovídej na ně mluvením. Nic se neodešle bez tvého ano.",
+  "slash": {
+    "whatsapp": "tvoje poslední chaty na WhatsAppu"
+  }
+}

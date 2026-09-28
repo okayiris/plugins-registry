@@ -1,0 +1,6 @@
+{
+  "description": "睇你嘅 WhatsApp 對話,同埋用講嘢嘅方式回覆。你未點頭,乜都唔會send出去。",
+  "slash": {
+    "whatsapp": "你最新嘅 WhatsApp 對話"
+  }
+}

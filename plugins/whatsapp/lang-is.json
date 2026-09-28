@@ -1,0 +1,6 @@
+{
+  "description": "Lestu WhatsApp-spjöllin þín og svaraðu þeim með því að tala. Ekkert er sent án þess að þú segir já.",
+  "slash": {
+    "whatsapp": "nýjustu WhatsApp-spjöllin þín"
+  }
+}

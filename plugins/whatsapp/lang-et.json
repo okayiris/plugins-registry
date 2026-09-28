@@ -1,0 +1,6 @@
+{
+  "description": "Loe oma WhatsAppi vestlusi ja vasta neile rääkides. Midagi ei saadeta ilma sinu jaatuseta.",
+  "slash": {
+    "whatsapp": "sinu viimased WhatsAppi vestlused"
+  }
+}

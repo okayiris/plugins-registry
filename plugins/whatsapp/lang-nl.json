@@ -1,0 +1,6 @@
+{
+  "description": "Lees je WhatsApp-gesprekken en beantwoord ze door te praten. Er wordt niets verstuurd zonder jouw ja.",
+  "slash": {
+    "whatsapp": "je laatste WhatsApp-gesprekken"
+  }
+}

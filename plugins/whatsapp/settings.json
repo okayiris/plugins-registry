@@ -1,0 +1,11 @@
+{
+  "command": "whatsapp",
+  "fields": [
+    {
+      "key": "phone",
+      "label": "Your WhatsApp number",
+      "type": "text",
+      "help": "The number your WhatsApp runs on, like +31612345678. After saving you get a code to type in WhatsApp on your phone. Empty the field to unlink."
+    }
+  ]
+}

@@ -1,0 +1,6 @@
+{
+  "description": "Les WhatsApp-samtalene dine og svar på dem ved å snakke. Ingenting sendes uten at du sier ja.",
+  "slash": {
+    "whatsapp": "de siste WhatsApp-samtalene dine"
+  }
+}

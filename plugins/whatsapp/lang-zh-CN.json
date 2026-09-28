@@ -1,0 +1,6 @@
+{
+  "description": "阅读你的 WhatsApp 聊天,并通过语音来回复。没有你的确认,什么都不会发送。",
+  "slash": {
+    "whatsapp": "你最近的 WhatsApp 聊天"
+  }
+}

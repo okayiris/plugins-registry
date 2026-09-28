@@ -1,0 +1,6 @@
+{
+  "description": "讀取你的 WhatsApp 對話，並用說話的方式回覆。沒有你的同意，什麼都不會送出。",
+  "slash": {
+    "whatsapp": "你最近的 WhatsApp 對話"
+  }
+}

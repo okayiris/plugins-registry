@@ -1,0 +1,6 @@
+{
+  "description": "WhatsApp 대화를 읽고, 말로 답장해 보세요. 네가 허락하기 전에는 아무것도 보내지 않아요.",
+  "slash": {
+    "whatsapp": "최근 WhatsApp 대화"
+  }
+}

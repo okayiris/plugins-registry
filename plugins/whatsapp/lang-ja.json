@@ -1,0 +1,6 @@
+{
+  "description": "WhatsAppのチャットを読んで、話しかけるだけで返信できるよ。あなたがOKするまで、何も送らないから安心してね。",
+  "slash": {
+    "whatsapp": "最新のWhatsAppチャット"
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "description": "Lue WhatsApp-keskustelusi ja vastaa niihin puhumalla. Mitään ei lähetetä ilman sinun kyllääsi.",
+  "slash": {
+    "whatsapp": "viimeisimmät WhatsApp-keskustelusi"
+  }
+}

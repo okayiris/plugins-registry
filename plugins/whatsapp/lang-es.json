@@ -1,0 +1,6 @@
+{
+  "description": "Lee tus chats de WhatsApp y respóndelos hablando. No se envía nada sin tu sí.",
+  "slash": {
+    "whatsapp": "tus últimos chats de WhatsApp"
+  }
+}

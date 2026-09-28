@@ -1,0 +1,6 @@
+{
+  "description": "Đọc các cuộc trò chuyện WhatsApp của bạn và trả lời bằng cách nói. Sẽ không có gì được gửi đi nếu bạn chưa đồng ý.",
+  "slash": {
+    "whatsapp": "các cuộc trò chuyện WhatsApp mới nhất của bạn"
+  }
+}

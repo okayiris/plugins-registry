@@ -1,0 +1,17 @@
+{
+  "name": "whatsapp",
+  "version": "1.1.0",
+  "author": "Iris",
+  "description": "Read your WhatsApp chats and answer them by talking. Nothing is sent without your yes.",
+  "permissions": [
+    "messages"
+  ],
+  "commands": {
+    "whatsapp": "whatsapp.py"
+  },
+  "slash": {
+    "whatsapp": "your latest WhatsApp chats"
+  },
+  "category": "communication",
+  "icon": "icon.svg"
+}

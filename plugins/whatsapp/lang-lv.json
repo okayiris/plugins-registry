@@ -1,0 +1,6 @@
+{
+  "description": "Lasi savas WhatsApp sarunas un atbildi uz tām, runājot. Nekas netiek nosūtīts bez tava jā.",
+  "slash": {
+    "whatsapp": "tavas jaunākās WhatsApp sarunas"
+  }
+}

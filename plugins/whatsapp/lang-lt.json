@@ -1,0 +1,6 @@
+{
+  "description": "Skaityk savo WhatsApp pokalbius ir atsakinėk kalbėdamas. Nieko nesiunčiama be tavo taip.",
+  "slash": {
+    "whatsapp": "tavo naujausi WhatsApp pokalbiai"
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "description": "Léigh do chomhráite WhatsApp agus freagair iad trí labhairt. Ní sheoltar aon rud gan do thoiliú.",
+  "slash": {
+    "whatsapp": "do chomhráite WhatsApp is déanaí"
+  }
+}

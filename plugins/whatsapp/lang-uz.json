@@ -1,0 +1,6 @@
+{
+  "description": "WhatsApp chatlaringni o'qi va gapirib javob ber. Sen \"ha\" demaguningcha hech narsa yuborilmaydi.",
+  "slash": {
+    "whatsapp": "so'nggi WhatsApp chatlaring"
+  }
+}

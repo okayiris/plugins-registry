@@ -1,0 +1,6 @@
+{
+  "description": "Soma mazungumzo yako ya WhatsApp na uyajibu kwa kuzungumza. Hakuna kinachotumwa bila ndiyo yako.",
+  "slash": {
+    "whatsapp": "mazungumzo yako ya hivi karibuni ya WhatsApp"
+  }
+}

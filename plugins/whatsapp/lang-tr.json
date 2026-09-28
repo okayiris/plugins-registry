@@ -1,0 +1,6 @@
+{
+  "description": "WhatsApp sohbetlerini oku ve konuşarak yanıtla. Sen evet demeden hiçbir şey gönderilmez.",
+  "slash": {
+    "whatsapp": "son WhatsApp sohbetlerin"
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "description": "Citește-ți conversațiile de pe WhatsApp și răspunde-le vorbind. Nu se trimite nimic fără acordul tău.",
+  "slash": {
+    "whatsapp": "ultimele tale conversații de pe WhatsApp"
+  }
+}

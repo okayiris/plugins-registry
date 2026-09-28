@@ -1,0 +1,6 @@
+{
+  "description": "Baca obrolan WhatsApp-mu dan balas dengan berbicara. Tidak ada yang terkirim tanpa persetujuanmu.",
+  "slash": {
+    "whatsapp": "obrolan WhatsApp terbarumu"
+  }
+}

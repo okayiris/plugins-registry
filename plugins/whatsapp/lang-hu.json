@@ -1,0 +1,6 @@
+{
+  "description": "Olvasd el a WhatsApp-csevegéseidet, és válaszolj rájuk beszéléssel. A te igened nélkül semmi nem megy el.",
+  "slash": {
+    "whatsapp": "a legutóbbi WhatsApp-csevegéseid"
+  }
+}

@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="Moneybird">
+  <rect width="64" height="64" rx="14" fill="#0B4A8F"/>
+  <path d="M14 22h36a4 4 0 0 1 4 4v12a4 4 0 0 1-4 4H14a4 4 0 0 1-4-4V26a4 4 0 0 1 4-4z" fill="#F4F8FF"/>
+  <circle cx="32" cy="32" r="8" fill="#0B4A8F"/>
+  <path d="M30 27.5h4.2a3.3 3.3 0 0 1 0 6.6h-1.5v2.4h-2.7zm2.7 4.2h1.3a1 1 0 0 0 0-2h-1.3z" fill="#F4F8FF"/>
+  <circle cx="17" cy="32" r="2.2" fill="#0B4A8F"/>
+  <circle cx="47" cy="32" r="2.2" fill="#0B4A8F"/>
+</svg>

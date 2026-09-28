@@ -1,0 +1,11 @@
+{
+  "name": "moneybird",
+  "version": "1.0.0",
+  "author": "Iris",
+  "description": "Read your Moneybird bookkeeping: administrations, contacts, invoices and what is still outstanding. Read-only, nothing is ever changed.",
+  "permissions": ["internet", "secrets"],
+  "commands": { "moneybird": "moneybird.py" },
+  "slash": { "moneybird": "your Moneybird bookkeeping, read-only" },
+  "category": "finance",
+  "icon": "icon.svg"
+}

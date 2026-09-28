@@ -1,0 +1,9 @@
+{
+  "description": "Lees je Moneybird-boekhouding: administraties, contacten, facturen en wat er nog openstaat. Alleen lezen, er verandert nooit iets.",
+  "slash": {
+    "moneybird": "je Moneybird-boekhouding, alleen lezen"
+  },
+  "texts": {
+    "not_connected": "Moneybird is nog niet gekoppeld."
+  }
+}

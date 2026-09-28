@@ -1,0 +1,8 @@
+{
+  "command": "shopper",
+  "fields": [
+    { "key": "shops", "label": "Your shops", "type": "list", "help": "One per shop, like Allbirds|https://www.allbirds.com. Shopify and WooCommerce shops are searched; any other shop still works by pasting a product link." },
+    { "key": "per_shop", "label": "Results per shop", "type": "number", "help": "How many products each shop shows per search. Eight by default." },
+    { "key": "about", "label": "What Iris should know", "type": "text", "help": "Your sizes, colours you like, brands you avoid, a budget. Iris keeps it in mind; nothing is sent to the shops." }
+  ]
+}

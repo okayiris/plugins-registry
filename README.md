@@ -25,6 +25,7 @@ with a listed plugin.
 | [books](plugins/books) | A reading list by voice: to read, reading, read, with stars and notes; titles from Open Library. Own database. Window. | internet |
 | [todoist](plugins/todoist) | Todoist tasks: today and the week, add a task with a date in plain words, tick one off. Your own token. | internet, secrets |
 | [deepl](plugins/deepl) | `translate`: into thirty languages with your own DeepL key, free or Pro, with a polite form. | internet, secrets |
+| [personal-shopper](plugins/personal-shopper) | `shopper`: search every shop you like at once, compare on a shopping screen, one cart across shops, and after your yes each shop's checkout opens with everything in it. You pay there. Own database. Screen. | internet |
 | [ns](plugins/ns) | `trains`: Dutch trains live, departures with delays and track changes, trips A to B, disruptions. Your own free NS key. Window. | internet, secrets |
 
 Only todoist, deepl and ns need a key of your own. It goes into the vault with `<command> key ask`, and

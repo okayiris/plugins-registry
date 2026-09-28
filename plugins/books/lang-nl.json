@@ -1,0 +1,13 @@
+{
+  "description": "Je leeslijst met je stem: boeken om te lezen, aan het lezen en gelezen, met sterren en notities, gevonden via Open Library. Blijft in je eigen huis.",
+  "slash": { "books": "wat je leest en wilt lezen" },
+  "texts": {
+    "label": "Boeken",
+    "title": "Je leeslijst",
+    "intro": "Boeken om te lezen, aan het lezen en gelezen. Zeg een titel en Iris vindt hem.",
+    "now": "Wat lees ik nu",
+    "want": "Nog te lezen",
+    "year": "Gelezen dit jaar",
+    "hint": "Zeg: ik wil Project Hail Mary lezen, of: De Hobbit is uit, vier sterren."
+  }
+}

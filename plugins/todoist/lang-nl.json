@@ -1,0 +1,5 @@
+{
+  "description": "Je Todoist-taken met je stem: wat vandaag en deze week moet, een taak met datum toevoegen, en er een afvinken. Met je eigen token.",
+  "slash": { "todoist": "je taken voor vandaag" },
+  "texts": {}
+}

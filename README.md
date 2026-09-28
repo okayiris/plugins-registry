@@ -18,8 +18,17 @@ with a listed plugin.
 | [notes](plugins/notes) | Quick notes with #tags and pins, in the plugin's own database. Window. | none |
 | [habits](plugins/habits) | Daily habits ticked off by saying so, with the week and streaks, in the plugin's own database. Window. | none |
 | [worldclock](plugins/worldclock) | The time anywhere, your time elsewhere, and meeting hours across time zones. Offline. | none |
+| [expenses](plugins/expenses) | What you spend, said out loud: each month per category, against the month before and your budgets. Own database. Window. | none |
+| [countdown](plugins/countdown) | Days until a trip or deadline, and birthdays that come back every year; working days to any date. | none |
+| [units](plugins/units) | Convert units in a sentence: length, weight, cooking measures, temperature, speed, area, data, fuel. Offline. | none |
+| [crypto](plugins/crypto) | Prices of the coins you follow, one coin in detail, and what an amount is worth. CoinGecko, no key. | internet |
+| [books](plugins/books) | A reading list by voice: to read, reading, read, with stars and notes; titles from Open Library. Own database. Window. | internet |
+| [todoist](plugins/todoist) | Todoist tasks: today and the week, add a task with a date in plain words, tick one off. Your own token. | internet, secrets |
+| [deepl](plugins/deepl) | `translate`: into thirty languages with your own DeepL key, free or Pro, with a polite form. | internet, secrets |
+| [ns](plugins/ns) | `trains`: Dutch trains live, departures with delays and track changes, trips A to B, disruptions. Your own free NS key. Window. | internet, secrets |
 
-None of them needs a key or an account.
+Only todoist, deepl and ns need a key of your own. It goes into the vault with `<command> key ask`, and
+every call is made by the vault with the key as `{g}`, so the plugin itself never sees it.
 
 ## Check and publish
 

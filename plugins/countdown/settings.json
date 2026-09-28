@@ -1,0 +1,6 @@
+{
+  "command": "countdown",
+  "fields": [
+    { "key": "events", "label": "Your days", "type": "list", "help": "One per day, like Holiday|2026-12-20 for once, or Anna|03-14 for a birthday every year." }
+  ]
+}

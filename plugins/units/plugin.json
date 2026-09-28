@@ -1,0 +1,11 @@
+{
+  "name": "units",
+  "version": "1.0.0",
+  "author": "Iris",
+  "description": "Convert units in a sentence: miles and kilometres, pounds and kilos, cups and millilitres, Fahrenheit and Celsius, and more. Offline.",
+  "permissions": [],
+  "commands": { "units": "units.py" },
+  "slash": { "units": "convert units, like 5 miles km" },
+  "category": "knowledge",
+  "icon": "icon.svg"
+}

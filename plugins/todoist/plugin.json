@@ -1,0 +1,11 @@
+{
+  "name": "todoist",
+  "version": "1.0.0",
+  "author": "Iris",
+  "description": "Your Todoist tasks by voice: what is due today and this week, adding a task with a date, and ticking one off. With your own token.",
+  "permissions": ["internet", "secrets"],
+  "commands": { "todoist": "todoist.py" },
+  "slash": { "todoist": "your tasks for today" },
+  "category": "productivity",
+  "icon": "icon.svg"
+}

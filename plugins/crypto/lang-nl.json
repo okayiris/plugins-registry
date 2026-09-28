@@ -1,0 +1,5 @@
+{
+  "description": "Cryptokoersen van de munten die je volgt, een munt in detail, en wat een bedrag waard is. Alleen koersen, geen wallet en geen sleutel.",
+  "slash": { "crypto": "koersen van de munten die je volgt" },
+  "texts": {}
+}

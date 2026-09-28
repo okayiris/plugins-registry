@@ -1,0 +1,5 @@
+{
+  "description": "Your Todoist tasks by voice: what is due today and this week, adding a task with a date, and ticking one off. With your own token.",
+  "slash": { "todoist": "your tasks for today" },
+  "texts": {}
+}

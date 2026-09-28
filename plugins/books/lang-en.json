@@ -1,0 +1,13 @@
+{
+  "description": "Your reading list by voice: books to read, reading and read, with stars and notes, found through Open Library. Kept in your own house.",
+  "slash": { "books": "what you are reading and want to read" },
+  "texts": {
+    "label": "Books",
+    "title": "Your reading list",
+    "intro": "Books to read, reading and read. Say a title and Iris finds it.",
+    "now": "What am I reading",
+    "want": "To read",
+    "year": "Read this year",
+    "hint": "Say: I want to read Project Hail Mary, or: I finished The Hobbit, four stars."
+  }
+}

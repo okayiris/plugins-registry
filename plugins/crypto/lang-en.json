@@ -1,0 +1,5 @@
+{
+  "description": "Crypto prices for the coins you follow, one coin in detail, and what an amount is worth. Prices only, no wallet and no key.",
+  "slash": { "crypto": "prices of the coins you follow" },
+  "texts": {}
+}

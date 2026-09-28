@@ -1,0 +1,13 @@
+{
+  "description": "Keep what you spend by saying it, and see each month per category and against your budgets. Kept in your own house.",
+  "slash": { "expenses": "what you spent this month" },
+  "texts": {
+    "label": "Expenses",
+    "title": "What you spend",
+    "intro": "Say what you paid and for what; Iris adds it up per month and category.",
+    "month": "This month",
+    "compare": "Compared with last month",
+    "budgets": "My budgets",
+    "hint": "Say: I spent 42 euro on groceries."
+  }
+}

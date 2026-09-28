@@ -1,0 +1,7 @@
+{
+  "command": "crypto",
+  "fields": [
+    { "key": "currency", "label": "Currency", "type": "text", "help": "Prices are shown in this currency, like EUR or USD." },
+    { "key": "coins", "label": "Coins you follow", "type": "list", "help": "By name or symbol, like bitcoin, ethereum, sol." }
+  ]
+}

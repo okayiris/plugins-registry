@@ -1,0 +1,14 @@
+{
+  "description": "Dutch trains live from the NS: departures with delays and track changes, the next trips from A to B, and disruptions. With your own free NS key.",
+  "slash": { "trains": "departures from your station" },
+  "texts": {
+    "label": "Trains",
+    "title": "Your trains",
+    "intro": "Live from the NS, with delays and track changes. The answer comes in the conversation.",
+    "departures": "Departures from home",
+    "work": "To work",
+    "home": "Back home",
+    "disruptions": "Disruptions",
+    "hint": "Say: when does the next train to Amsterdam leave?"
+  }
+}

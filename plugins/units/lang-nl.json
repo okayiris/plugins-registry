@@ -1,0 +1,5 @@
+{
+  "description": "Reken eenheden om in een zin: mijlen en kilometers, ponden en kilo's, cups en milliliters, Fahrenheit en Celsius, en meer. Zonder internet.",
+  "slash": { "units": "reken eenheden om, zoals 5 miles km" },
+  "texts": {}
+}

@@ -1,0 +1,14 @@
+{
+  "description": "De trein live van de NS: vertrektijden met vertraging en spoorwijzigingen, de volgende reizen van A naar B, en storingen. Met je eigen gratis NS-sleutel.",
+  "slash": { "trains": "vertrektijden van je station" },
+  "texts": {
+    "label": "Treinen",
+    "title": "Jouw treinen",
+    "intro": "Live van de NS, met vertraging en spoorwijzigingen. Het antwoord komt in het gesprek.",
+    "departures": "Vertrek vanaf thuis",
+    "work": "Naar werk",
+    "home": "Naar huis",
+    "disruptions": "Storingen",
+    "hint": "Zeg: wanneer gaat de volgende trein naar Amsterdam?"
+  }
+}

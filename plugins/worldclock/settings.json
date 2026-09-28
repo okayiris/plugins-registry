@@ -1,0 +1,6 @@
+{
+  "command": "worldclock",
+  "fields": [
+    { "key": "places", "label": "Your places", "type": "list", "help": "Cities or time zones you want to see, like London, New York, Tokyo." }
+  ]
+}

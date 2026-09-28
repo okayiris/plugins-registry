@@ -1,0 +1,12 @@
+{
+  "name": "feeds",
+  "version": "1.0.0",
+  "author": "Iris",
+  "description": "The news and blogs you follow, read out from their RSS or Atom feeds: the newest items, a search, and the summary of one.",
+  "permissions": ["internet"],
+  "commands": { "feeds": "feeds.py" },
+  "slash": { "feeds": "the newest from the news and blogs you follow" },
+  "window": "feeds.jsx",
+  "category": "knowledge",
+  "icon": "icon.svg"
+}

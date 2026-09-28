@@ -1,0 +1,11 @@
+{
+  "name": "holidays",
+  "version": "1.0.0",
+  "author": "Iris",
+  "description": "Public holidays at home and in more than a hundred countries: the next ones, a whole year, and the long weekends worth a day off.",
+  "permissions": ["internet"],
+  "commands": { "holidays": "holidays.py" },
+  "slash": { "holidays": "the next public holidays" },
+  "category": "productivity",
+  "icon": "icon.svg"
+}

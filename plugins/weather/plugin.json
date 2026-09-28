@@ -1,0 +1,12 @@
+{
+  "name": "weather",
+  "version": "1.0.0",
+  "author": "Iris",
+  "description": "The weather at home or anywhere else: now, the next hours, the week and whether it will rain soon. Free, no key needed.",
+  "permissions": ["internet"],
+  "commands": { "weather": "weather.py" },
+  "slash": { "weather": "the weather now and the next hours" },
+  "window": "weather.jsx",
+  "category": "home",
+  "icon": "icon.svg"
+}

@@ -1,0 +1,6 @@
+# What a plugin makes for itself once it runs; never published.
+plugins/*/values.json
+plugins/*/data.db*
+plugins/*/.*.json
+plugins/*/*.tmp
+__pycache__/

@@ -1,0 +1,13 @@
+{
+  "description": "Houd kleine dagelijkse gewoontes bij door Iris te vertellen wanneer ze gedaan zijn, en zie je week en je reeksen. Blijft in je eigen huis.",
+  "slash": { "habits": "je gewoontes van vandaag" },
+  "texts": {
+    "label": "Gewoontes",
+    "title": "Je gewoontes vandaag",
+    "intro": "Vertel Iris wanneer een gewoonte gedaan is; zij houdt de reeks bij.",
+    "today": "Wat staat nog open",
+    "week": "De afgelopen zeven dagen",
+    "streaks": "Mijn reeksen",
+    "hint": "Zeg: ik heb gewandeld, of: nieuwe gewoonte, lezen."
+  }
+}

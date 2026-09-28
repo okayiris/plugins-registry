@@ -1,0 +1,7 @@
+{
+  "command": "weather",
+  "fields": [
+    { "key": "place", "label": "Home", "type": "text", "help": "Your town or city, like Utrecht or Portland, Oregon. Looked up once." },
+    { "key": "units", "label": "Units", "type": "choice", "options": ["metric", "imperial"], "help": "Metric is °C, km/h and mm; imperial is °F, mph and inches." }
+  ]
+}

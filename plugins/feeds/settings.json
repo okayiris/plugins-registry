@@ -1,0 +1,7 @@
+{
+  "command": "feeds",
+  "fields": [
+    { "key": "feeds", "label": "Your feeds", "type": "list", "help": "One per feed, like NOS|https://feeds.nos.nl/nosnieuwsalgemeen. The name before the | is how Iris calls it; a site's own address works when its page points to its feed." },
+    { "key": "count", "label": "Items at a time", "type": "number", "help": "How many items the newest list shows. Ten by default." }
+  ]
+}

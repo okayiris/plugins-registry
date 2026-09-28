@@ -1,0 +1,13 @@
+{
+  "description": "Keep small daily habits by telling Iris when they are done, and see your week and your streaks. Kept in your own house.",
+  "slash": { "habits": "your habits today" },
+  "texts": {
+    "label": "Habits",
+    "title": "Your habits today",
+    "intro": "Tell Iris when a habit is done; she keeps the streak.",
+    "today": "What is still open",
+    "week": "The last seven days",
+    "streaks": "My streaks",
+    "hint": "Say: I went for a walk, or: start a new habit, read."
+  }
+}

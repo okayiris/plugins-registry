@@ -1,0 +1,13 @@
+{
+  "description": "The weather at home or anywhere else: now, the next hours, the week and whether it will rain soon. Free, no key needed.",
+  "slash": { "weather": "the weather now and the next hours" },
+  "texts": {
+    "label": "Weather",
+    "title": "The weather at home",
+    "intro": "Ask for now, the week or rain, here or anywhere. The answer comes in the conversation.",
+    "now": "Now and the next hours",
+    "rain": "Will it rain soon",
+    "week": "The week ahead",
+    "home": "Set your home under Integrations, or say: my home is Utrecht."
+  }
+}

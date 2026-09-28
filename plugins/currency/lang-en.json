@@ -1,0 +1,5 @@
+{
+  "description": "Convert money between currencies at the European Central Bank's daily rates, and see how a rate moved. Free, no key needed.",
+  "slash": { "currency": "convert an amount, like 25 USD EUR" },
+  "texts": {}
+}

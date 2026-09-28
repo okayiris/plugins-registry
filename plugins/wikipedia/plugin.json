@@ -1,0 +1,11 @@
+{
+  "name": "wikipedia",
+  "version": "1.0.0",
+  "author": "Iris",
+  "description": "Look anything up on Wikipedia in your own language: a short summary, a search, and what happened on this day in history.",
+  "permissions": ["internet"],
+  "commands": { "wikipedia": "wikipedia.py" },
+  "slash": { "wikipedia": "look something up on Wikipedia" },
+  "category": "knowledge",
+  "icon": "icon.svg"
+}

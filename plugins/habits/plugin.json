@@ -1,0 +1,13 @@
+{
+  "name": "habits",
+  "version": "1.0.0",
+  "author": "Iris",
+  "description": "Keep small daily habits by telling Iris when they are done, and see your week and your streaks. Kept in your own house.",
+  "permissions": [],
+  "commands": { "habits": "habits.py" },
+  "slash": { "habits": "your habits today" },
+  "window": "habits.jsx",
+  "database": true,
+  "category": "productivity",
+  "icon": "icon.svg"
+}

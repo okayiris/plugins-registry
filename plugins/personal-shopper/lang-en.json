@@ -4,6 +4,7 @@
     "shopper": "search your shops and see the cart"
   },
   "texts": {
+    "noBridge": "This screen cannot reach the shopper here. Ask Iris instead.",
     "failed": "The shopper did not answer.",
     "unknown": "price unknown",
     "whyNoSearch": "no open search, add its products by link",
@@ -61,6 +62,9 @@
     "tabCart": "Cart",
     "tabSaved": "Kept",
     "tabOrders": "Orders",
-    "refresh": "Refresh"
+    "refresh": "Refresh",
+    "askResults": "Show my last shopping results",
+    "askCart": "What is in my shopping cart?",
+    "askOrder": "Order my shopping cart"
   }
 }

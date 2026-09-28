@@ -69,13 +69,16 @@ def save_values(data):
 def get_json(url, params):
     req = urllib.request.Request(url + "?" + urllib.parse.urlencode(params),
                                  headers={"User-Agent": "Iris-weather/1.0"})
-    try:
-        with urllib.request.urlopen(req, timeout=20) as resp:
-            return json.loads(resp.read().decode())
-    except urllib.error.HTTPError as exc:
-        sys.exit(f"The weather service answered with status {exc.code}. Try again in a minute.")
-    except (OSError, ValueError):
-        sys.exit("The weather service did not answer. Try again in a minute.")
+    # Open-Meteo now and then leaves a connection hanging; the next one is answered at once.
+    for attempt in (1, 2):
+        try:
+            with urllib.request.urlopen(req, timeout=12) as resp:
+                return json.loads(resp.read().decode())
+        except urllib.error.HTTPError as exc:
+            sys.exit(f"The weather service answered with status {exc.code}. Try again in a minute.")
+        except (OSError, ValueError):
+            if attempt == 2:
+                sys.exit("The weather service did not answer. Try again in a minute.")
 
 
 def geocode(name):

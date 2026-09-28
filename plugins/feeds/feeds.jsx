@@ -1,5 +1,5 @@
 export default () => (
-  <Card label={text("label", "Feeds")} title={text("title", "What is new")} icon="news">
+  <Card label={text("label", "Feeds")} title={text("title", "What is new")}>
     <Text dim>{text("intro", "The news and blogs you follow, newest first. The answer comes in the conversation.")}</Text>
     <Buttons>
       <Button primary say="feeds">{text("latest", "The newest")}</Button>

@@ -61,6 +61,10 @@
     "howFilled": "Opent de eigen checkout van de winkel met alles er al in.",
     "howCart": "Zet het in de winkelmand van de winkel.",
     "howSteps": "Open elk product om het in de winkelmand van de winkel te zetten, en betaal dan.",
-    "howPage": "Deze winkel heeft geen winkelmand-link; bestel het op de productpagina."
+    "howPage": "Deze winkel heeft geen winkelmand-link; bestel het op de productpagina.",
+    "noBridge": "Dit scherm kan de shopper hier niet bereiken. Vraag het aan Iris.",
+    "askResults": "Laat mijn laatste zoekresultaten zien",
+    "askCart": "Wat zit er in mijn winkelmand?",
+    "askOrder": "Bestel mijn winkelmand"
   }
 }

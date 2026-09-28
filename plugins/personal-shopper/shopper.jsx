@@ -18,14 +18,30 @@ export default () => {
   const [error, setError] = useState("");
   const [broken, setBroken] = useState({});
 
+  // /commands/run is how the house's own screens reach their command (process-monitor does the same).
+  // Where it is missing or answers differently, the screen says so and hands the question to Iris.
+  const [bridge, setBridge] = useState(true);
   const run = async (args) => {
-    const r = await fetch("/commands/run", {
-      method: "POST",
-      body: JSON.stringify({ cmd: "shopper", args: `${args} --json` }),
-    });
-    const d = await r.json();
-    if (!d || !d.ok) throw new Error(d?.tekst || d?.text || text("failed", "The shopper did not answer."));
-    const data = JSON.parse(d.tekst ?? d.text);
+    let d;
+    try {
+      const r = await fetch("/commands/run", {
+        method: "POST",
+        body: JSON.stringify({ cmd: "shopper", args: `${args} --json` }),
+      });
+      d = await r.json();
+    } catch (e) {
+      setBridge(false);
+      throw new Error(text("noBridge", "This screen cannot reach the shopper here. Ask Iris instead."));
+    }
+    const body = d?.tekst ?? d?.text ?? d?.output;
+    if (!d || !d.ok) throw new Error(body || text("failed", "The shopper did not answer."));
+    let data;
+    try {
+      data = JSON.parse(body);
+    } catch (e) {
+      setBridge(false);
+      throw new Error(text("noBridge", "This screen cannot reach the shopper here. Ask Iris instead."));
+    }
     if (data.error) throw new Error(data.error);
     return data;
   };
@@ -81,7 +97,7 @@ export default () => {
   ) : (
     <div style={{ ...style, display: "flex", alignItems: "center", justifyContent: "center",
                   color: "var(--faint)", background: "var(--glass)" }}>
-      <Icon name="bag" size={24} />
+      <Icon name="pakket" size={24} />
     </div>
   ));
 
@@ -161,7 +177,7 @@ export default () => {
   const resultsView = () => {
     if (!items.length) {
       return (
-        <Card label={text("start", "Start shopping")} icon="search">
+        <Card label={text("start", "Start shopping")} icon="chart">
           <Text dim>{text("empty", "Tell Iris what you are looking for, and the products of every shop you follow appear here.")}</Text>
           <Buttons>
             <Button say={text("exampleSay1", "Find me a warm wool sweater under 100 euro")}>{text("example1", "A wool sweater")}</Button>
@@ -222,7 +238,7 @@ export default () => {
     return (
       <div>
         {cart.shops.map((s) => (
-          <Card key={s.shop} label={s.shop} title={price(s.total, s.currency)} icon="bag">
+          <Card key={s.shop} label={s.shop} title={price(s.total, s.currency)} icon="pakket">
             {s.lines.map((l) => (
               <div key={l.id} style={{ display: "flex", alignItems: "center", gap: ".6rem", padding: ".45rem 0",
                                        borderTop: "1px solid var(--edge)" }}>
@@ -243,7 +259,7 @@ export default () => {
           </Card>
         ))}
         {confirm ? (
-          <Card label={text("sure", "Order this?")} icon="check">
+          <Card label={text("sure", "Order this?")}>
             <Text>{text("sureText", "Iris opens each shop's checkout with everything in it. You pay there; nothing is paid here.")}</Text>
             <Buttons>
               <Button primary onClick={() => order()}>{text("yesOrder", "Yes, order")}</Button>
@@ -263,7 +279,7 @@ export default () => {
   // --- kept and ordered --------------------------------------------------------------------------
 
   const savedView = () => (saved.length ? (
-    <Card label={text("keptLabel", "Kept to decide later")} icon="heart">
+    <Card label={text("keptLabel", "Kept to decide later")}>
       {saved.map((s) => (
         <div key={s.id} style={{ display: "flex", alignItems: "center", gap: ".6rem", padding: ".45rem 0",
                                  borderTop: "1px solid var(--edge)" }}>
@@ -288,7 +304,7 @@ export default () => {
   ) : <Text dim>{text("nothingKept", "Nothing kept yet. Tap Keep on a product to decide later.")}</Text>);
 
   const ordersView = () => (orders.length ? (
-    <Card label={text("ordersLabel", "Ordered before")} icon="receipt">
+    <Card label={text("ordersLabel", "Ordered before")} icon="euro">
       {orders.map((o) => (
         <Row key={o.id} left={`${o.created.slice(0, 10)}  ${o.shop}: ${o.items.map((i) => `${i.qty} x ${i.title}`).join(", ")}`}
              right={price(o.total, o.currency)} />
@@ -299,11 +315,11 @@ export default () => {
   return (
     <Screen title={text("title", "Personal shopper")}
             subtitle={results.query ? `${text("for", "For")}: ${results.query}` : text("subtitle", "Every shop you like, in one place")}
-            icon="bag">
+            icon="pakket">
       <Stats>
-        <Stat value={items.length} label={text("results", "results")} icon="search" />
-        <Stat value={shopNames.length} label={text("shops", "shops")} icon="store" />
-        <Stat value={cart.count} label={text("inCart", "in the cart")} icon="bag" />
+        <Stat value={items.length} label={text("results", "results")} icon="chart" />
+        <Stat value={shopNames.length} label={text("shops", "shops")} icon="server" />
+        <Stat value={cart.count} label={text("inCart", "in the cart")} icon="pakket" />
         <Stat value={totals(cart.shops)} label={text("total", "total")} icon="card" />
       </Stats>
       <Buttons>
@@ -314,6 +330,13 @@ export default () => {
         <Button onClick={() => loadAll()}>{text("refresh", "Refresh")}</Button>
       </Buttons>
       {error ? <Text dim>{error}</Text> : null}
+      {!bridge ? (
+        <Buttons>
+          <Button say={text("askResults", "Show my last shopping results")}>{text("tabResults", "Products")}</Button>
+          <Button say={text("askCart", "What is in my shopping cart?")}>{text("tabCart", "Cart")}</Button>
+          <Button say={text("askOrder", "Order my shopping cart")}>{text("order", "Order")}</Button>
+        </Buttons>
+      ) : null}
       {note && !error ? <Text dim>{note}</Text> : null}
       {view === "results" ? resultsView() : null}
       {view === "cart" ? cartView() : null}

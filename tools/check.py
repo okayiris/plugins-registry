@@ -23,6 +23,10 @@ SETTING_TYPES = {"text", "number", "toggle", "choice", "list"}
 # Files a plugin makes for itself once it runs; never part of what is published.
 RUNTIME = re.compile(r"^(values\.json|data\.db.*|\..*|.*\.tmp|__pycache__)$")
 MAX_BYTES = 6 * 1024 * 1024
+# Icon names seen drawing in published plugins and in the guide. Another name is only a warning: it may
+# exist in the kit, but nothing shows it does.
+KNOWN_ICONS = {"calendar", "card", "chart", "clock", "database", "euro", "mail", "meter", "server", "stop",
+               "kruis", "pakket", "schild", "vernieuw"}
 
 
 def check(folder):
@@ -68,11 +72,10 @@ def check(folder):
         if not os.path.isfile(path):
             bad(f"command {cmd}: {file} is missing")
             continue
+        # The #! line is the rule; the executable bit is not kept by the marketplace, so it is not checked.
         with open(path, "rb") as f:
             if not f.read(2) == b"#!":
                 bad(f"command {cmd}: {file} does not start with a #! line")
-        if not os.access(path, os.X_OK):
-            bad(f"command {cmd}: {file} is not executable")
     for cmd in m.get("slash") or {}:
         if cmd not in commands:
             bad(f"slash {cmd} is not one of the commands")
@@ -192,6 +195,11 @@ def check_jsx(src, texts):
     return problems
 
 
+def icon_warnings(src):
+    names = set(re.findall(r'\b(?:icon|icoon|name|naam)=\{?"([a-z0-9-]+)"', src))
+    return sorted(names - KNOWN_ICONS)
+
+
 def main(argv):
     names = argv or sorted(d for d in os.listdir(ROOT) if os.path.isdir(os.path.join(ROOT, d)))
     failed = 0
@@ -207,6 +215,12 @@ def main(argv):
                     commands[cmd] = name
         except (OSError, ValueError):
             pass
+        for f in sorted(os.listdir(folder)) if os.path.isdir(folder) else []:
+            if f.endswith(".jsx"):
+                with open(os.path.join(folder, f), encoding="utf-8") as fh:
+                    unknown = icon_warnings(fh.read())
+                if unknown:
+                    print(f"note {name}: {f} uses icon names no published plugin shows: {', '.join(unknown)}")
         if problems:
             failed += 1
             print(f"FAIL {name}")

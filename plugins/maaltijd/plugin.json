@@ -1,0 +1,11 @@
+{
+  "name": "maaltijd",
+  "version": "1.0.0",
+  "author": "Iris",
+  "description": "Plan the meals of the week and turn them into one grocery list. Everything stays in the plugin folder, no keys and no internet.",
+  "permissions": [],
+  "commands": { "maaltijd": "maaltijd.py" },
+  "slash": { "maaltijd": "de maaltijden van deze week en de boodschappen" },
+  "category": "home",
+  "icon": "icon.svg"
+}

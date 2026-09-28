@@ -1,0 +1,11 @@
+{
+  "description": "Plan de maaltijden van de week en maak er één boodschappenlijst van. Alles blijft in de pluginmap, geen sleutels en geen internet.",
+  "slash": {
+    "meals": "de maaltijden van deze week en de boodschappen"
+  },
+  "texts": {
+    "week": "Deze week",
+    "empty": "nog niets",
+    "groceries": "Boodschappen"
+  }
+}

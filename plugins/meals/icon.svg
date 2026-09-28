@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="Maaltijd">
+  <rect width="64" height="64" rx="14" fill="#B4552D"/>
+  <circle cx="32" cy="34" r="17" fill="#FFF6EF"/>
+  <circle cx="32" cy="34" r="10" fill="#B4552D"/>
+  <path d="M32 8v7M32 53v3" stroke="#FFF6EF" stroke-width="4" stroke-linecap="round"/>
+  <path d="M12 30h8M44 30h8M14 42h6M44 42h6" stroke="#FFF6EF" stroke-width="4" stroke-linecap="round"/>
+</svg>

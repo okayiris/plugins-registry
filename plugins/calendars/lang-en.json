@@ -1,0 +1,12 @@
+{
+  "description": "Every calendar you follow in one agenda: today and the week, as an answer or as a window with the days ahead.",
+  "slash": { "calendars": "your calendars for today and the week" },
+  "texts": {
+    "label": "Calendars",
+    "title": "All your calendars together",
+    "text": "The calendars you added under Integrations, in one agenda. Ask for a day, and the answer comes in the conversation.",
+    "week": "The week ahead",
+    "today": "Today and tomorrow",
+    "add": "A calendar joins by its link: say add my calendar, with a name and the .ics address."
+  }
+}

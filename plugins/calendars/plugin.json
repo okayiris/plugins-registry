@@ -1,0 +1,12 @@
+{
+  "name": "calendars",
+  "version": "1.0.0",
+  "author": "Iris",
+  "description": "Every calendar you follow in one agenda: today and the week, as an answer or as a window with the days ahead.",
+  "permissions": ["internet"],
+  "commands": { "calendars": "calendars.py" },
+  "slash": { "calendars": "your calendars for today and the week" },
+  "window": "calendars.jsx",
+  "category": "productivity",
+  "icon": "icon.svg"
+}

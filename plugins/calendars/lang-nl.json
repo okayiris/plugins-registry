@@ -1,0 +1,12 @@
+{
+  "description": "Al je agenda's bij elkaar: vandaag en de week, als antwoord of als venster met de dagen die komen.",
+  "slash": { "calendars": "je agenda's van vandaag en de week" },
+  "texts": {
+    "label": "Agenda's",
+    "title": "Al je agenda's bij elkaar",
+    "text": "De agenda's die je onder Integraties hebt toegevoegd, in één overzicht. Vraag om een dag, dan komt het antwoord in het gesprek.",
+    "week": "De week die komt",
+    "today": "Vandaag en morgen",
+    "add": "Een agenda komt erbij met zijn link: zeg voeg mijn agenda toe, met een naam en het .ics-adres."
+  }
+}

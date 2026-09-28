@@ -1,0 +1,17 @@
+{
+  "command": "calendars",
+  "fields": [
+    {
+      "key": "feeds",
+      "label": "Your calendars",
+      "type": "list",
+      "help": "One link per calendar, like Family|https://calendar.google.com/calendar/ical/.../basic.ics. Google hands that link out under Settings, then \"Secret address in iCal format\"; Outlook, Apple and Nextcloud have their own. The name before the | is what shows next to an appointment; without one the calendar's own name is used."
+    },
+    {
+      "key": "days",
+      "label": "Days in the week",
+      "type": "number",
+      "help": "How many days \"calendars week\" looks ahead. Seven by default."
+    }
+  ]
+}

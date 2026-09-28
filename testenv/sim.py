@@ -48,8 +48,9 @@ GREEN, RED, DIM, END = ("\033[32m", "\033[31m", "\033[2m", "\033[0m") if sys.std
 class Home:
     """One plugin, installed and enabled in a home of its own."""
 
-    def __init__(self, plugin, root=None, mode="replay", now=DEFAULT_NOW, vault="", stub=None):
+    def __init__(self, plugin, root=None, mode="replay", now=DEFAULT_NOW, vault="", stub=None, programs=None):
         self.plugin = plugin
+        self.programs = programs or {}
         self.root = root or tempfile.mkdtemp(prefix=f"iris-{plugin}-")
         self.mode = mode
         self.now = now
@@ -78,6 +79,8 @@ class Home:
             self.wrap(cmd, os.path.join(self.folder, file))
         for name in ("kluis", "vault"):
             self.wrap(name, os.path.join(RUNTIME, "vault.py"))
+        for name, stub in self.programs.items():  # a program the house has, like the claude CLI
+            self.wrap(name, os.path.join(HERE, stub))
         schema = os.path.join(self.folder, "schema.sql")
         db = os.path.join(self.folder, "data.db")
         if self.manifest.get("database") and os.path.exists(schema) and not os.path.exists(db):
@@ -108,10 +111,10 @@ class Home:
             env["SIM_VAULT_STUB"] = self.stub
         return env
 
-    def run(self, line, timeout=120, stdin=None):
+    def run(self, line, timeout=120, stdin=None, env=None):
         args = shlex.split(line) if isinstance(line, str) else list(line)
         try:
-            p = subprocess.run(args, cwd=self.root, env=self.env(), capture_output=True, text=True,
+            p = subprocess.run(args, cwd=self.root, env={**self.env(), **(env or {})}, capture_output=True, text=True,
                                timeout=timeout, input=stdin)
             return p.returncode, p.stdout, p.stderr
         except subprocess.TimeoutExpired:
@@ -237,7 +240,8 @@ def fill(text, saved):
 def run_scenario(name, mode, verbose, pause=0):
     sc = load_scenario(name)
     plugin = sc.get("plugin", name)
-    home = Home(plugin, mode=mode, now=sc.get("now", DEFAULT_NOW), vault=vault_items(sc), stub=sc.get("stub"))
+    home = Home(plugin, mode=mode, now=sc.get("now", DEFAULT_NOW), vault=vault_items(sc), stub=sc.get("stub"),
+                programs=sc.get("programs"))
     failures, steps, saved = [], sc.get("steps", []), {}
     try:
         for i, step in enumerate(steps, 1):
@@ -248,7 +252,7 @@ def run_scenario(name, mode, verbose, pause=0):
             line, stdin = fill(step["run"], saved), step.get("stdin")
             if stdin is not None:
                 stdin = fill(stdin if isinstance(stdin, str) else json.dumps(stdin), saved)
-            code, out, err = home.run(line, stdin=stdin)
+            code, out, err = home.run(line, stdin=stdin, env=step.get("env"))
             wrong = check(step.get("expect", {}), code, out, err, home)
             misses = home.take_misses()
             if misses and mode == "replay" and not step.get("expect", {}).get("offline_ok"):
@@ -363,7 +367,8 @@ def cmd_screen(args):
         sc = load_scenario(name) if os.path.exists(os.path.join(SCENARIOS, f"{name}.json")) else {"plugin": name}
         plugin = sc.get("plugin", name)
         mode = "record" if getattr(args, "record", False) else ("live" if args.live else "replay")
-        home = Home(plugin, mode=mode, now=sc.get("now", DEFAULT_NOW), vault=vault_items(sc), stub=sc.get("stub"))
+        home = Home(plugin, mode=mode, now=sc.get("now", DEFAULT_NOW), vault=vault_items(sc), stub=sc.get("stub"),
+                programs=sc.get("programs"))
         try:
             for step in (sc.get("screen") or {}).get("before", []):
                 home.run(step)

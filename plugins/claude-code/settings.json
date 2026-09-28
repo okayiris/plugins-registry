@@ -1,0 +1,10 @@
+{
+  "command": "claude-code",
+  "fields": [
+    { "key": "folder", "label": "Projects folder", "type": "text", "help": "Where your projects live in the house, like ~/code. A task names a folder under it." },
+    { "key": "model", "label": "Model", "type": "text", "help": "Like sonnet, opus or a full model name. Empty: Claude Code's own choice." },
+    { "key": "shell", "label": "Let tasks run commands", "type": "toggle", "help": "Off: a task only reads and edits files, unless you say --shell." },
+    { "key": "budget", "label": "Budget per run (dollars)", "type": "number", "help": "A run stops when it would cost more. Counts API prices, also on a plan." },
+    { "key": "minutes", "label": "Minutes in the foreground", "type": "number", "help": "A run you wait for stops after this long. Long tasks go in the background with start." }
+  ]
+}

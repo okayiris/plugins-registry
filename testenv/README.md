@@ -84,7 +84,7 @@ should do.
 }
 ```
 
-A step can send a request on stdin (`"stdin": {...}`, as a route does) and keep a value from its JSON answer for later steps (`"save": {"token1": "token"}`, used as `${token1}`).
+A scenario can give the house a program it would have, like the Claude Code CLI (`"programs": {"claude": "stubs/claude.py"}`), and a step can set environment variables (`"env": {...}`). A step can send a request on stdin (`"stdin": {...}`, as a route does) and keep a value from its JSON answer for later steps (`"save": {"token1": "token"}`, used as `${token1}`).
 
 `expect` knows `code` (0 when left out), `contains`, `not_contains`, `matches` (regular expressions),
 `lines`, `json` (a path like `items.0.shop` with a value, or `{"min": 2}`, `{"contains": "..."}`,

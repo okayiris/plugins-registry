@@ -1,0 +1,31 @@
+{
+  "programs": {"claude": "stubs/claude.py"},
+  "steps": [
+    {"run": "claude-code", "expect": {"contains": ["Claude Code 2.1.0 is installed and signed in with a Claude plan.", "Projects: ~/code."]}},
+    {"run": "claude-code folders", "expect": {"contains": ["~/code does not exist yet"]}},
+    {"run": "claude-code ask \"what is here?\" --in site", "expect": {"code": 1, "contains": ["There is no folder"]}},
+    {"run": "claude-code do \"make a page\" --in site", "expect": {"contains": [
+      "Looked at site for: make a page. Tools: Read, Grep, Glob, Edit, Write.",
+      "Run 1 in ~/code/site (may edit files): ", "3 turns, about $0.04"]}},
+    {"run": "claude-code ask \"what is here?\" --in site", "expect": {"contains": ["Tools: Read, Grep, Glob.", "(read-only)"], "not_contains": ["Edit"]}},
+    {"run": "claude-code do \"use bash to run the tests\" --in site", "expect": {"contains": [
+      "It was not allowed to use Bash. To allow it: claude-code more \"go on\" 3 --shell"]}},
+    {"run": "claude-code more \"go on\" --shell", "expect": {"contains": ["Went on from session", "Tools: Read, Grep, Glob, Edit, Write, Bash.", "may edit files and run commands"]}},
+    {"run": "claude-code ask \"a long answer please\" --in site", "expect": {"contains": ["(The answer goes on; claude-code result 5 shows all of it.)"], "not_contains": ["Line 119"]}},
+    {"run": "claude-code result 5", "expect": {"contains": ["Line 119 of a long answer."]}},
+    {"run": "claude-code runs", "expect": {"contains": ["The last runs:", "  5. done", "  1. done"]}},
+    {"run": "claude-code start \"write a README\" --in photos --read-only", "expect": {"code": 1, "contains": ["There is no folder"]}},
+    {"run": "claude-code start \"write a README\" --in photos", "expect": {"contains": ["Run 6 started in ~/code/photos (may edit files)."]}},
+    {"run": "claude-code folders", "expect": {"contains": ["2 projects in ~/code:", "  photos", "  site"]}},
+    {"run": "claude-code ask \"x\" --in ../etc", "expect": {"code": 1, "contains": ["is not a folder name"]}},
+    {"run": "claude-code ask \"x\" --in /", "expect": {"code": 1, "contains": ["not the whole house"]}},
+    {"run": "claude-code settings set shell on", "expect": {"contains": ["Tasks may also run commands"]}},
+    {"run": "claude-code settings set budget 500", "expect": {"code": 1, "contains": ["between 0.1 and 100"]}},
+    {"run": "claude-code settings", "expect": {"json": {"shell": "on", "folder": "~/code", "budget": "2"}}},
+    {"run": "claude-code do \"tidy up\" --in site", "expect": {"contains": ["Tools: Read, Grep, Glob, Edit, Write, Bash."]}},
+    {"run": "claude-code ask \"x\" --in site", "env": {"SIM_CLAUDE_LOGIN": "off"}, "expect": {"code": 1, "contains": ["not signed in yet", "claude-code login"]}},
+    {"run": "claude-code login", "expect": {"contains": ["the house's own terminal", "claude-code login"]}},
+    {"run": "claude-code more \"x\" 99", "expect": {"code": 1, "contains": ["There is no run 99"]}},
+    {"run": "claude-code stop 1", "expect": {"contains": ["Run 1 is not busy."]}}
+  ]
+}

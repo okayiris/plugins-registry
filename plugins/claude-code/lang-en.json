@@ -1,0 +1,5 @@
+{
+  "description": "Claude Code in your own house: ask it about your projects, or give it a coding task that it does in the house's workspace, in the foreground or in the background. Read-only unless you let it edit, and commands only when you allow them.",
+  "slash": { "claude-code": "a coding task or a question about your code, done by Claude Code in the house" },
+  "texts": {}
+}

@@ -1,0 +1,6 @@
+{
+  "description": "Lees en plaats op X (Twitter) via de X API v2, alleen na jouw goedkeuring.",
+  "slash": {
+    "x": "je X-tijdlijn, of koppel je X-app"
+  }
+}

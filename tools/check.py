@@ -18,7 +18,8 @@ ROOT = os.path.join(os.path.dirname(os.path.realpath(__file__)), "..", "plugins"
 PERMISSIONS = {"internet", "files", "secrets", "phone", "voice", "messages"}
 CATEGORIES = {"communication", "finance", "productivity", "home", "media", "knowledge", "developer", "other"}
 FIELDS = {"name", "version", "author", "description", "permissions", "commands", "slash", "window", "screen",
-          "routes", "database", "category", "icon", "screenshots", "usage"}
+          "routes", "database", "category", "icon", "screenshots", "usage", "provides", "setup", "initiative",
+          "actions", "kind"}
 SETTING_TYPES = {"text", "number", "toggle", "choice", "list"}
 # Files a plugin makes for itself once it runs; never part of what is published.
 RUNTIME = re.compile(r"^(values\.json|data\.db.*|\..*|.*\.tmp|__pycache__)$")
@@ -83,6 +84,11 @@ def check(folder):
         if key in m:
             if not str(m[key]).endswith(".jsx") or not os.path.isfile(os.path.join(folder, m[key])):
                 bad(f"{key} {m[key]} is not a .jsx file in the folder")
+    for action, run in (m.get("actions") or {}).items():
+        if not re.fullmatch(r"[a-z0-9-]+", action):
+            bad(f"action {action} is not one word")
+        if str(run).split(" ")[0] not in commands:
+            bad(f"action {action}: {run!r} does not start with one of the plugin's own commands")
     if "icon" in m and not os.path.isfile(os.path.join(folder, m["icon"])):
         bad(f"icon {m['icon']} is missing")
     for shot in m.get("screenshots") or []:

@@ -1,0 +1,313 @@
+{
+  "steps": [
+    {
+      "run": "calendar --help",
+      "expect": {
+        "contains": [
+          "calendar meet",
+          "never sends a mail"
+        ]
+      }
+    },
+    {
+      "run": "calendar",
+      "expect": {
+        "contains": [
+          "Nothing planned today or tomorrow.",
+          "2 invitations in the mailbox not in the calendar yet"
+        ]
+      }
+    },
+    {
+      "run": "calendar meet \"Project kickoff\" tomorrow 10:00 --with piet@example.com,kees@example.nl --where \"Room 2\" --note \"Bring the plans\"",
+      "expect": {
+        "contains": [
+          "Planned: Project kickoff, Tomorrow 10:00-11:00 at Room 2  [1]",
+          "To: piet@example.com, kees@example.nl",
+          "Subject: Invitation: Project kickoff (Tue 29 Sep 2026 10:00)",
+          "When: Tue 29 Sep 2026, 10:00 to 11:00",
+          "dates=20260929T080000Z%2F20260929T090000Z",
+          "Reply to this mail"
+        ]
+      }
+    },
+    {
+      "run": "calendar meet \"Dentist\" \"next monday\" 9 --minutes 30",
+      "expect": {
+        "contains": [
+          "Planned: Dentist, Mon 5 Oct 09:00-09:30  [2]",
+          "No guests"
+        ]
+      }
+    },
+    {
+      "run": "calendar meet \"Lunch\" tomorrow 10:30",
+      "expect": {
+        "contains": [
+          "Note: it overlaps with Project kickoff"
+        ]
+      }
+    },
+    {
+      "run": "calendar meet \"Old\" 2026-01-01 10:00",
+      "expect": {
+        "code": 1,
+        "contains": [
+          "has already passed"
+        ]
+      }
+    },
+    {
+      "run": "calendar meet \"x\" someday 10:00",
+      "expect": {
+        "code": 1,
+        "contains": [
+          "is not a date"
+        ]
+      }
+    },
+    {
+      "run": "calendar meet \"x\" tomorrow 25:00",
+      "expect": {
+        "code": 1,
+        "contains": [
+          "is not a time"
+        ]
+      }
+    },
+    {
+      "run": "calendar meet \"x\" tomorrow 10 --with piet",
+      "expect": {
+        "code": 1,
+        "contains": [
+          "piet is not a mail address"
+        ]
+      }
+    },
+    {
+      "run": "calendar ics 1",
+      "expect": {
+        "contains": [
+          "METHOD:REQUEST",
+          "DTSTART:20260929T080000Z",
+          "ORGANIZER:mailto:anna@anna.okayiris.com",
+          "ATTENDEE;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;RSVP=TRUE:mailto:piet@e"
+        ]
+      }
+    },
+    {
+      "run": "calendar move 1 friday 13:00",
+      "expect": {
+        "contains": [
+          "Moved: Project kickoff, Fri 2 Oct 13:00-14:00",
+          "Subject: Moved: Project kickoff"
+        ]
+      }
+    },
+    {
+      "run": "calendar ics 1",
+      "expect": {
+        "contains": [
+          "SEQUENCE:1",
+          "DTSTART:20261002T110000Z"
+        ]
+      }
+    },
+    {
+      "run": "calendar invites",
+      "expect": {
+        "contains": [
+          "[1] Team lunch, Fri 2 Oct 12:00-13:30  from tom@example.org  (new)",
+          "[2] Budget review, Thu 1 Oct 14:00-15:00 at Town hall, room 4  from Lisa <lisa@example.com>  (new)"
+        ]
+      }
+    },
+    {
+      "run": "calendar accept 2",
+      "expect": {
+        "contains": [
+          "In the calendar: Budget review, Thu 1 Oct 14:00-15:00 at Town hall, room 4  [4]"
+        ]
+      }
+    },
+    {
+      "run": "calendar accept m3a",
+      "expect": {
+        "contains": [
+          "In the calendar: Team lunch, Fri 2 Oct 12:00-13:30",
+          "Note: it overlaps with Project kickoff"
+        ]
+      }
+    },
+    {
+      "run": "calendar accept 1",
+      "expect": {
+        "contains": [
+          "Updated in the calendar: Team lunch"
+        ]
+      }
+    },
+    {
+      "run": "calendar show 4",
+      "expect": {
+        "contains": [
+          "Organizer: lisa@example.com",
+          "Bring your laptop, please.",
+          "From an invitation in the mailbox"
+        ]
+      }
+    },
+    {
+      "run": "calendar move 4 friday 9",
+      "expect": {
+        "code": 1,
+        "contains": [
+          "someone else's meeting"
+        ]
+      }
+    },
+    {
+      "run": "calendar week",
+      "expect": {
+        "contains": [
+          "The next 7 days, 4 meetings:",
+          "Thu 1 Oct:",
+          "14:00-15:00  Budget review at Town hall, room 4, from lisa@example.com  [4]"
+        ]
+      }
+    },
+    {
+      "run": "calendar search kickoff",
+      "expect": {
+        "contains": [
+          "Project kickoff"
+        ],
+        "not_contains": [
+          "Dentist"
+        ]
+      }
+    },
+    {
+      "run": "calendar cancel 2",
+      "expect": {
+        "contains": [
+          "Cancelled: Dentist"
+        ]
+      }
+    },
+    {
+      "run": "calendar cancel 1",
+      "expect": {
+        "contains": [
+          "Cancelled: Project kickoff",
+          "Subject: Cancelled: Project kickoff",
+          "does not take place"
+        ],
+        "not_contains": [
+          "Google:"
+        ]
+      }
+    },
+    {
+      "run": "calendar ics 1",
+      "expect": {
+        "contains": [
+          "METHOD:CANCEL",
+          "STATUS:CANCELLED",
+          "SEQUENCE:2"
+        ]
+      }
+    },
+    {
+      "run": "calendar show 99",
+      "expect": {
+        "code": 1,
+        "contains": [
+          "there is no meeting 99"
+        ]
+      }
+    },
+    {
+      "run": "calendar week 7 --json",
+      "expect": {
+        "json": {
+          "days": 7,
+          "meetings.0.title": "Lunch"
+        }
+      }
+    },
+    {
+      "run": "calendar show 99 --json",
+      "expect": {
+        "code": 1,
+        "json": {
+          "error": "there is no meeting 99"
+        }
+      }
+    },
+    {
+      "run": "calendar",
+      "expect": {
+        "contains": [
+          "Tomorrow:",
+          "10:30-11:30  Lunch"
+        ],
+        "not_contains": [
+          "invitations in the mailbox not in the calendar"
+        ]
+      }
+    }
+  ],
+  "screen": {
+    "before": [
+      "calendar meet \"Project kickoff\" tomorrow 10:00 --with piet@example.com --where \"Room 2\""
+    ],
+    "actions": [
+      {
+        "expect": "text=Project kickoff"
+      },
+      {
+        "click": "button:has-text('Invitations')"
+      },
+      {
+        "expect": "text=Budget review"
+      },
+      {
+        "click": "button:has-text('Put in calendar') >> nth=0"
+      },
+      {
+        "expect": "text=In the calendar: Team lunch"
+      },
+      {
+        "click": "button:has-text('Agenda')"
+      },
+      {
+        "click": "button:has-text('Project kickoff')"
+      },
+      {
+        "expect": "text=Your meeting"
+      },
+      {
+        "click": "button:has-text('Mail the invitation')"
+      },
+      {
+        "said": "calendar invitation 1"
+      },
+      {
+        "expect": "text=You press Send on your screen"
+      },
+      {
+        "shot": "meeting"
+      },
+      {
+        "click": "button:has-text('Back')"
+      },
+      {
+        "click": "button:has-text('Plan a meeting')"
+      },
+      {
+        "shot": "plan"
+      }
+    ]
+  }
+}

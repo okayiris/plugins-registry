@@ -1,0 +1,24 @@
+{
+  "name": "calendar",
+  "version": "1.0.0",
+  "author": "Iris",
+  "description": "This house's own calendar, next to its mailbox: plan meetings with an invitation ready to mail, and put invitations from the mailbox in the calendar.",
+  "permissions": [
+    "internet"
+  ],
+  "commands": {
+    "calendar": "calendar.py"
+  },
+  "slash": {
+    "calendar": "your meetings today and tomorrow"
+  },
+  "window": "calendar.jsx",
+  "database": true,
+  "category": "productivity",
+  "icon": "icon.svg",
+  "actions": {
+    "today": "calendar",
+    "week": "calendar week",
+    "invites": "calendar invites"
+  }
+}

@@ -1,8 +1,8 @@
 {
   "name": "mailbox",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "author": "Iris",
-  "description": "Read this house's mailbox: the address, the open drafts and the latest received and sent mail, with the full text of each mail. Read-only.",
+  "description": "Read this house's mailbox: the address, the open drafts and the latest received and sent mail, with the full text of each mail and, with the calendar plugin, the meetings and invitations next to it. Read-only.",
   "permissions": [
     "internet"
   ],
@@ -14,5 +14,9 @@
   },
   "window": "mailbox.jsx",
   "category": "communication",
-  "icon": "icon.svg"
+  "icon": "icon.svg",
+  "actions": {
+    "overview": "mailbox",
+    "agenda": "mailbox agenda"
+  }
 }

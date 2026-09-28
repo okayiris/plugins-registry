@@ -1,4 +1,7 @@
 {
+  "programs": {
+    "calendar": "stubs/calendar.py"
+  },
   "steps": [
     {
       "run": "mailbox --help",
@@ -6,18 +9,134 @@
         "code": 2,
         "contains": [
           "Read-only",
-          "mailbox inbox [n]"
+          "mailbox inbox [n]",
+          "mailbox accept <id>"
         ]
       }
     },
     {
       "run": "mailbox",
       "expect": {
+        "contains": [
+          "mailbox: anna@anna.okayiris.com",
+          "latest received:",
+          "[1] 2026-09-28 07:00  tom@example.org  Team lunch on Friday  (m3a91c0e)  [invitation]",
+          "draft d1f0a7b3  to piet@example.com",
+          "2026-09-27 11:06  to huisarts@example.com  Appointment",
+          "coming up: nothing planned in the next 7 days",
+          "invitation not in the calendar yet: Budget review, 2026-10-01 14:00  (mailbox accept m2b7f4d1)"
+        ]
+      }
+    },
+    {
+      "run": "mailbox inbox 3",
+      "expect": {
+        "contains": [
+          "inbox: 3 mail",
+          "[3] 2026-09-28 01:00  school@example.com  Sports day"
+        ]
+      }
+    },
+    {
+      "run": "mailbox read 2",
+      "expect": {
+        "contains": [
+          "From: Lisa <lisa@example.com>",
+          "Hi Anna, can you make this?",
+          "[calendar invitation]",
+          "mailbox accept m2b7f4d1"
+        ],
+        "not_contains": [
+          "BEGIN:VCALENDAR",
+          "To: \n"
+        ]
+      }
+    },
+    {
+      "run": "mailbox read s1",
+      "expect": {
+        "contains": [
+          "To: huisarts@example.com",
+          "keeps no text for sent mail"
+        ]
+      }
+    },
+    {
+      "run": "mailbox read d1",
+      "expect": {
+        "contains": [
+          "State: draft, not sent",
+          "Are you coming?"
+        ]
+      }
+    },
+    {
+      "run": "mailbox read 9",
+      "expect": {
         "code": 1,
         "contains": [
-          "the bridge is not reachable"
+          "there is no inbox mail 9"
+        ]
+      }
+    },
+    {
+      "run": "mailbox read zz",
+      "expect": {
+        "code": 1,
+        "contains": [
+          "no mail with id zz"
+        ]
+      }
+    },
+    {
+      "run": "mailbox accept m1c",
+      "expect": {
+        "code": 1,
+        "contains": [
+          "carries no calendar invitation"
+        ]
+      }
+    },
+    {
+      "run": "mailbox accept m2b",
+      "expect": {
+        "contains": [
+          "In the calendar: Budget review, Thu 1 Oct 14:00-15:00 at Town hall, room 4",
+          "reply to their mail"
+        ]
+      }
+    },
+    {
+      "run": "mailbox agenda",
+      "expect": {
+        "contains": [
+          "coming up (next 7 days):",
+          "2026-10-01 14:00-15:00  Budget review at Town hall, room 4  [1]",
+          "invitation not in the calendar yet: Team lunch"
         ],
-        "offline_ok": true
+        "not_contains": [
+          "not in the calendar yet: Budget review"
+        ]
+      }
+    },
+    {
+      "run": "mailbox agenda --json",
+      "expect": {
+        "json": {
+          "installed": true,
+          "meetings.0.title": "Budget review",
+          "invites.1.title": "Budget review",
+          "invites.1.state": "in calendar"
+        }
+      }
+    },
+    {
+      "run": "mailbox inbox 0",
+      "expect": {
+        "code": 1,
+        "contains": [
+          "give a number of mails"
+        ]
       }
     }
   ],
@@ -27,16 +146,17 @@
         "address": "anna@anna.okayiris.com",
         "drafts": [
           {
-            "id": "d1",
+            "id": "d1f0a7b3",
             "to": [
               "piet@example.com"
             ],
-            "subject": "Birthday on Saturday"
+            "subject": "Birthday on Saturday",
+            "text": "Are you coming?"
           }
         ],
         "sent": [
           {
-            "id": "s1",
+            "id": "s1e8d2c4",
             "to": [
               "huisarts@example.com"
             ],
@@ -48,10 +168,32 @@
       "/mail/inbox": {
         "mail": [
           {
-            "id": "m1",
+            "id": "m3a91c0e",
+            "from": "tom@example.org",
+            "subject": "Team lunch on Friday",
+            "at": 1790571600000,
+            "text": "See you there!",
+            "attachments": [
+              {
+                "name": "invite.ics",
+                "type": "text/calendar",
+                "text": "BEGIN:VCALENDAR\r\nVERSION:2.0\r\nMETHOD:REQUEST\r\nBEGIN:VEVENT\r\nUID:lunch-7@example.org\r\nSEQUENCE:2\r\nDTSTART:20261002T100000Z\r\nDTEND:20261002T113000Z\r\nSUMMARY:Team lunch\r\nORGANIZER:mailto:tom@example.org\r\nEND:VEVENT\r\nEND:VCALENDAR\r\n"
+              }
+            ]
+          },
+          {
+            "id": "m2b7f4d1",
+            "from": "Lisa <lisa@example.com>",
+            "subject": "Invitation: Budget review",
+            "at": 1790568000000,
+            "text": "Hi Anna, can you make this?\n\nBEGIN:VCALENDAR\r\nVERSION:2.0\r\nMETHOD:REQUEST\r\nBEGIN:VEVENT\r\nUID:budget-1@example.com\r\nSEQUENCE:0\r\nDTSTART;TZID=Europe/Amsterdam:20261001T140000\r\nDTEND;TZID=Europe/Amsterdam:20261001T150000\r\nSUMMARY:Budget review\r\nLOCATION:Town hall\\, room 4\r\nDESCRIPTION:The numbers for next year.\\nBring your laptop\r\n , please.\r\nORGANIZER;CN=Lisa:mailto:lisa@example.com\r\nATTENDEE;RSVP=TRUE:mailto:anna@anna.okayiris.com\r\nEND:VEVENT\r\nEND:VCALENDAR\r\n"
+          },
+          {
+            "id": "m1c3e9a2",
             "from": "school@example.com",
             "subject": "Sports day",
-            "at": 1790550000000
+            "at": 1790550000000,
+            "text": "Sports day is on Friday. Bring a water bottle."
           }
         ]
       }
@@ -61,10 +203,37 @@
         "expect": "text=anna@anna.okayiris.com"
       },
       {
+        "expect": "text=Latest received"
+      },
+      {
+        "expect": "text=Budget review"
+      },
+      {
+        "click": "text=Invitation: Budget review"
+      },
+      {
+        "expect": "text=This mail carries a calendar invitation"
+      },
+      {
+        "click": "text=Put in calendar"
+      },
+      {
+        "expect": "text=In the calendar: Budget review"
+      },
+      {
+        "click": "text=Back"
+      },
+      {
+        "expect": "text=Coming up"
+      },
+      {
         "click": "text=Latest sent"
       },
       {
         "expect": "text=Appointment"
+      },
+      {
+        "shot": "after"
       }
     ]
   }

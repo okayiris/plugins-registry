@@ -1,0 +1,6 @@
+{
+  "description": "Zie wat er op Spotify speelt, zoek nummers en bedien de speler: spelen, pauzeren en skippen. Dat laatste vraagt Spotify Premium.",
+  "slash": {
+    "spotify": "bekijk, zoek of bedien je Spotify-speler"
+  }
+}

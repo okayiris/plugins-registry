@@ -1,0 +1,11 @@
+{
+  "name": "spotify",
+  "version": "1.0.0",
+  "author": "Iris",
+  "description": "See what is playing on Spotify, search tracks, and play, pause or skip; player control needs Spotify Premium.",
+  "permissions": ["internet", "secrets"],
+  "commands": { "spotify": "spotify.py" },
+  "slash": { "spotify": "see, search or steer your Spotify player" },
+  "category": "media",
+  "icon": "icon.svg"
+}

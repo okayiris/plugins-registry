@@ -1,5 +1,5 @@
 {
-  "description": "Lees de mailbox van dit huis: het adres, de open concepten en de laatste ontvangen en verzonden post, met de volledige tekst van elke mail. Alleen lezen.",
+  "description": "Lees de mailbox van dit huis: het adres, de open concepten en de laatste ontvangen en verzonden post, met de volledige tekst van elke mail en, met de agenda-plugin, de afspraken en uitnodigingen ernaast. Alleen lezen.",
   "slash": {
     "mailbox": "lees de mailbox van dit huis (alleen lezen)"
   },
@@ -21,7 +21,6 @@
     "to": "Aan",
     "date": "Datum",
     "id": "Id",
-    "subject": "Onderwerp",
     "noSubject": "(geen onderwerp)",
     "noBody": "(geen tekst)",
     "noText": "Dit huis bewaart geen tekst van verzonden post; de brug bewaart alleen wanneer het wegging en naar wie.",
@@ -32,6 +31,28 @@
     "latest": "Laatst verzonden",
     "readAt": "Gelezen om",
     "reading": "De mailbox wordt gelezen",
-    "noDrafts": "Geen open concept."
+    "noDrafts": "Geen open concept.",
+    "invitationMark": "agenda-uitnodiging",
+    "noAnswer": "Geen antwoord.",
+    "hasInvite": "Deze mail bevat een agenda-uitnodiging.",
+    "hasInviteNoCal": "Deze mail bevat een agenda-uitnodiging. Met de agenda-plugin zet je die hier in de agenda.",
+    "tookOut": "Uit de agenda gehaald",
+    "updated": "Bijgewerkt in de agenda",
+    "added": "In de agenda",
+    "accept": "In de agenda zetten",
+    "failed": "Dat lukte niet",
+    "more": "En nog {n}; vraag Iris om oudere post.",
+    "invitationShort": "Uitnodiging",
+    "readingAgenda": "De agenda wordt gelezen",
+    "noCalendar": "Met de agenda-plugin zie je hier je afspraken en de uitnodigingen in je post.",
+    "agendaFailed": "De agenda kon niet gelezen worden",
+    "nothingPlanned": "Niets gepland in de komende 7 dagen.",
+    "waiting": "Uitnodigingen nog niet in de agenda",
+    "latestReceived": "Laatst ontvangen",
+    "calendarLabel": "Agenda",
+    "comingUp": "Binnenkort",
+    "draftsLabel": "Concepten",
+    "receivedTitle": "Ontvangen door dit huis",
+    "sentLabel": "Verzonden"
   }
 }

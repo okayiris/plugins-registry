@@ -1,5 +1,5 @@
 {
-  "description": "Read this house's mailbox: the address, the open drafts and the latest received and sent mail, with the full text of each mail. Read-only.",
+  "description": "Read this house's mailbox: the address, the open drafts and the latest received and sent mail, with the full text of each mail and, with the calendar plugin, the meetings and invitations next to it. Read-only.",
   "slash": {
     "mailbox": "read the mailbox of this house (read-only)"
   },
@@ -21,7 +21,6 @@
     "to": "To",
     "date": "Date",
     "id": "Id",
-    "subject": "Subject",
     "noSubject": "(no subject)",
     "noBody": "(no text)",
     "noText": "This house keeps no text for sent mail; the bridge stores only when it went and to whom.",
@@ -32,6 +31,28 @@
     "latest": "Latest sent",
     "readAt": "Read at",
     "reading": "Reading the mailbox",
-    "noDrafts": "No open draft."
+    "noDrafts": "No open draft.",
+    "invitationMark": "calendar invitation",
+    "noAnswer": "No answer.",
+    "hasInvite": "This mail carries a calendar invitation.",
+    "hasInviteNoCal": "This mail carries a calendar invitation. With the calendar plugin it goes in the calendar from here.",
+    "tookOut": "Taken out of the calendar",
+    "updated": "Updated in the calendar",
+    "added": "In the calendar",
+    "accept": "Put in calendar",
+    "failed": "That did not work",
+    "more": "And {n} more; ask Iris for older mail.",
+    "invitationShort": "Invitation",
+    "readingAgenda": "Reading the calendar",
+    "noCalendar": "With the calendar plugin, your meetings and the invitations in your mail show here.",
+    "agendaFailed": "The calendar could not be read",
+    "nothingPlanned": "Nothing planned in the next 7 days.",
+    "waiting": "Invitations not in the calendar yet",
+    "latestReceived": "Latest received",
+    "calendarLabel": "Calendar",
+    "comingUp": "Coming up",
+    "draftsLabel": "Drafts",
+    "receivedTitle": "Received by this house",
+    "sentLabel": "Sent"
   }
 }

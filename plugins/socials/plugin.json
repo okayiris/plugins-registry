@@ -1,0 +1,11 @@
+{
+  "name": "socials",
+  "version": "1.0.0",
+  "author": "Iris",
+  "description": "Manage your Facebook Page and Instagram: read your posts, and publish only after your approval.",
+  "permissions": ["internet", "secrets", "messages"],
+  "commands": { "socials": "socials.py" },
+  "slash": { "socials": "your Facebook and Instagram, or connect them" },
+  "category": "communication",
+  "icon": "icon.svg"
+}

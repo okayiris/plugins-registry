@@ -1,0 +1,17 @@
+{
+  "description": "A small focus timer: start a block, pause, resume, and keep track of the minutes you focused today.",
+  "slash": { "focus": "start a focus block or see today" },
+  "texts": {
+    "label": "Focus",
+    "title": "Focus timer",
+    "ring": "Time left",
+    "start": "Start",
+    "pause": "Pause",
+    "resume": "Resume",
+    "reset": "Reset",
+    "idle": "Ready",
+    "running": "Running",
+    "paused": "Paused",
+    "hint": "A block of 25 minutes. Pause when you need to, resume, or reset for a new block."
+  }
+}

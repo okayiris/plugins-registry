@@ -1,0 +1,12 @@
+{
+  "name": "focus",
+  "version": "1.0.0",
+  "author": "Talvi",
+  "description": "A small focus timer: start a block, pause, resume, and keep track of the minutes you focused today.",
+  "permissions": [],
+  "commands": { "focus": "focus.py" },
+  "slash": { "focus": "start a focus block or see today" },
+  "window": "focus.jsx",
+  "category": "productivity",
+  "icon": "icon.svg"
+}

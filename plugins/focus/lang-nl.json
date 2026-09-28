@@ -1,0 +1,17 @@
+{
+  "description": "Een kleine focustimer: start een blok, pauzeer, ga verder en houd bij hoeveel minuten je vandaag gefocust hebt.",
+  "slash": { "focus": "start een focusblok of bekijk vandaag" },
+  "texts": {
+    "label": "Focus",
+    "title": "Focustimer",
+    "ring": "Resterende tijd",
+    "start": "Start",
+    "pause": "Pauze",
+    "resume": "Verder",
+    "reset": "Opnieuw",
+    "idle": "Klaar",
+    "running": "Loopt",
+    "paused": "Gepauzeerd",
+    "hint": "Een blok van 25 minuten. Pauzeer wanneer je wilt, ga verder, of zet opnieuw voor een nieuw blok."
+  }
+}

@@ -1,0 +1,41 @@
+{
+ "synthetic": true,
+ "http": {
+  "GET https://gateway.apiportal.ns.nl/reisinformatie-api/api/v2/departures?station=UT&maxJourneys=12 -": {
+   "status": 200,
+   "url": "https://gateway.apiportal.ns.nl/reisinformatie-api/api/v2/departures?station=UT&maxJourneys=12",
+   "type": "application/json",
+   "text": "{\"payload\": {\"departures\": [{\"direction\": \"Amsterdam Centraal\", \"plannedDateTime\": \"2026-09-28T10:04:00+0200\", \"actualDateTime\": \"2026-09-28T10:07:00+0200\", \"plannedTrack\": \"5\", \"actualTrack\": \"7\", \"product\": {\"shortCategoryName\": \"IC\"}, \"cancelled\": false, \"messages\": [{\"message\": \"Let op, gewijzigd vertrekspoor\", \"style\": \"WARNING\"}]}, {\"direction\": \"Zwolle\", \"plannedDateTime\": \"2026-09-28T10:09:00+0200\", \"actualDateTime\": \"2026-09-28T10:09:00+0200\", \"plannedTrack\": \"11\", \"product\": {\"shortCategoryName\": \"SPR\"}, \"cancelled\": true, \"messages\": []}]}}"
+  },
+  "GET https://gateway.apiportal.ns.nl/reisinformatie-api/api/v2/stations -": {
+   "status": 200,
+   "url": "https://gateway.apiportal.ns.nl/reisinformatie-api/api/v2/stations",
+   "type": "application/json",
+   "text": "{\"payload\": [{\"code\": \"UT\", \"namen\": {\"lang\": \"Utrecht Centraal\", \"middel\": \"Utrecht C.\", \"kort\": \"Utrecht C\"}, \"land\": \"NL\", \"synoniemen\": []}, {\"code\": \"UTO\", \"namen\": {\"lang\": \"Utrecht Overvecht\", \"middel\": \"Overvecht\", \"kort\": \"Overvecht\"}, \"land\": \"NL\", \"synoniemen\": []}, {\"code\": \"ASD\", \"namen\": {\"lang\": \"Amsterdam Centraal\", \"middel\": \"Amsterdam C.\", \"kort\": \"Amsterdam\"}, \"land\": \"NL\", \"synoniemen\": [\"Amsterdam CS\"]}, {\"code\": \"GVC\", \"namen\": {\"lang\": \"Den Haag Centraal\", \"middel\": \"Den Haag C.\", \"kort\": \"Den Haag C\"}, \"land\": \"NL\", \"synoniemen\": [\"The Hague\"]}, {\"code\": \"ZL\", \"namen\": {\"lang\": \"Zwolle\", \"middel\": \"Zwolle\", \"kort\": \"Zwolle\"}, \"land\": \"NL\", \"synoniemen\": []}]}"
+  },
+  "GET https://gateway.apiportal.ns.nl/reisinformatie-api/api/v3/disruptions?isActive=true -": {
+   "status": 200,
+   "url": "https://gateway.apiportal.ns.nl/reisinformatie-api/api/v3/disruptions?isActive=true",
+   "type": "application/json",
+   "text": "[{\"type\": \"MAINTENANCE\", \"title\": \"Utrecht Centraal - Amersfoort Centraal\", \"timespans\": [{\"situation\": {\"label\": \"Geen treinen door werkzaamheden\"}}]}, {\"type\": \"DISRUPTION\", \"title\": \"Zwolle - Groningen\", \"timespans\": []}, {\"type\": \"DISRUPTION\", \"title\": \"Den Haag HS - Delft\", \"timespans\": []}, {\"type\": \"MAINTENANCE\", \"title\": \"Leiden Centraal - Alphen aan den Rijn\", \"timespans\": []}]"
+  },
+  "GET https://gateway.apiportal.ns.nl/reisinformatie-api/api/v3/trips?fromStation=ASD&toStation=UT -": {
+   "status": 200,
+   "url": "https://gateway.apiportal.ns.nl/reisinformatie-api/api/v3/trips?fromStation=ASD&toStation=UT",
+   "type": "application/json",
+   "text": "{\"trips\": [{\"plannedDurationInMinutes\": 27, \"transfers\": 0, \"status\": \"NORMAL\", \"legs\": [{\"origin\": {\"name\": \"Utrecht Centraal\", \"plannedDateTime\": \"2026-09-28T10:04:00+0200\", \"actualDateTime\": \"2026-09-28T10:06:00+0200\", \"plannedTrack\": \"5\"}, \"destination\": {\"name\": \"Amsterdam Centraal\", \"plannedDateTime\": \"2026-09-28T10:31:00+0200\", \"plannedTrack\": \"3\"}, \"cancelled\": false}]}, {\"plannedDurationInMinutes\": 45, \"transfers\": 1, \"status\": \"DISRUPTION\", \"legs\": [{\"origin\": {\"name\": \"Utrecht Centraal\", \"plannedDateTime\": \"2026-09-28T10:10:00+0200\", \"actualDateTime\": \"2026-09-28T10:12:00+0200\", \"plannedTrack\": \"18\"}, \"destination\": {\"name\": \"Amsterdam Sloterdijk\", \"plannedDateTime\": \"2026-09-28T10:40:00+0200\", \"plannedTrack\": \"3\"}, \"cancelled\": false}, {\"origin\": {\"name\": \"Amsterdam Sloterdijk\", \"plannedDateTime\": \"2026-09-28T10:45:00+0200\", \"actualDateTime\": \"2026-09-28T10:47:00+0200\", \"plannedTrack\": \"2\"}, \"destination\": {\"name\": \"Amsterdam Centraal\", \"plannedDateTime\": \"2026-09-28T10:55:00+0200\", \"plannedTrack\": \"3\"}, \"cancelled\": false}]}]}"
+  },
+  "GET https://gateway.apiportal.ns.nl/reisinformatie-api/api/v3/trips?fromStation=UT&toStation=ASD -": {
+   "status": 200,
+   "url": "https://gateway.apiportal.ns.nl/reisinformatie-api/api/v3/trips?fromStation=UT&toStation=ASD",
+   "type": "application/json",
+   "text": "{\"trips\": [{\"plannedDurationInMinutes\": 27, \"transfers\": 0, \"status\": \"NORMAL\", \"legs\": [{\"origin\": {\"name\": \"Utrecht Centraal\", \"plannedDateTime\": \"2026-09-28T10:04:00+0200\", \"actualDateTime\": \"2026-09-28T10:06:00+0200\", \"plannedTrack\": \"5\"}, \"destination\": {\"name\": \"Amsterdam Centraal\", \"plannedDateTime\": \"2026-09-28T10:31:00+0200\", \"plannedTrack\": \"3\"}, \"cancelled\": false}]}, {\"plannedDurationInMinutes\": 45, \"transfers\": 1, \"status\": \"DISRUPTION\", \"legs\": [{\"origin\": {\"name\": \"Utrecht Centraal\", \"plannedDateTime\": \"2026-09-28T10:10:00+0200\", \"actualDateTime\": \"2026-09-28T10:12:00+0200\", \"plannedTrack\": \"18\"}, \"destination\": {\"name\": \"Amsterdam Sloterdijk\", \"plannedDateTime\": \"2026-09-28T10:40:00+0200\", \"plannedTrack\": \"3\"}, \"cancelled\": false}, {\"origin\": {\"name\": \"Amsterdam Sloterdijk\", \"plannedDateTime\": \"2026-09-28T10:45:00+0200\", \"actualDateTime\": \"2026-09-28T10:47:00+0200\", \"plannedTrack\": \"2\"}, \"destination\": {\"name\": \"Amsterdam Centraal\", \"plannedDateTime\": \"2026-09-28T10:55:00+0200\", \"plannedTrack\": \"3\"}, \"cancelled\": false}]}]}"
+  },
+  "GET https://gateway.apiportal.ns.nl/reisinformatie-api/api/v3/trips?fromStation=UT&toStation=GVC&dateTime=2026-09-28T17%3A30%3A00%2B02%3A00 -": {
+   "status": 200,
+   "url": "https://gateway.apiportal.ns.nl/reisinformatie-api/api/v3/trips?fromStation=UT&toStation=GVC&dateTime=2026-09-28T17%3A30%3A00%2B02%3A00",
+   "type": "application/json",
+   "text": "{\"trips\": [{\"plannedDurationInMinutes\": 27, \"transfers\": 0, \"status\": \"NORMAL\", \"legs\": [{\"origin\": {\"name\": \"Utrecht Centraal\", \"plannedDateTime\": \"2026-09-28T10:04:00+0200\", \"actualDateTime\": \"2026-09-28T10:06:00+0200\", \"plannedTrack\": \"5\"}, \"destination\": {\"name\": \"Amsterdam Centraal\", \"plannedDateTime\": \"2026-09-28T10:31:00+0200\", \"plannedTrack\": \"3\"}, \"cancelled\": false}]}, {\"plannedDurationInMinutes\": 45, \"transfers\": 1, \"status\": \"DISRUPTION\", \"legs\": [{\"origin\": {\"name\": \"Utrecht Centraal\", \"plannedDateTime\": \"2026-09-28T10:10:00+0200\", \"actualDateTime\": \"2026-09-28T10:12:00+0200\", \"plannedTrack\": \"18\"}, \"destination\": {\"name\": \"Amsterdam Sloterdijk\", \"plannedDateTime\": \"2026-09-28T10:40:00+0200\", \"plannedTrack\": \"3\"}, \"cancelled\": false}, {\"origin\": {\"name\": \"Amsterdam Sloterdijk\", \"plannedDateTime\": \"2026-09-28T10:45:00+0200\", \"actualDateTime\": \"2026-09-28T10:47:00+0200\", \"plannedTrack\": \"2\"}, \"destination\": {\"name\": \"Amsterdam Centraal\", \"plannedDateTime\": \"2026-09-28T10:55:00+0200\", \"plannedTrack\": \"3\"}, \"cancelled\": false}]}]}"
+  }
+ }
+}

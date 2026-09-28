@@ -1,0 +1,17 @@
+{
+  "description": "The family agenda in a few lines: today and tomorrow, the week, a search, and a window with a date and time picker to plan something with the family.",
+  "slash": {
+    "family-agenda": "the family agenda for today and tomorrow"
+  },
+  "texts": {
+    "title": "Put something in the family agenda",
+    "what": "What",
+    "example": "e.g. dentist",
+    "date": "Date",
+    "time": "Time",
+    "who": "Who (optional)",
+    "where": "Where (optional)",
+    "plan": "Put it in the agenda",
+    "empty": "First fill in what is planned."
+  }
+}

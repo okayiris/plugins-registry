@@ -1,6 +1,6 @@
 {
   "name": "process-monitor",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": "Iris",
   "description": "Process Monitor: see what runs inside this house: every process with its user, cpu, memory and age, and the workbench boxes that are busy right now. Read-only, and stopping a process asks first and never touches the floor.",
   "permissions": ["files"],

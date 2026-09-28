@@ -1,6 +1,6 @@
 {
   "name": "google-workspace",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": "Iris",
   "description": "Read Gmail, Calendar, Contacts and Tasks through your own Google app, and make drafts and appointments; sending mail and inviting guests wait for your approval.",
   "permissions": ["internet", "secrets", "messages"],

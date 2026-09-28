@@ -1,0 +1,7 @@
+{
+  "description": "Talk to Iris on Telegram, also when the page is closed. She answers there and lets you know when something needs you.",
+  "slash": {
+    "telegram": "connect Telegram, or see whether it is"
+  },
+  "texts": {}
+}

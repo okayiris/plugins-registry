@@ -1,0 +1,15 @@
+{
+  "description": "Checklists die je steeds opnieuw gebruikt: inpakken voor een reis, wekelijkse klusjes, de zwemtas. Vink af door het te zeggen, en begin de volgende keer opnieuw.",
+  "slash": {
+    "checklists": "je checklists"
+  },
+  "texts": {
+    "label": "Checklists",
+    "title": "Je lijstjes",
+    "intro": "Lijstjes die je steeds opnieuw gebruikt. Zeg wat klaar is; Iris vinkt het af.",
+    "all": "Al mijn lijstjes",
+    "packSay": "Laat mijn paklijst zien",
+    "pack": "Paklijst",
+    "hint": "Zeg: maak een paklijst met paspoort, oplader en zonnebrand."
+  }
+}

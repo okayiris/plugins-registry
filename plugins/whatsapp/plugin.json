@@ -1,6 +1,6 @@
 {
   "name": "whatsapp",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "author": "Iris",
   "description": "Read your WhatsApp chats and answer them by talking. Nothing is sent without your yes.",
   "permissions": [

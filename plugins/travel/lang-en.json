@@ -1,0 +1,7 @@
+{
+  "description": "Travel time from home to an address, free via OSRM and optionally with live traffic via TomTom, including when to leave.",
+  "slash": {
+    "travel": "travel time from home to an address"
+  },
+  "texts": {}
+}

@@ -1,0 +1,7 @@
+{
+  "description": "Iris answers your phone when you can't, and calls people for you. Paid plans only (Iris, Plus, Max); calls cost $0.05 a minute from your extra usage.",
+  "slash": {
+    "phone": "let Iris answer your phone, or see whether she does"
+  },
+  "texts": {}
+}

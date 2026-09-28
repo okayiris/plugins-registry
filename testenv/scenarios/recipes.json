@@ -1,0 +1,68 @@
+{
+  "steps": [
+    {
+      "run": "recipes lasagna",
+      "expect": {
+        "contains": [
+          "Recipes for lasagna:",
+          "Lasagna"
+        ],
+        "matches": [
+          "^ 1\\. "
+        ]
+      }
+    },
+    {
+      "run": "recipes show 1",
+      "expect": {
+        "contains": [
+          "Ingredients:",
+          "Steps:",
+          "  1. "
+        ]
+      }
+    },
+    {
+      "run": "recipes groceries 1",
+      "expect": {
+        "matches": [
+          "^.*Lasagna.*: [a-z].*, "
+        ]
+      }
+    },
+    {
+      "run": "recipes with chicken breast",
+      "expect": {
+        "contains": [
+          "Recipes with chicken breast:"
+        ]
+      }
+    },
+    {
+      "run": "recipes from italian",
+      "expect": {
+        "contains": [
+          "From the Italian kitchen:"
+        ]
+      }
+    },
+    {
+      "run": "recipes from itallian",
+      "expect": {
+        "code": 1,
+        "contains": [
+          "Did you mean Italian"
+        ]
+      }
+    },
+    {
+      "run": "recipes show 99",
+      "expect": {
+        "code": 1,
+        "contains": [
+          "not in the last list"
+        ]
+      }
+    }
+  ]
+}

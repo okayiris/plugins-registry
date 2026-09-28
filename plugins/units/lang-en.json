@@ -1,0 +1,5 @@
+{
+  "description": "Convert units in a sentence: miles and kilometres, pounds and kilos, cups and millilitres, Fahrenheit and Celsius, and more. Offline.",
+  "slash": { "units": "convert units, like 5 miles km" },
+  "texts": {}
+}

@@ -1,0 +1,7 @@
+{
+  "description": "Routes, travel time and places through your own Google Maps API key, with the key kept in the vault.",
+  "slash": {
+    "maps": "a route, travel time or a place via Google Maps"
+  },
+  "texts": {}
+}

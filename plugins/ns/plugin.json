@@ -1,0 +1,12 @@
+{
+  "name": "ns",
+  "version": "1.0.0",
+  "author": "Iris",
+  "description": "Dutch trains live from the NS: departures with delays and track changes, the next trips from A to B, and disruptions. With your own free NS key.",
+  "permissions": ["internet", "secrets"],
+  "commands": { "trains": "trains.py" },
+  "slash": { "trains": "departures from your station" },
+  "window": "trains.jsx",
+  "category": "productivity",
+  "icon": "icon.svg"
+}

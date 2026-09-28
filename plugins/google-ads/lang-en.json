@@ -1,0 +1,7 @@
+{
+  "description": "Read your Google Ads campaigns, spend and reports through the Google Ads API, with your own developer token and OAuth app. Read-only, nothing is changed.",
+  "slash": {
+    "ads": "your Google Ads campaigns, spend and reports"
+  },
+  "texts": {}
+}

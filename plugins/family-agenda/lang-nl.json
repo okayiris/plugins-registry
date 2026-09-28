@@ -11,6 +11,7 @@
     "who": "Wie (optioneel)",
     "where": "Waar (optioneel)",
     "plan": "Zet in de agenda",
-    "empty": "Vul eerst in wat er gepland moet worden."
+    "empty": "Vul eerst in wat er gepland moet worden.",
+    "example": "bijv. tandarts"
   }
 }

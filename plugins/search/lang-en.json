@@ -1,0 +1,7 @@
+{
+  "description": "Web search through your own key, with Brave Search or Google Programmable Search. The key stays in the vault.",
+  "slash": {
+    "search": "search the web for a question"
+  },
+  "texts": {}
+}

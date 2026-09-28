@@ -1,6 +1,6 @@
 {
   "name": "openrouter",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": "Iris",
   "description": "Use your own OpenRouter account and key for text, images and video, paid from your own credit.",
   "permissions": ["internet", "secrets", "files"],

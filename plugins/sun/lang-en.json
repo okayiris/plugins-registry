@@ -1,0 +1,7 @@
+{
+  "description": "Sunrise, sunset, daylight, twilight and golden hour at home or anywhere, and the moon's phase. Calculated offline.",
+  "slash": {
+    "sun": "sunrise, sunset and the moon"
+  },
+  "texts": {}
+}

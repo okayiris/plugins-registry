@@ -1,0 +1,13 @@
+{
+  "name": "expenses",
+  "version": "1.0.0",
+  "author": "Iris",
+  "description": "Keep what you spend by saying it, and see each month per category and against your budgets. Kept in your own house.",
+  "permissions": [],
+  "commands": { "expenses": "expenses.py" },
+  "slash": { "expenses": "what you spent this month" },
+  "window": "expenses.jsx",
+  "database": true,
+  "category": "finance",
+  "icon": "icon.svg"
+}

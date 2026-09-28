@@ -1,0 +1,7 @@
+{
+  "description": "What is on TV tonight, and when the next episode of the shows you follow comes out.",
+  "slash": {
+    "tv": "what is on tonight, and your shows"
+  },
+  "texts": {}
+}

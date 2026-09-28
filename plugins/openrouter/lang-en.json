@@ -1,0 +1,7 @@
+{
+  "description": "Use your own OpenRouter account and key for text, images and video, paid from your own credit.",
+  "slash": {
+    "openrouter": "ask, draw or list models on your own OpenRouter account"
+  },
+  "texts": {}
+}

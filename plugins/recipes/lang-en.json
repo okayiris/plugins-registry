@@ -1,0 +1,7 @@
+{
+  "description": "Recipes for tonight: search by dish, by what is in the fridge or by cuisine, with ingredients, steps and a grocery line.",
+  "slash": {
+    "recipes": "find a recipe"
+  },
+  "texts": {}
+}

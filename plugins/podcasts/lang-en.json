@@ -1,0 +1,7 @@
+{
+  "description": "Find podcasts, follow them, and hear what is new this week, with the audio link of every episode.",
+  "slash": {
+    "podcasts": "new episodes of your podcasts"
+  },
+  "texts": {}
+}

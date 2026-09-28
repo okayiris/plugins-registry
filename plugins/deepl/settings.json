@@ -1,0 +1,7 @@
+{
+  "command": "translate",
+  "fields": [
+    { "key": "target", "label": "Translate into", "type": "text", "help": "The language you usually want, like EN-GB, NL or DE." },
+    { "key": "plan", "label": "DeepL plan", "type": "choice", "options": ["free", "pro"], "help": "Found by itself on the first call; change it only when you switch keys." }
+  ]
+}

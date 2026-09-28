@@ -1,0 +1,7 @@
+{
+  "description": "Search and read videos and channels with your own YouTube Data API key, and upload a video after your yes through your own Google OAuth app.",
+  "slash": {
+    "youtube": "search or read a video, or upload one after your yes"
+  },
+  "texts": {}
+}

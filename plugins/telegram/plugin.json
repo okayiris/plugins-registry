@@ -1,6 +1,6 @@
 {
   "name": "telegram",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "author": "Iris",
   "description": "Talk to Iris on Telegram, also when the page is closed. She answers there and lets you know when something needs you.",
   "permissions": [

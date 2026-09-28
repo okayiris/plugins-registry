@@ -1,0 +1,117 @@
+{
+  "steps": [
+    {
+      "run": "notes",
+      "expect": {
+        "contains": [
+          "No notes yet"
+        ]
+      }
+    },
+    {
+      "run": "notes add Plumber comes Tuesday #house",
+      "expect": {
+        "contains": [
+          "Kept as note #1, tagged house."
+        ]
+      }
+    },
+    {
+      "run": "notes add Gift idea for mom: scarf #gift #family",
+      "expect": {
+        "contains": [
+          "tagged gift, family"
+        ]
+      }
+    },
+    {
+      "run": "notes pin 2",
+      "expect": {
+        "contains": [
+          "Note #2 is pinned."
+        ]
+      }
+    },
+    {
+      "run": "notes",
+      "expect": {
+        "matches": [
+          "#2  \\* Gift idea",
+          "#1  Plumber"
+        ]
+      }
+    },
+    {
+      "run": "notes find plumber",
+      "expect": {
+        "contains": [
+          "#1  Plumber comes Tuesday"
+        ]
+      }
+    },
+    {
+      "run": "notes find #gift",
+      "expect": {
+        "contains": [
+          "#2"
+        ]
+      },
+      "not": true
+    },
+    {
+      "run": "notes append 1 bring the key",
+      "expect": {
+        "contains": [
+          "Note #1 is changed."
+        ]
+      }
+    },
+    {
+      "run": "notes show 1",
+      "expect": {
+        "contains": [
+          "Plumber comes Tuesday #house\nbring the key"
+        ]
+      }
+    },
+    {
+      "run": "notes tags",
+      "expect": {
+        "contains": [
+          "#family  1 note",
+          "#house  1 note"
+        ]
+      }
+    },
+    {
+      "run": "notes remove 1",
+      "expect": {
+        "contains": [
+          "Forgot note #1"
+        ]
+      }
+    },
+    {
+      "run": "notes show 9",
+      "expect": {
+        "code": 1,
+        "contains": [
+          "There is no note 9."
+        ]
+      }
+    }
+  ],
+  "screen": {
+    "before": [
+      "notes add Plumber comes Tuesday"
+    ],
+    "actions": [
+      {
+        "click": "text=The latest notes"
+      },
+      {
+        "said": "notes"
+      }
+    ]
+  }
+}

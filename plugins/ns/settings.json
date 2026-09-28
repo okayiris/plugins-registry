@@ -1,0 +1,7 @@
+{
+  "command": "trains",
+  "fields": [
+    { "key": "home", "label": "Home station", "type": "text", "help": "Where you usually get on, like Utrecht Centraal." },
+    { "key": "work", "label": "Work station", "type": "text", "help": "Where you go most, like Amsterdam Zuid. Used by trains work and trains home." }
+  ]
+}

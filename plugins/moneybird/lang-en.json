@@ -1,0 +1,9 @@
+{
+  "description": "Read your Moneybird bookkeeping: administrations, contacts, invoices and what is still outstanding. Read-only, nothing is ever changed.",
+  "slash": {
+    "moneybird": "your Moneybird bookkeeping, read-only"
+  },
+  "texts": {
+    "not_connected": "Moneybird is not connected yet."
+  }
+}

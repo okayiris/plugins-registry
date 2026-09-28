@@ -1,6 +1,6 @@
 {
   "name": "socials",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": "Iris",
   "description": "Manage your Facebook Page and Instagram: read your posts, and publish only after your approval.",
   "permissions": ["internet", "secrets", "messages"],

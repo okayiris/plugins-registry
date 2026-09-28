@@ -1,0 +1,13 @@
+{
+  "name": "personal-shopper",
+  "version": "1.0.0",
+  "author": "Iris",
+  "description": "Your personal shopper: search the shops you like all at once, compare their products side by side on one screen, keep a cart across shops, and let Iris get the order ready at each checkout.",
+  "permissions": ["internet"],
+  "commands": { "shopper": "shopper.py" },
+  "slash": { "shopper": "search your shops and see the cart" },
+  "screen": "shopper.jsx",
+  "database": true,
+  "category": "productivity",
+  "icon": "icon.svg"
+}

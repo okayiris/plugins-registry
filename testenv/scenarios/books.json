@@ -1,0 +1,105 @@
+{
+  "steps": [
+    {
+      "run": "books",
+      "expect": {
+        "contains": [
+          "Your lists are empty."
+        ]
+      }
+    },
+    {
+      "run": "books find dune",
+      "expect": {
+        "contains": [
+          "Dune by Frank Herbert (1965)"
+        ]
+      }
+    },
+    {
+      "run": "books want the hobbit",
+      "expect": {
+        "contains": [
+          "On the to-read list as #1: The Hobbit by J.R.R. Tolkien"
+        ]
+      }
+    },
+    {
+      "run": "books start hobbit",
+      "expect": {
+        "contains": [
+          "Reading The Hobbit"
+        ]
+      }
+    },
+    {
+      "run": "books note hobbit Loved the riddles chapter",
+      "expect": {
+        "contains": [
+          "Kept with The Hobbit."
+        ]
+      }
+    },
+    {
+      "run": "books done hobbit 5",
+      "expect": {
+        "contains": [
+          "Finished The Hobbit",
+          "That is 1 this year."
+        ]
+      }
+    },
+    {
+      "run": "books show 1",
+      "expect": {
+        "contains": [
+          "5 of 5 stars.",
+          "Loved the riddles chapter",
+          "openlibrary.org/works/"
+        ]
+      }
+    },
+    {
+      "run": "books year",
+      "expect": {
+        "contains": [
+          "1 book read in 2026"
+        ]
+      }
+    },
+    {
+      "run": "books want the hobbit",
+      "expect": {
+        "contains": [
+          "is already on your read list"
+        ]
+      }
+    },
+    {
+      "run": "books want 1984",
+      "expect": {
+        "contains": [
+          "Nineteen Eighty-Four"
+        ]
+      }
+    },
+    {
+      "run": "books start 1984",
+      "expect": {
+        "contains": [
+          "Reading Nineteen Eighty-Four"
+        ]
+      }
+    }
+  ],
+  "screen": {
+    "actions": [
+      {
+        "click": "text=Read this year"
+      },
+      {
+        "said": "books year"
+      }
+    ]
+  }
+}

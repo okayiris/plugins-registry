@@ -1,0 +1,7 @@
+{
+  "description": "Send transactional mail through your own Maillog account and read the send log, delivery status, API log and daily numbers.",
+  "slash": {
+    "maillog": "send transactional mail and see what Maillog delivered"
+  },
+  "texts": {}
+}

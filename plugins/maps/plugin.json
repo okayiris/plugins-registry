@@ -1,6 +1,6 @@
 {
   "name": "maps",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": "Iris",
   "description": "Routes, travel time and places through your own Google Maps API key, with the key kept in the vault.",
   "permissions": ["internet", "secrets"],

@@ -1,0 +1,85 @@
+{
+  "steps": [
+    {
+      "run": "tv",
+      "expect": {
+        "contains": [
+          "You follow no shows yet."
+        ]
+      }
+    },
+    {
+      "run": "tv tonight",
+      "expect": {
+        "contains": [
+          "Tonight on TV (NL):",
+          "20:00  RTL4"
+        ]
+      }
+    },
+    {
+      "run": "tv show goede tijden",
+      "expect": {
+        "contains": [
+          "Goede Tijden, Slechte Tijden (1990), RTL4, still running.",
+          "Next episode:"
+        ]
+      }
+    },
+    {
+      "run": "tv show the bear",
+      "expect": {
+        "contains": [
+          "The Bear (2022), Hulu, ended.",
+          "Last episode:"
+        ]
+      },
+      "not_contains": [
+        "Next episode"
+      ]
+    },
+    {
+      "run": "tv follow goede tijden slechte tijden",
+      "expect": {
+        "contains": [
+          "Following Goede Tijden, Slechte Tijden.",
+          "today 20:00"
+        ]
+      }
+    },
+    {
+      "run": "tv follow wie is de mol",
+      "expect": {
+        "contains": [
+          "Following Wie is de Mol?"
+        ]
+      }
+    },
+    {
+      "run": "tv",
+      "expect": {
+        "contains": [
+          "Coming up:",
+          "today 20:00  Goede Tijden, Slechte Tijden"
+        ]
+      }
+    },
+    {
+      "run": "tv unfollow wie is de mol",
+      "expect": {
+        "contains": [
+          "No longer following wie is de mol."
+        ]
+      }
+    },
+    {
+      "run": "tv show zzqqxx",
+      "expect": {
+        "code": 1,
+        "contains": [
+          "TVmaze knows no show called zzqqxx."
+        ]
+      }
+    }
+  ]
+}

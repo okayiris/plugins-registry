@@ -1,0 +1,11 @@
+{
+  "command": "kenteken",
+  "fields": [
+    {
+      "key": "cars",
+      "label": "Your cars",
+      "type": "list",
+      "help": "One per car, like 16-RSL-9|Toyota. Their APK shows when you say kenteken without a plate."
+    }
+  ]
+}

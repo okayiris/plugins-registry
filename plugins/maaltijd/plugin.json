@@ -1,6 +1,6 @@
 {
   "name": "maaltijd",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": "Iris",
   "description": "Plan the meals of the week and turn them into one grocery list. Everything stays in the plugin folder, no keys and no internet.",
   "permissions": [],

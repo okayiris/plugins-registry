@@ -1,0 +1,5 @@
+{
+  "description": "Hoeveel dagen nog tot de momenten die ertoe doen: een reis, een deadline, en verjaardagen die elk jaar terugkomen.",
+  "slash": { "countdown": "hoe lang nog tot de dagen die je bijhoudt" },
+  "texts": {}
+}

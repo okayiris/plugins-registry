@@ -1,0 +1,7 @@
+{
+  "description": "Track your parcels at PostNL and DHL and show the latest status per code.",
+  "slash": {
+    "parcels": "track your PostNL and DHL parcels"
+  },
+  "texts": {}
+}

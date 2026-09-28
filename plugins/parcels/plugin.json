@@ -1,6 +1,6 @@
 {
   "name": "parcels",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": "Iris",
   "description": "Track your parcels at PostNL and DHL and show the latest status per code.",
   "permissions": ["internet", "secrets"],

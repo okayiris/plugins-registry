@@ -1,0 +1,13 @@
+{
+  "description": "Houd bij wat je uitgeeft door het te zeggen, en zie elke maand per categorie en tegen je budgetten. Blijft in je eigen huis.",
+  "slash": { "expenses": "wat je deze maand uitgaf" },
+  "texts": {
+    "label": "Uitgaven",
+    "title": "Wat je uitgeeft",
+    "intro": "Zeg wat je betaalde en waarvoor; Iris telt het op per maand en categorie.",
+    "month": "Deze maand",
+    "compare": "Vergeleken met vorige maand",
+    "budgets": "Mijn budgetten",
+    "hint": "Zeg: ik heb 42 euro aan boodschappen uitgegeven."
+  }
+}

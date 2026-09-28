@@ -1,0 +1,105 @@
+{
+  "steps": [
+    {
+      "run": "expenses",
+      "expect": {
+        "contains": [
+          "Nothing spent in September 2026 yet."
+        ]
+      }
+    },
+    {
+      "run": "expenses add 42,50 groceries market",
+      "expect": {
+        "contains": [
+          "Kept #1: 42.50 EUR groceries."
+        ]
+      }
+    },
+    {
+      "run": "expenses add 18 dinner pizza yesterday",
+      "expect": {
+        "contains": [
+          "on Sun 27 Sep"
+        ]
+      }
+    },
+    {
+      "run": "expenses add 1.234,00 rent 2026-09-01",
+      "expect": {
+        "contains": [
+          "1,234.00 EUR rent"
+        ]
+      }
+    },
+    {
+      "run": "expenses add 30 groceries 2026-08-15",
+      "expect": {
+        "contains": [
+          "Groceries in August 2026: 30.00 EUR"
+        ]
+      }
+    },
+    {
+      "run": "expenses budget groceries 400",
+      "expect": {
+        "contains": [
+          "400.00 EUR a month"
+        ]
+      }
+    },
+    {
+      "run": "expenses 12 groceries",
+      "expect": {
+        "contains": [
+          "345.50 EUR left of the budget"
+        ]
+      }
+    },
+    {
+      "run": "expenses",
+      "expect": {
+        "contains": [
+          "September 2026 so far: 1,306.50 EUR.",
+          "groceries: 54.50 EUR of 400.00 EUR"
+        ]
+      }
+    },
+    {
+      "run": "expenses month",
+      "expect": {
+        "contains": [
+          "1,276.50 EUR more than August 2026",
+          "was 30.00 EUR"
+        ]
+      }
+    },
+    {
+      "run": "expenses remove 2",
+      "expect": {
+        "contains": [
+          "Forgot #2: 18.00 EUR dinner"
+        ]
+      }
+    },
+    {
+      "run": "expenses add abc food",
+      "expect": {
+        "code": 1,
+        "contains": [
+          "abc is not an amount."
+        ]
+      }
+    }
+  ],
+  "screen": {
+    "actions": [
+      {
+        "click": "text=This month"
+      },
+      {
+        "said": "expenses"
+      }
+    ]
+  }
+}

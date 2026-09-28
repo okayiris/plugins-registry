@@ -1,0 +1,22 @@
+{
+ "http": {
+  "GET https://opendata.rdw.nl/resource/8ys7-d773.json?kenteken=16RSL9 -": {
+   "status": 200,
+   "url": "https://opendata.rdw.nl/resource/8ys7-d773.json?kenteken=16RSL9",
+   "type": "application/json;charset=utf-8",
+   "text": "[{\"kenteken\":\"16RSL9\",\"brandstof_volgnummer\":\"1\",\"brandstof_omschrijving\":\"Benzine\",\"brandstofverbruik_gecombineerd\":\"4.00\",\"co2_uitstoot_gecombineerd\":\"93\",\"geluidsniveau_rijdend\":\"70\",\"geluidsniveau_stationair\":\"71\",\"emissiecode_omschrijving\":\"5\",\"milieuklasse_eg_goedkeuring_licht\":\"715/2007*692/2008F\",\"nettomaximumvermogen\":\"73.00\",\"toerental_geluidsniveau\":\"2500\",\"klasse_hybride_elektrisch_voertuig\":\"NOVC-HEV\",\"uitlaatemissieniveau\":\"EURO 5 F\"}\n,{\"kenteken\":\"16RSL9\",\"brandstof_volgnummer\":\"2\",\"brandstof_omschrijving\":\"Elektriciteit\",\"emissiecode_omschrijving\":\"Z\",\"milieuklasse_eg_goedkeuring_licht\":\"715/2007*692/2008F\",\"nominaal_continu_maximumvermogen\":\"18.00\",\"klasse_hybride_elektrisch_voertuig\":\"NOVC-HEV\",\"uitlaatemissieniveau\":\"EURO 5 F\"}]\n"
+  },
+  "GET https://opendata.rdw.nl/resource/m9d7-ebf2.json?kenteken=16RSL9 -": {
+   "status": 200,
+   "url": "https://opendata.rdw.nl/resource/m9d7-ebf2.json?kenteken=16RSL9",
+   "type": "application/json;charset=utf-8",
+   "text": "[{\"kenteken\":\"16RSL9\",\"voertuigsoort\":\"Personenauto\",\"merk\":\"TOYOTA\",\"handelsbenaming\":\"TOYOTA AURIS\",\"vervaldatum_apk\":\"20270513\",\"datum_tenaamstelling\":\"20260408\",\"inrichting\":\"MPV\",\"aantal_zitplaatsen\":\"5\",\"eerste_kleur\":\"BLAUW\",\"tweede_kleur\":\"Niet geregistreerd\",\"aantal_cilinders\":\"4\",\"cilinderinhoud\":\"1798\",\"massa_ledig_voertuig\":\"1365\",\"toegestane_maximum_massa_voertuig\":\"1805\",\"massa_rijklaar\":\"1465\",\"datum_eerste_toelating\":\"20110721\",\"datum_eerste_tenaamstelling_in_nederland\":\"20110721\",\"wacht_op_keuren\":\"Geen verstrekking in Open Data\",\"catalogusprijs\":\"27400\",\"wam_verzekerd\":\"Ja\",\"aantal_deuren\":\"4\",\"aantal_wielen\":\"4\",\"lengte\":\"425\",\"europese_voertuigcategorie\":\"M1\",\"plaats_chassisnummer\":\"by bodemplaat r. voorzitting\",\"technische_max_massa_voertuig\":\"1805\",\"type\":\"HE15U(A)\",\"typegoedkeuringsnummer\":\"e11*2007/46*0018*02\",\"variant\":\"ZWE150(H)\",\"uitvoering\":\"ZWE150L-DHXGBW(1M)\",\"volgnummer_wijziging_eu_typegoedkeuring\":\"0\",\"vermogen_massarijklaar\":\"0.01\",\"wielbasis\":\"260\",\"export_indicator\":\"Nee\",\"openstaande_terugroepactie_indicator\":\"Nee\",\"taxi_indicator\":\"Nee\",\"jaar_laatste_registratie_tellerstand\":\"2026\",\"tellerstandoordeel\":\"Logisch\",\"code_toelichting_tellerstandoordeel\":\"00\",\"tenaamstellen_mogelijk\":\"Ja\",\"vervaldatum_apk_dt\":\"2027-05-13T00:00:00.000\",\"datum_tenaamstelling_dt\":\"2026-04-08T00:00:00.000\",\"datum_eerste_toelating_dt\":\"2011-07-21T00:00:00.000\",\"datum_eerste_tenaamstelling_in_nederland_dt\":\"2011-07-21T00:00:00.000\",\"zuinigheidsclassificatie\":\"A\",\"api_gekentekende_voertuigen_assen\":\"https://opendata.rdw.nl/resource/3huj-srit.json\",\"api_gekentekende_voertuigen_brandstof\":\"https://opendata.rdw.nl/resource/8ys7-d773.json\",\"api_gekentekende_voertuigen_carrosserie\":\"https://opendata.rdw.nl/resource/vezc-m2t6.json\",\"api_gekentekende_voertuigen_carrosserie_specifiek\":\"https://opendata.rdw.nl/resource/jhie-znh9.json\",\"api_gekentekende_voertuigen_voertuigklasse\":\"https://opendata.rdw.nl/resource/kmfi-hrps.json\"}]\n"
+  },
+  "GET https://opendata.rdw.nl/resource/m9d7-ebf2.json?kenteken=ZZ999Z -": {
+   "status": 200,
+   "url": "https://opendata.rdw.nl/resource/m9d7-ebf2.json?kenteken=ZZ999Z",
+   "type": "application/json;charset=utf-8",
+   "text": "[]\n"
+  }
+ }
+}

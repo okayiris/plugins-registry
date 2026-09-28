@@ -1,6 +1,6 @@
 {
   "name": "maillog",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": "Iris",
   "description": "Send transactional mail through your own Maillog account and read the send log, delivery status, API log and daily numbers.",
   "permissions": ["internet", "secrets", "messages"],

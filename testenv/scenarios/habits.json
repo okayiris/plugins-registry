@@ -1,0 +1,106 @@
+{
+  "steps": [
+    {
+      "run": "habits",
+      "expect": {
+        "contains": [
+          "No habits yet"
+        ]
+      }
+    },
+    {
+      "run": "habits add walk",
+      "expect": {
+        "contains": [
+          "Keeping walk from today."
+        ]
+      }
+    },
+    {
+      "run": "habits add read",
+      "expect": {
+        "contains": [
+          "Keeping read"
+        ]
+      }
+    },
+    {
+      "run": "habits done walk yesterday",
+      "expect": {
+        "contains": [
+          "walk done yesterday."
+        ]
+      }
+    },
+    {
+      "run": "habits done wal",
+      "expect": {
+        "contains": [
+          "walk done today. 2 days in a row."
+        ]
+      }
+    },
+    {
+      "run": "habits",
+      "expect": {
+        "contains": [
+          "Today 1 of 2 done.",
+          "Done: walk (2 days in a row).",
+          "Still open: read."
+        ]
+      }
+    },
+    {
+      "run": "habits week",
+      "expect": {
+        "matches": [
+          "walk\\s+\\.  \\.  \\.  \\.  \\.  x  x  2 of 7"
+        ]
+      }
+    },
+    {
+      "run": "habits streaks",
+      "expect": {
+        "contains": [
+          "walk: now 2 days, longest 2"
+        ]
+      }
+    },
+    {
+      "run": "habits undo walk",
+      "expect": {
+        "contains": [
+          "walk is open again today."
+        ]
+      }
+    },
+    {
+      "run": "habits done swim",
+      "expect": {
+        "code": 1,
+        "contains": [
+          "There is no habit called swim"
+        ]
+      }
+    },
+    {
+      "run": "habits add walk",
+      "expect": {
+        "code": 1,
+        "contains": [
+          "You already keep walk."
+        ]
+      }
+    }
+  ],
+  "screen": {
+    "actions": [
+      {
+        "click": "text=My streaks"
+      },
+      {
+        "said": "habits streaks"
+      }
+    ]
+  }
+}

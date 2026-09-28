@@ -1,0 +1,5 @@
+{
+  "description": "Translate text into more than thirty languages with your own DeepL key, free or Pro, with a polite form where the language has one.",
+  "slash": { "translate": "translate text with DeepL" },
+  "texts": {}
+}

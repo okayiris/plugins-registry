@@ -1,0 +1,13 @@
+{
+  "name": "books",
+  "version": "1.0.0",
+  "author": "Iris",
+  "description": "Your reading list by voice: books to read, reading and read, with stars and notes, found through Open Library. Kept in your own house.",
+  "permissions": ["internet"],
+  "commands": { "books": "books.py" },
+  "slash": { "books": "what you are reading and want to read" },
+  "window": "books.jsx",
+  "database": true,
+  "category": "media",
+  "icon": "icon.svg"
+}

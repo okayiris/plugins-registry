@@ -1,0 +1,41 @@
+{
+ "synthetic": true,
+ "http": {
+  "GET https://api.deepl.com/v2/languages?type=target -": {
+   "status": 200,
+   "url": "https://api.deepl.com/v2/languages?type=target",
+   "type": "application/json",
+   "text": "[{\"language\": \"DE\", \"name\": \"German\"}, {\"language\": \"EN-GB\", \"name\": \"English (British)\"}, {\"language\": \"NL\", \"name\": \"Dutch\"}]"
+  },
+  "GET https://api.deepl.com/v2/usage -": {
+   "status": 200,
+   "url": "https://api.deepl.com/v2/usage",
+   "type": "application/json",
+   "text": "{\"character_count\": 12345, \"character_limit\": 500000}"
+  },
+  "POST https://api-free.deepl.com/v2/translate ed87be548c": {
+   "status": 403,
+   "url": "https://api-free.deepl.com/v2/translate",
+   "type": "application/json",
+   "text": "{\"message\": \"Wrong endpoint. Use https://api.deepl.com\"}"
+  },
+  "POST https://api.deepl.com/v2/translate 1966d4cf4e": {
+   "status": 200,
+   "url": "https://api.deepl.com/v2/translate",
+   "type": "application/json",
+   "text": "{\"translations\": [{\"detected_source_language\": \"EN\", \"text\": \"Hoe gaat het met u?\"}]}"
+  },
+  "POST https://api.deepl.com/v2/translate e3298edc5e": {
+   "status": 200,
+   "url": "https://api.deepl.com/v2/translate",
+   "type": "application/json",
+   "text": "{\"translations\": [{\"detected_source_language\": \"EN\", \"text\": \"Guten Morgen\"}]}"
+  },
+  "POST https://api.deepl.com/v2/translate ed87be548c": {
+   "status": 200,
+   "url": "https://api.deepl.com/v2/translate",
+   "type": "application/json",
+   "text": "{\"translations\": [{\"detected_source_language\": \"NL\", \"text\": \"Good morning everyone\"}]}"
+  }
+ }
+}

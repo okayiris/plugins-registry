@@ -1,0 +1,7 @@
+{
+  "description": "Zoek een Nederlands kenteken op: merk, model, kleur, brandstof en wanneer de APK verloopt, uit de open data van de RDW. Houd je eigen auto's bij en zie hun APK aankomen.",
+  "slash": {
+    "kenteken": "zoek een kenteken op"
+  },
+  "texts": {}
+}

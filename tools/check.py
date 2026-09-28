@@ -23,6 +23,10 @@ SETTING_TYPES = {"text", "number", "toggle", "choice", "list"}
 # Files a plugin makes for itself once it runs; never part of what is published.
 RUNTIME = re.compile(r"^(values\.json|data\.db.*|\..*|.*\.tmp|__pycache__)$")
 MAX_BYTES = 6 * 1024 * 1024
+# Icon names seen drawing in published plugins and in the guide. Another name is only a warning: it may
+# exist in the kit, but nothing shows it does.
+KNOWN_ICONS = {"calendar", "card", "chart", "clock", "database", "euro", "mail", "meter", "server", "stop",
+               "kruis", "pakket", "schild", "vernieuw"}
 
 
 def check(folder):
@@ -68,11 +72,10 @@ def check(folder):
         if not os.path.isfile(path):
             bad(f"command {cmd}: {file} is missing")
             continue
+        # The #! line is the rule; the executable bit is not kept by the marketplace, so it is not checked.
         with open(path, "rb") as f:
             if not f.read(2) == b"#!":
                 bad(f"command {cmd}: {file} does not start with a #! line")
-        if not os.access(path, os.X_OK):
-            bad(f"command {cmd}: {file} is not executable")
     for cmd in m.get("slash") or {}:
         if cmd not in commands:
             bad(f"slash {cmd} is not one of the commands")
@@ -163,16 +166,19 @@ def check(folder):
 
 def check_jsx(src, texts):
     problems = []
-    if re.search(r"<\s*(button|a|input|select|textarea)\b", src):
-        problems.append("uses a bare element where the kit has a component; everything you press is a Button")
+    # Everything you press is a Button. Text fields, dates and times have no kit component, so a form
+    # may use <input>, <select> and <textarea>.
+    if re.search(r"<\s*(button|a)\b", src):
+        problems.append("a bare <button> or <a>; everything you press is a Button")
     if re.search(r"<div[^>]*onClick", src):
         problems.append("a clickable <div>; use a Button")
     if re.search(r"position\s*:\s*['\"]?fixed", src):
         problems.append("position: fixed")
     if re.search(r"outline\s*:\s*['\"]?none|transition\s*:\s*['\"]?none", src):
         problems.append("outline: none or transition: none")
-    if re.search(r"font-?family", src, re.I):
-        problems.append("an own font")
+    for value in re.findall(r"font-?family\s*[:=]\s*['\"]?([^'\";,}]+)", src, re.I):
+        if value.strip().lower() != "inherit":
+            problems.append(f"an own font ({value.strip()})")
     if re.search(r"#[0-9a-fA-F]{3,8}\b|rgba?\(|hsla?\(", src):
         problems.append("a colour that is not a house colour var(--...)")
     for px in re.findall(r"(\d+)\s*px", src):
@@ -192,6 +198,11 @@ def check_jsx(src, texts):
     return problems
 
 
+def icon_warnings(src):
+    names = set(re.findall(r'\b(?:icon|icoon|name|naam)=\{?"([a-z0-9-]+)"', src))
+    return sorted(names - KNOWN_ICONS)
+
+
 def main(argv):
     names = argv or sorted(d for d in os.listdir(ROOT) if os.path.isdir(os.path.join(ROOT, d)))
     failed = 0
@@ -207,6 +218,12 @@ def main(argv):
                     commands[cmd] = name
         except (OSError, ValueError):
             pass
+        for f in sorted(os.listdir(folder)) if os.path.isdir(folder) else []:
+            if f.endswith(".jsx"):
+                with open(os.path.join(folder, f), encoding="utf-8") as fh:
+                    unknown = icon_warnings(fh.read())
+                if unknown:
+                    print(f"note {name}: {f} uses icon names no published plugin shows: {', '.join(unknown)}")
         if problems:
             failed += 1
             print(f"FAIL {name}")

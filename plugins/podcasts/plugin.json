@@ -1,0 +1,17 @@
+{
+  "name": "podcasts",
+  "version": "1.0.0",
+  "author": "Iris",
+  "description": "Find podcasts, follow them, and hear what is new this week, with the audio link of every episode.",
+  "permissions": [
+    "internet"
+  ],
+  "commands": {
+    "podcasts": "podcasts.py"
+  },
+  "slash": {
+    "podcasts": "new episodes of your podcasts"
+  },
+  "category": "media",
+  "icon": "icon.svg"
+}

@@ -1,0 +1,118 @@
+{
+  "steps": [
+    {
+      "run": "units 5 miles km",
+      "expect": {
+        "contains": [
+          "5 mi = 8.047 km"
+        ]
+      }
+    },
+    {
+      "run": "units 350 F to C",
+      "expect": {
+        "contains": [
+          "350 °F = 176.7 °C"
+        ]
+      }
+    },
+    {
+      "run": "units 2 cups ml",
+      "expect": {
+        "contains": [
+          "2 cup = 473.2 ml"
+        ]
+      }
+    },
+    {
+      "run": "units 180 lb",
+      "expect": {
+        "contains": [
+          "180 lb = 81.647 kg"
+        ]
+      }
+    },
+    {
+      "run": "units 1,5 l to cups",
+      "expect": {
+        "contains": [
+          "1.5 l = 6.34 cup"
+        ]
+      }
+    },
+    {
+      "run": "units 1 gigabyte mib",
+      "expect": {
+        "contains": [
+          "1 GB = 953.7 MiB"
+        ]
+      }
+    },
+    {
+      "run": "units 30 mpg",
+      "expect": {
+        "contains": [
+          "30 mpg = 7.84 l/100km"
+        ]
+      }
+    },
+    {
+      "run": "units -40 c f",
+      "expect": {
+        "contains": [
+          "-40 °C = -40 °F"
+        ]
+      }
+    },
+    {
+      "run": "units 100 kg to celsius",
+      "expect": {
+        "code": 1,
+        "contains": [
+          "only converts to another temperature"
+        ]
+      }
+    },
+    {
+      "run": "units 5 furlongs km",
+      "expect": {
+        "code": 1,
+        "contains": [
+          "do not know the unit furlongs"
+        ]
+      }
+    },
+    {
+      "run": "units 12 in to cm",
+      "expect": {
+        "contains": [
+          "12 in = 30.48 cm"
+        ]
+      }
+    },
+    {
+      "run": "units 10 in cm",
+      "expect": {
+        "contains": [
+          "10 in = 25.4 cm"
+        ]
+      }
+    },
+    {
+      "run": "units 5 km in miles",
+      "expect": {
+        "contains": [
+          "5 km = 3.107 mi"
+        ]
+      }
+    },
+    {
+      "run": "units 1,000 miles km",
+      "expect": {
+        "contains": [
+          "1,000 mi = 1,609.3 km"
+        ]
+      }
+    }
+  ]
+}

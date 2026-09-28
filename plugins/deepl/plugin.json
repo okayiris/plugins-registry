@@ -1,0 +1,11 @@
+{
+  "name": "deepl",
+  "version": "1.0.0",
+  "author": "Iris",
+  "description": "Translate text into more than thirty languages with your own DeepL key, free or Pro, with a polite form where the language has one.",
+  "permissions": ["internet", "secrets"],
+  "commands": { "translate": "translate.py" },
+  "slash": { "translate": "translate text with DeepL" },
+  "category": "communication",
+  "icon": "icon.svg"
+}

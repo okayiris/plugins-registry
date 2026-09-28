@@ -1,0 +1,246 @@
+{
+  "steps": [
+    {
+      "run": "shopper search sneakers",
+      "expect": {
+        "code": 1,
+        "contains": [
+          "You follow no shops yet."
+        ]
+      }
+    },
+    {
+      "run": "shopper shops add allbirds.com Allbirds",
+      "expect": {
+        "contains": [
+          "Following Allbirds. Its products show up in every search."
+        ]
+      }
+    },
+    {
+      "run": "shopper shops add woocommerce.com WooCommerce",
+      "expect": {
+        "contains": [
+          "Following WooCommerce."
+        ]
+      }
+    },
+    {
+      "run": "shopper shops add https://www.tonyschocolonely.com \"Tony's\"",
+      "expect": {
+        "contains": [
+          "Following Tony's."
+        ]
+      }
+    },
+    {
+      "run": "shopper shops add https://www.coolblue.nl Coolblue",
+      "expect": {
+        "contains": [
+          "has no open search; add its products by link"
+        ]
+      }
+    },
+    {
+      "run": "shopper search runner --max 150",
+      "expect": {
+        "matches": [
+          "^\\d+ results for runner:",
+          "\\[Allbirds"
+        ],
+        "contains": [
+          "Not searched:",
+          "Tony's (shows products but sells none through its web shop)",
+          "Coolblue (no open search"
+        ]
+      }
+    },
+    {
+      "run": "shopper results --json",
+      "expect": {
+        "json": {
+          "query": "runner",
+          "items.0.shop": "Allbirds",
+          "items.0.url": {
+            "contains": "https://allbirds.com/products/"
+          }
+        }
+      }
+    },
+    {
+      "run": "shopper show 1",
+      "expect": {
+        "matches": [
+          "Size: "
+        ]
+      }
+    },
+    {
+      "run": "shopper add 1",
+      "expect": {
+        "matches": [
+          "^Which size\\? "
+        ]
+      }
+    },
+    {
+      "run": "shopper add 1 --json",
+      "expect": {
+        "json": {
+          "need": "variant",
+          "variants.0.id": {
+            "present": true
+          }
+        }
+      }
+    },
+    {
+      "run": "shopper search shipping --shop woo",
+      "expect": {
+        "matches": [
+          "^\\d+ results for shipping:",
+          "\\[WooCommerce\\]"
+        ]
+      }
+    },
+    {
+      "run": "shopper add 1 x2",
+      "expect": {
+        "contains": [
+          "In the cart: 2 x",
+          "from WooCommerce."
+        ]
+      }
+    },
+    {
+      "run": "shopper save 2",
+      "expect": {
+        "contains": [
+          "Kept ",
+          "from WooCommerce"
+        ]
+      }
+    },
+    {
+      "run": "shopper cart",
+      "expect": {
+        "contains": [
+          "The cart, 2 items:",
+          "WooCommerce:"
+        ]
+      }
+    },
+    {
+      "run": "shopper order",
+      "expect": {
+        "contains": [
+          "This would be ordered:",
+          "Nothing is ordered yet.",
+          "shopper order --yes"
+        ]
+      }
+    },
+    {
+      "run": "shopper cart --json",
+      "expect": {
+        "json": {
+          "count": 2
+        }
+      }
+    },
+    {
+      "run": "shopper order --yes",
+      "expect": {
+        "contains": [
+          "Ready to pay, per shop.",
+          "https://woocommerce.com/?add-to-cart=",
+          "quantity=2"
+        ]
+      }
+    },
+    {
+      "run": "shopper cart",
+      "expect": {
+        "contains": [
+          "The cart is empty."
+        ]
+      }
+    },
+    {
+      "run": "shopper orders",
+      "expect": {
+        "contains": [
+          "Ordered before:",
+          "WooCommerce: 2 x"
+        ]
+      }
+    },
+    {
+      "run": "shopper add 99",
+      "expect": {
+        "code": 1,
+        "contains": [
+          "not in the last results"
+        ]
+      }
+    }
+  ],
+  "screen": {
+    "lang": "nl",
+    "before": [
+      "shopper shops add allbirds.com Allbirds",
+      "shopper shops add woocommerce.com WooCommerce",
+      "shopper search runner"
+    ],
+    "actions": [
+      {
+        "shot": "products"
+      },
+      {
+        "click": "text=Goedkoopste"
+      },
+      {
+        "click": "text=Op voorraad"
+      },
+      {
+        "click": ".k-btn:has-text('In mand')"
+      },
+      {
+        "expect": "text=Size",
+        "timeout": 20000
+      },
+      {
+        "shot": "size"
+      },
+      {
+        "click": ".k-btn:text-matches('^\\\\d+(\\\\.\\\\d)?$')"
+      },
+      {
+        "expect": "text=In de winkelmand.",
+        "timeout": 20000
+      },
+      {
+        "click": "text=Mand (1)"
+      },
+      {
+        "click": "text=Bestel ("
+      },
+      {
+        "expect": "text=Ja, bestel"
+      },
+      {
+        "shot": "confirm"
+      },
+      {
+        "click": "text=Ja, bestel"
+      },
+      {
+        "expect": "text=Betaal bij Allbirds",
+        "timeout": 20000
+      },
+      {
+        "shot": "pay"
+      }
+    ]
+  }
+}

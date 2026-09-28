@@ -107,7 +107,8 @@ export default () => {
     </Card>
   );
 
-  if (busy && !mail) {
+  // Nothing read yet, or reading failed: the header and the reason, never a view of mail that is not there.
+  if (!mail) {
     return (
       <div style={{ display: "flex", flexDirection: "column", gap: "0.7rem", padding: "0.5rem", maxWidth: "min(92vw, 36rem)" }}>
         {header}

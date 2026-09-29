@@ -35,6 +35,7 @@ with a listed plugin.
 | [sun](plugins/sun) | Sunrise, sunset, daylight, twilight, golden hour and the moon's phases, calculated offline. | internet (place lookup only) |
 | [webshop](plugins/webshop) | Your own web shop on the house's address (`/shop`): products by voice, a public shop page with cart and checkout, stock, orders, and payment through your own Mollie or a payment request. Own database. Window and route. | internet, secrets |
 | [claude-code](plugins/claude-code) | Claude Code in the house's own workspace: questions about your projects (read-only), coding tasks that edit files, commands only when you allow them, background runs. Your own Claude plan or Console account. | internet, files |
+| [friends](plugins/friends) | Your own wall between Iris houses, like Facebook or Instagram without a company in the middle: posts and photos for friends or everyone, friend requests, following walls, a feed, likes and comments. The public wall is `/wall`. Own database. Window and route. | internet, files |
 
 Only todoist, deepl and ns need a key of your own. It goes into the vault with `<command> key ask`, and
 every call is made by the vault with the key as `{g}`, so the plugin itself never sees it.

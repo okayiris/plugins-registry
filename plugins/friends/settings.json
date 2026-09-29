@@ -1,0 +1,10 @@
+{
+  "command": "friends",
+  "fields": [
+    { "key": "name", "label": "Your name", "type": "text", "help": "Shown on your wall and to your friends." },
+    { "key": "bio", "label": "About you", "type": "text", "help": "A line or two at the top of your wall." },
+    { "key": "audience", "label": "New posts are for", "type": "choice", "options": ["friends", "public"], "help": "friends: only your friends see them. public: everyone who opens your wall, and your followers. You can choose per post too." },
+    { "key": "requests", "label": "Others can ask to be friends", "type": "toggle", "help": "Off: no new friend requests come in; your friends stay." },
+    { "key": "house", "label": "This house's name", "type": "text", "help": "The first part of the house's address, like anna for anna.okayiris.com. Filled in by itself once someone opens your wall." }
+  ]
+}

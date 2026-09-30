@@ -1,0 +1,8 @@
+{
+  "command": "tensions",
+  "fields": [
+    { "key": "roles", "label": "Your roles", "type": "list", "help": "The roles you fill, like Marketing Lead, Facilitator. A tension is always sensed from one of them." },
+    { "key": "circle", "label": "Your circle", "type": "text", "help": "The circle a new tension belongs to when you name none, like General Company Circle." },
+    { "key": "stale_days", "label": "Waiting too long after (days)", "type": "number", "help": "An open tension older than this is marked as waiting too long. 14 when left empty." }
+  ]
+}

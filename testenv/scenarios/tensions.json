@@ -1,0 +1,72 @@
+{
+  "steps": [
+    {"run": "tensions", "expect": {"contains": ["No open tensions."]}},
+    {"run": "tensions add I miss information", "expect": {"code": 1, "contains": ["From which role do you sense this?"]}},
+    {"run": "tensions settings set roles Marketing Lead, Facilitator", "expect": {"contains": ["Your roles: Marketing Lead, Facilitator."]}},
+    {"run": "tensions settings set circle General Company Circle", "expect": {"contains": ["New tensions go to General Company Circle."]}},
+    {"run": "tensions add marketing: I miss information about project X to do my work well --tactical",
+     "expect": {"contains": ["Tension 1 noted, from Marketing Lead in General Company Circle, for tactical. 1 open now."]}},
+    {"run": "tensions add Facilitator: It is unclear who is responsible for the invoices --weight 3 --since 2026-09-07",
+     "expect": {"contains": ["Tension 2 noted, from Facilitator in General Company Circle, not triaged yet."]}},
+    {"run": "tensions add Sales: I see a new opportunity in the market that we miss now --opportunity --circle Sales",
+     "expect": {"contains": ["Tension 3 noted, from Sales in Sales"]}},
+    {"run": "tensions add Marketing Lead: the weekly report takes too long --weight 1 --governance --tactical",
+     "expect": {"code": 1, "contains": ["Tactical or governance, not both."]}},
+    {"run": "tensions add Marketing Lead: the weekly report takes too long --since 2026-10-01",
+     "expect": {"code": 1, "contains": ["--since cannot be in the future."]}},
+    {"run": "tensions",
+     "expect": {"contains": ["3 open tensions: 1 tactical, 0 governance, 2 not triaged yet.",
+                             "2. It is unclear who is responsible for the invoices (Facilitator in General Company Circle; 21 days; not triaged, strong, waiting long)",
+                             "Waiting longer than 14 days: 2."]}},
+    {"run": "tensions agenda",
+     "expect": {"contains": ["Tactical meeting, 1 item:", "Governance meeting: nothing on the agenda.", "Not triaged yet, so on no agenda: 2, 3."]}},
+    {"run": "tensions triage 2 governance", "expect": {"contains": ["Tension 2 goes to the governance meeting."]}},
+    {"run": "tensions process 1 action: Jan sends the figures every Monday",
+     "expect": {"contains": ["Tension 1 processed: next-action, Jan sends the figures every Monday. 2 still open."]}},
+    {"run": "tensions process 1 project", "expect": {"code": 1, "contains": ["was already processed as next-action"]}},
+    {"run": "tensions process 2 something", "expect": {"code": 1, "contains": ["The outcome is one of:"]}},
+    {"run": "tensions list --all --role marketing",
+     "expect": {"contains": ["None open from marketing.", "1 processed:", "(Marketing Lead; next-action: Jan sends the figures every Monday)"]}},
+    {"run": "tensions show 3", "expect": {"contains": ["Tension 3: I see a new opportunity", "An opportunity, clear, not triaged yet"]}},
+    {"run": "tensions roles", "expect": {"contains": ["Facilitator: 1 (in General Company Circle)", "Marketing Lead: none"]}},
+    {"run": "tensions --json",
+     "expect": {"json": {"counts.open": 2, "counts.stale": 1, "counts.processed_week": 1, "open.0.id": 2, "open.0.stale": true}}},
+    {"run": "tensions reopen 1", "expect": {"contains": ["Tension 1 is open again."]}},
+    {"run": "tensions delete 9", "expect": {"code": 1, "contains": ["There is no tension 9."]}}
+  ],
+  "screen": {
+    "lang": "nl",
+    "before": [
+      "tensions settings set roles Marketing Lead, Facilitator, Sales",
+      "tensions add Marketing Lead: Ik mis informatie over project X om mijn werk goed te doen --tactical",
+      "tensions add Facilitator: Het is onduidelijk wie er verantwoordelijk is voor de facturen --weight 3 --since 2026-09-07",
+      "tensions add Sales: Ik zie een nieuwe kans in de markt die we nu mislopen --opportunity",
+      "tensions add Marketing Lead: Het weekrapport kost te veel tijd --weight 1 --since 2026-09-24 --tactical",
+      "tensions add Sales: De offertes gaan nog via de mail van de oude collega --since 2026-09-26",
+      "tensions process 5 next-action: nieuwe mailregel"
+    ],
+    "actions": {
+      "window": [
+        {"expect": "text=4 open spanningen"},
+        {"expect": "text=Het is onduidelijk wie"},
+        {"click": ".k-btn:has-text('Tactische agenda')"},
+        {"said": "tactical overleg"}
+      ],
+      "screen": [
+        {"expect": "text=Onlangs verwerkt"},
+        {"click": ".k-btn:has-text('Kansen')"},
+        {"gone": "text=Het weekrapport kost"},
+        {"click": ".k-btn:has-text('Alle')"},
+        {"click": ".k-btn:text-is('Governance')"},
+        {"click": ".k-btn:has-text('Governance 1')"},
+        {"gone": "text=Het weekrapport kost"},
+        {"click": ".k-btn:has-text('Verwerkt')"},
+        {"expect": "text=Hoe is hij verwerkt?"},
+        {"shot": "outcome"},
+        {"click": ".k-btn:has-text('Rolwijziging')"},
+        {"expect": "text=Rolwijziging · Facilitator"},
+        {"expect": "text=Alle 3"}
+      ]
+    }
+  }
+}

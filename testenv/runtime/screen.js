@@ -165,7 +165,9 @@ async function main() {
       });
       await p.goto(`http://127.0.0.1:${port}${at}`);
       await p.waitForTimeout(spec.settle || 1500);
-      const own = kind.startsWith("route:") ? ((spec.routes || {})[kind.slice(6)] || []) : (spec.actions || []);
+      // A plugin with a window and a screen can give each its own: "actions": {"window": [...], "screen": [...]}.
+      const own = kind.startsWith("route:") ? ((spec.routes || {})[kind.slice(6)] || [])
+        : Array.isArray(spec.actions) ? spec.actions : ((spec.actions || {})[kind] || []);
       const actions = label === sizes[0][0] ? own : [];
       for (const a of actions) {
         try {

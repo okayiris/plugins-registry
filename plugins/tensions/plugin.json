@@ -1,0 +1,18 @@
+{
+  "name": "tensions",
+  "version": "1.0.0",
+  "author": "Iris",
+  "description": "Holacracy tensions, sensed from your roles: note the gap between how things are and how they could be, triage it for the tactical or governance meeting, and see what is open, per role, in a widget and on a board.",
+  "permissions": [],
+  "commands": {
+    "tensions": "tensions.py"
+  },
+  "slash": {
+    "tensions": "your open tensions, per role"
+  },
+  "window": "tensions.jsx",
+  "screen": "board.jsx",
+  "database": true,
+  "category": "productivity",
+  "icon": "icon.svg"
+}

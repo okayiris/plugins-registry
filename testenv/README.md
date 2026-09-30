@@ -97,7 +97,8 @@ so the scenario still holds after recording again.
 `screen` draws the plugin's window (in a narrow tile, a wide tile and on a phone) or screen (desktop and
 phone) and fails on a page error, anything wider than its tile, or a text key missing from
 lang-en.json. `before` runs commands first; `actions` (for a window or screen) and `routes: {"shop": [...]}` (for a route page) are `click`, `expect`, `gone`, `said` (a sentence
-a button gave Iris), `wait` and `shot` (a screenshot). `house` answers other house paths with fixed JSON,
+a button gave Iris), `wait` and `shot` (a screenshot). A plugin with both a window and a screen can give each its own list:
+`"actions": {"window": [...], "screen": [...]}`; the window is drawn first, in the same home. `house` answers other house paths with fixed JSON,
 like `"/mail": {...}` for the mailbox.
 
 ## Adding a plugin

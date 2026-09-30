@@ -34,6 +34,7 @@ with a listed plugin.
 | [checklists](plugins/checklists) | Reusable checklists (packing, chores) ticked off by voice, in the plugin's own database. Window. | none |
 | [sun](plugins/sun) | Sunrise, sunset, daylight, twilight, golden hour and the moon's phases, calculated offline. | internet (place lookup only) |
 | [webshop](plugins/webshop) | Your own web shop on the house's address (`/shop`): products by voice, a public shop page with cart and checkout, stock, orders, and payment through your own Mollie or a payment request. Own database. Window and route. | internet, secrets |
+| [tensions](plugins/tensions) | Holacracy tensions from your roles: note the gap, triage it tactical or governance, a meeting agenda, and what is open per role in a widget and on a board. Own database. Window and screen. | none |
 | [claude-code](plugins/claude-code) | Claude Code in the house's own workspace: questions about your projects (read-only), coding tasks that edit files, commands only when you allow them, background runs. Your own Claude plan or Console account. | internet, files |
 
 Only todoist, deepl and ns need a key of your own. It goes into the vault with `<command> key ask`, and

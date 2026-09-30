@@ -1,0 +1,834 @@
+{
+  "steps": [
+    {
+      "run": "friends",
+      "expect": {
+        "contains": [
+          "0 posts, 0 friends",
+          "does not know its own name"
+        ]
+      }
+    },
+    {
+      "run": "friends add bram",
+      "expect": {
+        "code": 1,
+        "contains": [
+          "friends settings set house"
+        ]
+      }
+    },
+    {
+      "run": "friends settings set house anna.okayiris.com",
+      "expect": {
+        "contains": [
+          "house: anna."
+        ]
+      }
+    },
+    {
+      "run": "friends settings set name Anna de Vries",
+      "expect": {
+        "contains": [
+          "name: Anna de Vries."
+        ]
+      }
+    },
+    {
+      "run": "friends settings set bio Fotografe uit Utrecht",
+      "expect": {
+        "contains": [
+          "bio: Fotografe uit Utrecht."
+        ]
+      }
+    },
+    {
+      "run": "friends settings set audience everyone",
+      "expect": {
+        "code": 1,
+        "contains": [
+          "audience is friends"
+        ]
+      }
+    },
+    {
+      "run": "friends post \"Dag aan het strand\" photo https://example.com/beach.png",
+      "expect": {
+        "contains": [
+          "Posted #1 with a photo, for your friends."
+        ]
+      }
+    },
+    {
+      "run": "friends post \"Zaterdag weer open\" public",
+      "expect": {
+        "contains": [
+          "Posted #2, for everyone"
+        ]
+      }
+    },
+    {
+      "run": "friends post photo /nope/nothing.jpg",
+      "expect": {
+        "code": 1,
+        "contains": [
+          "There is no file /nope/nothing.jpg."
+        ]
+      }
+    },
+    {
+      "run": "friends post photo http://example.com/x.png",
+      "expect": {
+        "code": 1,
+        "contains": [
+          "starts with https://"
+        ]
+      }
+    },
+    {
+      "run": "friends wall",
+      "expect": {
+        "contains": [
+          "#2  just now, public: Zaterdag weer open",
+          "#1  just now, friends only: Dag aan het strand [photo]"
+        ]
+      }
+    },
+    {
+      "run": "friends",
+      "stdin": {
+        "plugin": "friends",
+        "route": "wall",
+        "method": "POST",
+        "path": "api",
+        "query": {},
+        "body": {
+          "action": "profile"
+        },
+        "house": "anna",
+        "lang": "nl",
+        "public": true,
+        "owner": "Anna",
+        "at": 1790000000000
+      },
+      "expect": {
+        "json": {
+          "name": "Anna de Vries",
+          "bio": "Fotografe uit Utrecht",
+          "posts": 1,
+          "friend": false
+        }
+      }
+    },
+    {
+      "run": "friends",
+      "stdin": {
+        "plugin": "friends",
+        "route": "wall",
+        "method": "POST",
+        "path": "api",
+        "query": {},
+        "body": {
+          "action": "posts"
+        },
+        "house": "anna",
+        "lang": "nl",
+        "public": true,
+        "owner": "Anna",
+        "at": 1790000000000
+      },
+      "expect": {
+        "json": {
+          "posts.length": 1,
+          "posts.0.text": "Zaterdag weer open",
+          "posts.0.audience": "public"
+        }
+      }
+    },
+    {
+      "run": "friends",
+      "stdin": {
+        "plugin": "friends",
+        "route": "wall",
+        "method": "POST",
+        "path": "api",
+        "query": {},
+        "body": {
+          "action": "photo",
+          "id": 1
+        },
+        "house": "anna",
+        "lang": "nl",
+        "public": true,
+        "owner": "Anna",
+        "at": 1790000000000
+      },
+      "expect": {
+        "json": {
+          "error": "unknown"
+        }
+      }
+    },
+    {
+      "run": "friends",
+      "stdin": {
+        "plugin": "friends",
+        "route": "wall",
+        "method": "POST",
+        "path": "api",
+        "query": {},
+        "body": {
+          "action": "request",
+          "from": "bram",
+          "name": "Bram",
+          "key": "x"
+        },
+        "house": "anna",
+        "lang": "nl",
+        "public": true,
+        "owner": "Anna",
+        "at": 1790000000000
+      },
+      "expect": {
+        "json": {
+          "error": "bad request"
+        }
+      }
+    },
+    {
+      "run": "friends",
+      "stdin": {
+        "plugin": "friends",
+        "route": "wall",
+        "method": "GET",
+        "path": "api",
+        "query": {
+          "action": "request",
+          "from": "bram"
+        },
+        "body": {},
+        "house": "anna",
+        "lang": "nl",
+        "public": true,
+        "owner": "Anna",
+        "at": 1790000000000
+      },
+      "expect": {
+        "json": {
+          "error": "use POST"
+        }
+      }
+    },
+    {
+      "run": "friends",
+      "stdin": {
+        "plugin": "friends",
+        "route": "wall",
+        "method": "POST",
+        "path": "api",
+        "query": {},
+        "body": {
+          "action": "request",
+          "from": "eve",
+          "name": "Bram",
+          "key": "eveeveeveeveeveeveeve"
+        },
+        "house": "anna",
+        "lang": "nl",
+        "public": true,
+        "owner": "Anna",
+        "at": 1790000000000
+      },
+      "expect": {
+        "json": {
+          "error": "unverified"
+        }
+      }
+    },
+    {
+      "run": "friends",
+      "stdin": {
+        "plugin": "friends",
+        "route": "wall",
+        "method": "POST",
+        "path": "api",
+        "query": {},
+        "body": {
+          "action": "request",
+          "from": "bram",
+          "name": "Bram Jansen",
+          "key": "bramkey-for-anna-0000001"
+        },
+        "house": "anna",
+        "lang": "nl",
+        "public": true,
+        "owner": "Anna",
+        "at": 1790000000000
+      },
+      "expect": {
+        "json": {
+          "ok": true
+        }
+      }
+    },
+    {
+      "run": "friends",
+      "expect": {
+        "contains": [
+          "Wants to be friends: Bram Jansen (bram)."
+        ]
+      }
+    },
+    {
+      "run": "friends requests",
+      "expect": {
+        "contains": [
+          "Bram Jansen (bram) wants to be friends"
+        ]
+      }
+    },
+    {
+      "run": "friends accept bram",
+      "expect": {
+        "contains": [
+          "Bram Jansen (bram) and you are friends now"
+        ]
+      }
+    },
+    {
+      "run": "friends add cor",
+      "expect": {
+        "contains": [
+          "Asked cor to be friends."
+        ]
+      }
+    },
+    {
+      "run": "friends",
+      "stdin": {
+        "plugin": "friends",
+        "route": "wall",
+        "method": "POST",
+        "path": "api",
+        "query": {},
+        "body": {
+          "action": "check",
+          "to": "cor",
+          "key": "wrong"
+        },
+        "house": "anna",
+        "lang": "nl",
+        "public": true,
+        "owner": "Anna",
+        "at": 1790000000000
+      },
+      "expect": {
+        "json": {
+          "ok": false
+        }
+      }
+    },
+    {
+      "run": "friends",
+      "stdin": {
+        "plugin": "friends",
+        "route": "wall",
+        "method": "POST",
+        "path": "api",
+        "query": {},
+        "body": {
+          "action": "request",
+          "from": "cor",
+          "name": "Cor",
+          "key": "corkey-for-anna-00000001"
+        },
+        "house": "anna",
+        "lang": "nl",
+        "public": true,
+        "owner": "Anna",
+        "at": 1790000000000
+      },
+      "expect": {
+        "json": {
+          "ok": true,
+          "friends": true,
+          "key": {
+            "present": true
+          }
+        }
+      },
+      "save": {
+        "corkey": "key"
+      }
+    },
+    {
+      "run": "friends",
+      "stdin": {
+        "plugin": "friends",
+        "route": "wall",
+        "method": "POST",
+        "path": "api",
+        "query": {},
+        "body": {
+          "action": "posts",
+          "from": "cor",
+          "key": "${corkey}"
+        },
+        "house": "anna",
+        "lang": "nl",
+        "public": true,
+        "owner": "Anna",
+        "at": 1790000000000
+      },
+      "expect": {
+        "json": {
+          "friend": true,
+          "posts.length": 2,
+          "posts.1.audience": "friends",
+          "posts.1.thread.length": 0
+        }
+      }
+    },
+    {
+      "run": "friends",
+      "stdin": {
+        "plugin": "friends",
+        "route": "wall",
+        "method": "POST",
+        "path": "api",
+        "query": {},
+        "body": {
+          "action": "photo",
+          "id": 1,
+          "from": "cor",
+          "key": "${corkey}"
+        },
+        "house": "anna",
+        "lang": "nl",
+        "public": true,
+        "owner": "Anna",
+        "at": 1790000000000
+      },
+      "expect": {
+        "json": {
+          "type": "image/png",
+          "data": {
+            "present": true
+          }
+        }
+      }
+    },
+    {
+      "run": "friends",
+      "stdin": {
+        "plugin": "friends",
+        "route": "wall",
+        "method": "POST",
+        "path": "api",
+        "query": {},
+        "body": {
+          "action": "like",
+          "from": "cor",
+          "key": "wrong-key-00000000000",
+          "post": 1
+        },
+        "house": "anna",
+        "lang": "nl",
+        "public": true,
+        "owner": "Anna",
+        "at": 1790000000000
+      },
+      "expect": {
+        "json": {
+          "error": "unknown"
+        }
+      }
+    },
+    {
+      "run": "friends",
+      "stdin": {
+        "plugin": "friends",
+        "route": "wall",
+        "method": "POST",
+        "path": "api",
+        "query": {},
+        "body": {
+          "action": "like",
+          "from": "cor",
+          "key": "${corkey}",
+          "post": 1
+        },
+        "house": "anna",
+        "lang": "nl",
+        "public": true,
+        "owner": "Anna",
+        "at": 1790000000000
+      },
+      "expect": {
+        "json": {
+          "ok": true,
+          "likes": 1
+        }
+      }
+    },
+    {
+      "run": "friends",
+      "stdin": {
+        "plugin": "friends",
+        "route": "wall",
+        "method": "POST",
+        "path": "api",
+        "query": {},
+        "body": {
+          "action": "comment",
+          "from": "cor",
+          "key": "${corkey}",
+          "post": 1,
+          "text": "Wat mooi!"
+        },
+        "house": "anna",
+        "lang": "nl",
+        "public": true,
+        "owner": "Anna",
+        "at": 1790000000000
+      },
+      "expect": {
+        "json": {
+          "ok": true,
+          "comments": 1
+        }
+      }
+    },
+    {
+      "run": "friends comment me/1 \"Dank je!\"",
+      "expect": {
+        "contains": [
+          "Your comment is under your post #1."
+        ]
+      }
+    },
+    {
+      "run": "friends",
+      "expect": {
+        "contains": [
+          "Cor on your post #1: \"Wat mooi!\"",
+          "Cor likes your post #1",
+          "Cor and you are friends now"
+        ]
+      }
+    },
+    {
+      "run": "friends wall",
+      "expect": {
+        "contains": [
+          "liked by Cor",
+          "Cor: Wat mooi!",
+          "Anna de Vries: Dank je!"
+        ]
+      }
+    },
+    {
+      "run": "friends follow dora",
+      "expect": {
+        "contains": [
+          "You follow Dora Smit (dora)"
+        ]
+      }
+    },
+    {
+      "run": "friends feed",
+      "expect": {
+        "contains": [
+          "bram/7  Bram Jansen, 1 h ago: Nieuwe fiets! [photo]  (2 likes, 1 comment)",
+          "Cor: Gaaf",
+          "dora/3  Dora Smit, yesterday: Open atelier zondag",
+          "cor.okayiris.com could not be reached"
+        ]
+      }
+    },
+    {
+      "run": "friends like bram/7",
+      "expect": {
+        "contains": [
+          "You like Bram Jansen's post #7."
+        ]
+      }
+    },
+    {
+      "run": "friends comment bram/7 \"Mooie kleur\"",
+      "expect": {
+        "contains": [
+          "Your comment is under Bram Jansen's post #7."
+        ]
+      }
+    },
+    {
+      "run": "friends like dora/3",
+      "expect": {
+        "code": 1,
+        "contains": [
+          "Only friends can like"
+        ]
+      }
+    },
+    {
+      "run": "friends photo bram 7 --json",
+      "expect": {
+        "json": {
+          "type": "image/png"
+        }
+      }
+    },
+    {
+      "run": "friends data --json",
+      "expect": {
+        "json": {
+          "me.house": "anna",
+          "friends.length": 2,
+          "follows.length": 1,
+          "wall.length": 2,
+          "feed.0.liked": true,
+          "feed.0.friend": true
+        }
+      }
+    },
+    {
+      "run": "friends",
+      "stdin": {
+        "plugin": "friends",
+        "route": "wall",
+        "method": "POST",
+        "path": "api",
+        "query": {},
+        "body": {
+          "action": "follow",
+          "from": "dora",
+          "name": "Dora Smit"
+        },
+        "house": "anna",
+        "lang": "nl",
+        "public": true,
+        "owner": "Anna",
+        "at": 1790000000000
+      },
+      "expect": {
+        "json": {
+          "ok": true,
+          "following": true
+        }
+      }
+    },
+    {
+      "run": "friends",
+      "stdin": {
+        "plugin": "friends",
+        "route": "wall",
+        "method": "POST",
+        "path": "api",
+        "query": {},
+        "body": {
+          "action": "follow",
+          "from": "eve"
+        },
+        "house": "anna",
+        "lang": "nl",
+        "public": true,
+        "owner": "Anna",
+        "at": 1790000000000
+      },
+      "expect": {
+        "json": {
+          "ok": true,
+          "following": false
+        }
+      }
+    },
+    {
+      "run": "friends list",
+      "expect": {
+        "contains": [
+          "Friends: Bram Jansen (bram), Cor.",
+          "You follow: Dora Smit (dora).",
+          "Your followers: Dora Smit (dora)."
+        ]
+      }
+    },
+    {
+      "run": "friends",
+      "stdin": {
+        "plugin": "friends",
+        "route": "wall",
+        "method": "POST",
+        "path": "api",
+        "query": {},
+        "body": {
+          "action": "unfriend",
+          "from": "cor",
+          "key": "${corkey}"
+        },
+        "house": "anna",
+        "lang": "nl",
+        "public": true,
+        "owner": "Anna",
+        "at": 1790000000000
+      },
+      "expect": {
+        "json": {
+          "ok": true
+        }
+      }
+    },
+    {
+      "run": "friends",
+      "stdin": {
+        "plugin": "friends",
+        "route": "wall",
+        "method": "POST",
+        "path": "api",
+        "query": {},
+        "body": {
+          "action": "posts",
+          "from": "cor",
+          "key": "${corkey}"
+        },
+        "house": "anna",
+        "lang": "nl",
+        "public": true,
+        "owner": "Anna",
+        "at": 1790000000000
+      },
+      "expect": {
+        "json": {
+          "friend": false,
+          "posts.length": 1
+        }
+      }
+    },
+    {
+      "run": "friends block eve",
+      "expect": {
+        "contains": [
+          "Blocked eve"
+        ]
+      }
+    },
+    {
+      "run": "friends",
+      "stdin": {
+        "plugin": "friends",
+        "route": "wall",
+        "method": "POST",
+        "path": "api",
+        "query": {},
+        "body": {
+          "action": "request",
+          "from": "eve",
+          "name": "Eve",
+          "key": "eveeveeveeveeveeveeve"
+        },
+        "house": "anna",
+        "lang": "nl",
+        "public": true,
+        "owner": "Anna",
+        "at": 1790000000000
+      },
+      "expect": {
+        "json": {
+          "ok": true
+        }
+      }
+    },
+    {
+      "run": "friends requests",
+      "expect": {
+        "contains": [
+          "No open friend requests."
+        ]
+      }
+    },
+    {
+      "run": "friends delete 1",
+      "expect": {
+        "contains": [
+          "Post #1 is off your wall"
+        ]
+      }
+    },
+    {
+      "run": "friends add anna",
+      "expect": {
+        "code": 1,
+        "contains": [
+          "That is this house itself."
+        ]
+      }
+    },
+    {
+      "run": "friends add \"Anna!\"",
+      "expect": {
+        "code": 1,
+        "contains": [
+          "is not a house"
+        ]
+      }
+    },
+    {
+      "run": "friends link",
+      "expect": {
+        "contains": [
+          "https://anna.okayiris.com/wall"
+        ]
+      }
+    }
+  ],
+  "screen": {
+    "lang": "nl",
+    "before": [
+      "friends settings set house anna",
+      "friends settings set name Anna de Vries",
+      "friends settings set bio Fotografe uit Utrecht",
+      "friends post \"Dag aan het strand\" photo https://example.com/beach.png",
+      "friends post \"Zaterdag weer open\" public",
+      "friends follow dora"
+    ],
+    "actions": [
+      {
+        "expect": "text=Open atelier zondag"
+      },
+      {
+        "click": ".k-btn:has-text('Mijn muur')"
+      },
+      {
+        "expect": "text=Dag aan het strand"
+      },
+      {
+        "shot": "wall"
+      },
+      {
+        "click": ".k-btn:has-text('Vrienden')"
+      },
+      {
+        "expect": "text=Volgend"
+      },
+      {
+        "shot": "friends"
+      }
+    ],
+    "routes": {
+      "wall": [
+        {
+          "expect": "text=Zaterdag weer open"
+        },
+        {
+          "gone": "text=Dag aan het strand"
+        },
+        {
+          "expect": "text=Fotografe uit Utrecht"
+        },
+        {
+          "shot": "public"
+        }
+      ]
+    }
+  }
+}

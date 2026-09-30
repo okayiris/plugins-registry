@@ -1,0 +1,101 @@
+{
+ "synthetic": true,
+ "http": {
+  "GET https://example.com/beach.png -": {
+   "status": 200,
+   "url": "https://example.com/beach.png",
+   "type": "image/png",
+   "base64": "iVBORw0KGgoAAAANSUhEUgAAADAAAAAgCAIAAADbtmxLAAAAN0lEQVR4nO3OQQ0AMAgEMNQhEWFTNBccjyYV0Op5p1R8ICQkJJQeCAkJCaUHQkJCQumBkJDQsg9kORSXGfX9EAAAAABJRU5ErkJggg=="
+  },
+  "POST https://bram.okayiris.com/wall/api 6da6572fe0": {
+   "status": 200,
+   "url": "https://bram.okayiris.com/wall/api",
+   "type": "application/json",
+   "text": "{\"ok\": true, \"likes\": 3}"
+  },
+  "POST https://bram.okayiris.com/wall/api 6deace49bf": {
+   "status": 200,
+   "url": "https://bram.okayiris.com/wall/api",
+   "type": "application/json",
+   "text": "{\"ok\": true}"
+  },
+  "POST https://bram.okayiris.com/wall/api 7fcacd9fd7": {
+   "status": 200,
+   "url": "https://bram.okayiris.com/wall/api",
+   "type": "application/json",
+   "text": "{\"ok\": true, \"comments\": 2}"
+  },
+  "POST https://bram.okayiris.com/wall/api 938f9938e7": {
+   "status": 200,
+   "url": "https://bram.okayiris.com/wall/api",
+   "type": "application/json",
+   "text": "{\"type\": \"image/png\", \"data\": \"iVBORw0KGgoAAAANSUhEUgAAACgAAAAeCAIAAADRv8uKAAAAK0lEQVR4nO3NMQ0AAAgDsAlDGGIRgww4mvRvputExGKxWCwWi8VisVj8N158a1NqexC+LQAAAABJRU5ErkJggg==\"}"
+  },
+  "POST https://bram.okayiris.com/wall/api a79a3e88e6": {
+   "status": 200,
+   "url": "https://bram.okayiris.com/wall/api",
+   "type": "application/json",
+   "text": "{\"ok\": true, \"name\": \"Bram Jansen\"}"
+  },
+  "POST https://bram.okayiris.com/wall/api f952fa6619": {
+   "status": 200,
+   "url": "https://bram.okayiris.com/wall/api",
+   "type": "application/json",
+   "text": "{\"house\": \"bram\", \"name\": \"Bram Jansen\", \"friend\": true, \"more\": false, \"posts\": [{\"id\": 7, \"text\": \"Nieuwe fiets!\", \"audience\": \"friends\", \"photo\": true, \"at\": 1790578800, \"likes\": 2, \"comments\": 1, \"liked\": false, \"thread\": [{\"house\": \"cor\", \"name\": \"Cor\", \"text\": \"Gaaf\", \"at\": 1790580600}]}, {\"id\": 6, \"text\": \"Eerste dag op het nieuwe werk\", \"audience\": \"public\", \"photo\": false, \"at\": 1790323200, \"likes\": 4, \"comments\": 0, \"liked\": true, \"thread\": []}]}"
+  },
+  "POST https://cor.okayiris.com/wall/api 53715fdd69": {
+   "status": 503,
+   "url": "https://cor.okayiris.com/wall/api",
+   "type": "application/json",
+   "text": "{\"error\": \"busy\"}"
+  },
+  "POST https://cor.okayiris.com/wall/api 6d633bde73": {
+   "status": 200,
+   "url": "https://cor.okayiris.com/wall/api",
+   "type": "application/json",
+   "text": "{\"ok\": true}"
+  },
+  "POST https://cor.okayiris.com/wall/api cad656c461": {
+   "status": 200,
+   "url": "https://cor.okayiris.com/wall/api",
+   "type": "application/json",
+   "text": "{\"ok\": true}"
+  },
+  "POST https://dora.okayiris.com/wall/api 27263aa00d": {
+   "status": 200,
+   "url": "https://dora.okayiris.com/wall/api",
+   "type": "application/json",
+   "text": "{\"house\": \"dora\", \"name\": \"Dora Smit\", \"bio\": \"Keramiek\", \"avatar\": false, \"posts\": 12, \"friends\": 4, \"followers\": 30, \"following\": 2, \"requests\": true, \"friend\": false}"
+  },
+  "POST https://dora.okayiris.com/wall/api 40cdfae9d5": {
+   "status": 200,
+   "url": "https://dora.okayiris.com/wall/api",
+   "type": "application/json",
+   "text": "{\"house\": \"dora\", \"name\": \"Dora Smit\", \"friend\": false, \"more\": false, \"posts\": [{\"id\": 3, \"text\": \"Open atelier zondag\", \"audience\": \"public\", \"photo\": false, \"at\": 1790492400, \"likes\": 5, \"comments\": 0}]}"
+  },
+  "POST https://dora.okayiris.com/wall/api d6f02fcb3e": {
+   "status": 200,
+   "url": "https://dora.okayiris.com/wall/api",
+   "type": "application/json",
+   "text": "{\"ok\": true, \"following\": true}"
+  },
+  "POST https://dora.okayiris.com/wall/api f8e697eeea": {
+   "status": 200,
+   "url": "https://dora.okayiris.com/wall/api",
+   "type": "application/json",
+   "text": "{\"ok\": true}"
+  },
+  "POST https://eve.okayiris.com/wall/api 4ecea6a3d7": {
+   "status": 200,
+   "url": "https://eve.okayiris.com/wall/api",
+   "type": "application/json",
+   "text": "{\"ok\": false}"
+  },
+  "POST https://eve.okayiris.com/wall/api f8e697eeea": {
+   "status": 200,
+   "url": "https://eve.okayiris.com/wall/api",
+   "type": "application/json",
+   "text": "{\"ok\": false}"
+  }
+ }
+}

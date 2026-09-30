@@ -11,6 +11,8 @@
   todoist key                           is there a token in the vault
   todoist key ask                       let the owner paste the token in the vault
 
+Add --json to todoist, week, project or search for the tasks as data, for another plugin (like planassistant).
+
 The API token stays in the vault. Every call is made by the vault, which fills in the token as {g};
 this script never sees it. The token is under Todoist, Settings, Integrations, Developer.
 """
@@ -31,7 +33,13 @@ DOMAIN = "api.todoist.com"
 AUTH = "Authorization: Bearer {g}"
 
 
+AS_JSON = False
+
+
 def fail(msg):
+    if AS_JSON:
+        print(json.dumps({"error": msg}, ensure_ascii=False))
+        sys.exit(1)
     sys.exit(msg)
 
 
@@ -144,6 +152,14 @@ def when_text(t):
 
 
 def show(tasks, heading, empty):
+    if AS_JSON:
+        tasks.sort(key=lambda t: (due_of(t)[0].replace(tzinfo=None) if due_of(t)[0] else datetime.max, -t.get("priority", 1)))
+        print(json.dumps({"tasks": [{"n": n, "id": t["id"], "content": t["content"], "priority": t.get("priority", 1),
+                                     "due": (t.get("due") or {}).get("date", ""), "time": due_of(t)[1],
+                                     "when": when_text(t)} for n, t in enumerate(tasks, 1)]}, ensure_ascii=False))
+        with open(LAST_FILE, "w", encoding="utf-8") as f:
+            json.dump([{"id": t["id"], "content": t["content"]} for t in tasks], f)
+        return
     if not tasks:
         print(empty)
         return
@@ -258,6 +274,9 @@ def cmd_key(args):
 
 
 def main(argv):
+    global AS_JSON
+    AS_JSON = "--json" in argv
+    argv = [a for a in argv if a != "--json"]
     cmd, rest = (argv[0], argv[1:]) if argv else ("", [])
     commands = {"week": lambda a: cmd_week(), "add": cmd_add, "done": cmd_done, "projects": lambda a: cmd_projects(),
                 "project": cmd_project, "search": cmd_search, "key": cmd_key, "today": lambda a: cmd_today()}

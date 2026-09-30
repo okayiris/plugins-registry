@@ -12,6 +12,7 @@
   maps geocode "<address>"      coordinates and the formatted address
 
 Flags for route: --mode driving|walking|bicycling|transit (default driving).
+Add --json to route or find for the answer as data, for another plugin (like planassistant).
 
 Your key stays in the vault. The vault makes the call with the key filled in as {g}, so this
 tool never sees it and it never ends up in a log or a file. Enable the Geocoding API, the
@@ -36,10 +37,11 @@ PLACES = "https://maps.googleapis.com/maps/api/place/textsearch/json"
 VAULT_ITEM = "maps"
 VAULT_DOMAIN = "maps.googleapis.com"
 MODES = ("driving", "walking", "bicycling", "transit")
+AS_JSON = "--json" in sys.argv[1:]
 
 
 def fail(text):
-    print(f"maps: {text}")
+    print(json.dumps({"error": text}) if AS_JSON else f"maps: {text}")
     sys.exit(1)
 
 
@@ -266,6 +268,10 @@ def cmd_route(args):
     duration = (leg.get("duration") or {}).get("value")
     traffic = (leg.get("duration_in_traffic") or {}).get("value")
     distance = (leg.get("distance") or {}).get("value")
+    if AS_JSON:
+        print(json.dumps({"from": leg.get("start_address", start), "to": leg.get("end_address", end), "mode": mode,
+                          "meters": distance, "seconds": duration, "traffic_seconds": traffic}, ensure_ascii=False))
+        return
 
     print(f"Route ({mode}): {leg.get('start_address', start)} -> {leg.get('end_address', end)}")
     line = f"  {fmt_duration(duration)}, {fmt_distance(distance)}"
@@ -316,6 +322,12 @@ def cmd_find(args):
         query = f"{query} near {near}"
     data = google(PLACES, [("query", query), ("language", "en"), ("key", "{g}")])
     results = data.get("results") or []
+    if AS_JSON:
+        print(json.dumps({"query": query, "places": [
+            {"name": r.get("name", ""), "address": r.get("formatted_address") or r.get("vicinity", ""),
+             "rating": r.get("rating"), "ratings": r.get("user_ratings_total"),
+             "open_now": (r.get("opening_hours") or {}).get("open_now")} for r in results[:n]]}, ensure_ascii=False))
+        return
     if not results:
         print(f'No places found for "{query}".')
         return
@@ -356,7 +368,7 @@ def status():
 
 
 def main():
-    a = sys.argv[1:]
+    a = [x for x in sys.argv[1:] if x != "--json"]
     if not a or a[0] in ("help", "--help", "-h"):
         if a:
             print(__doc__)

@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Plan assistant">
+  <rect width="64" height="64" rx="14" fill="#101826"/>
+  <rect x="10" y="15" width="36" height="33" rx="5" fill="none" stroke="#E6EAF2" stroke-width="2.6"/>
+  <path d="M10 25h36M19 11v8M37 11v8" fill="none" stroke="#E6EAF2" stroke-width="2.6" stroke-linecap="round"/>
+  <path d="M17 33h10M17 40h6" fill="none" stroke="#8FB8FF" stroke-width="2.6" stroke-linecap="round"/>
+  <circle cx="44" cy="43" r="10" fill="#101826" stroke="#FFD27A" stroke-width="2.6"/>
+  <path d="M44 38v5l3.5 2.5" fill="none" stroke="#FFD27A" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

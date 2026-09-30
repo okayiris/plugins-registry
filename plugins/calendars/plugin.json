@@ -1,6 +1,6 @@
 {
   "name": "calendars",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "author": "Iris",
   "description": "Every calendar you follow in one agenda: today and the week, as an answer or as a window with the days ahead.",
   "permissions": ["internet"],

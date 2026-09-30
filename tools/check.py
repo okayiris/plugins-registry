@@ -18,7 +18,8 @@ ROOT = os.path.join(os.path.dirname(os.path.realpath(__file__)), "..", "plugins"
 PERMISSIONS = {"internet", "files", "secrets", "phone", "voice", "messages"}
 CATEGORIES = {"communication", "finance", "productivity", "home", "media", "knowledge", "developer", "other"}
 FIELDS = {"name", "version", "author", "description", "permissions", "commands", "slash", "window", "screen",
-          "routes", "database", "category", "icon", "screenshots", "usage"}
+          "routes", "database", "category", "icon", "screenshots", "usage", "provides", "setup", "oauth",
+          "initiative", "actions", "kind"}
 SETTING_TYPES = {"text", "number", "toggle", "choice", "list"}
 # Files a plugin makes for itself once it runs; never part of what is published.
 RUNTIME = re.compile(r"^(values\.json|data\.db.*|\..*|.*\.tmp|__pycache__)$")

@@ -1,0 +1,84 @@
+{
+  "command": "planner",
+  "fields": [
+    {
+      "key": "home",
+      "label": "Home address",
+      "type": "text",
+      "help": "Where trips start, and where the children are brought from. Street, number and town."
+    },
+    {
+      "key": "feeds",
+      "label": "Calendars to follow",
+      "type": "list",
+      "help": "One .ics link per calendar, like Work|https://calendar.google.com/calendar/ical/.../basic.ics. The name before the | is the calendar's name; the planner asks once whose calendar it is."
+    },
+    {
+      "key": "transport",
+      "label": "How you travel",
+      "type": "choice",
+      "options": ["car", "bike", "walk"],
+      "help": "For the time to leave. By car, parking time is added."
+    },
+    {
+      "key": "buffer",
+      "label": "Minutes early",
+      "type": "number",
+      "help": "How early you want to be somewhere. 10 by default."
+    },
+    {
+      "key": "warn",
+      "label": "Warn before leaving (minutes)",
+      "type": "number",
+      "help": "How long before the time to leave Iris tells you. 15 by default."
+    },
+    {
+      "key": "day_start",
+      "label": "Day starts",
+      "type": "text",
+      "help": "Like 08:00. Breaks and meals are planned inside the day."
+    },
+    {
+      "key": "day_end",
+      "label": "Day ends",
+      "type": "text",
+      "help": "Like 18:00."
+    },
+    {
+      "key": "breakfast",
+      "label": "Breakfast",
+      "type": "text",
+      "help": "Like 07:30, or empty for none."
+    },
+    {
+      "key": "lunch",
+      "label": "Lunch",
+      "type": "text",
+      "help": "Like 12:30, or empty for none. It moves to the nearest free half hour."
+    },
+    {
+      "key": "dinner",
+      "label": "Dinner",
+      "type": "text",
+      "help": "Like 18:00, or empty for none."
+    },
+    {
+      "key": "break_after",
+      "label": "Break after (minutes busy)",
+      "type": "number",
+      "help": "After this long without a gap, a break is planned. 120 by default."
+    },
+    {
+      "key": "break_minutes",
+      "label": "Break length (minutes)",
+      "type": "number",
+      "help": "15 by default."
+    },
+    {
+      "key": "evaluate",
+      "label": "Ask how it went after",
+      "type": "list",
+      "help": "Words in the title of appointments to ask about afterwards, like client, 1:1, interview."
+    }
+  ]
+}

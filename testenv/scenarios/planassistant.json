@@ -1,0 +1,438 @@
+{
+  "now": "2026-09-28T07:30:00",
+  "steps": [
+    {
+      "run": "planner",
+      "expect": {
+        "contains": [
+          "Monday 28 September: no appointments, no tasks open.",
+          "12:30-13:00  Lunch (kept free)"
+        ]
+      }
+    },
+    {
+      "run": "planner settings set home \"Neude 11, Utrecht\"",
+      "expect": {
+        "contains": [
+          "Home is Bibliotheek Neude"
+        ]
+      }
+    },
+    {
+      "run": "planner settings set feeds \"Family|https://calendar.example.com/family.ics\"",
+      "expect": {
+        "contains": [
+          "Calendars to follow"
+        ]
+      }
+    },
+    {
+      "run": "planner evaluate on client",
+      "expect": {
+        "contains": [
+          "Asking after appointments with \"client\"."
+        ]
+      }
+    },
+    {
+      "run": "planner person Sem kid",
+      "expect": {
+        "contains": [
+          "Sem (kid) is on the list."
+        ]
+      }
+    },
+    {
+      "run": "planner person Lisa partner",
+      "expect": {
+        "contains": [
+          "Lisa (partner)"
+        ]
+      }
+    },
+    {
+      "run": "planner add \"Client meeting Jansen\" today 10:00 --where \"Jaarbeursplein 6, Utrecht\"",
+      "expect": {
+        "contains": [
+          "Planned [a1] Client meeting Jansen, today 10:00-11:00"
+        ]
+      }
+    },
+    {
+      "run": "planner add Workshop today 12:15 --until 14:45",
+      "expect": {
+        "contains": [
+          "Planned [a2] Workshop, today 12:15-14:45."
+        ]
+      }
+    },
+    {
+      "run": "planner add \"Team call\" today 15:30",
+      "expect": {
+        "contains": [
+          "Planned [a3] Team call",
+          "Careful: it overlaps with Swimming"
+        ]
+      }
+    },
+    {
+      "run": "planner routine Swimming --for Sem --every mon --at 16:00 --minutes 45 --where \"Krommerijn 11, Utrecht\" --bring me --pick Lisa",
+      "expect": {
+        "contains": [
+          "[r1] Swimming for Sem every Monday at 16:00 (45 min).",
+          "You bring. Lisa picks up."
+        ]
+      }
+    },
+    {
+      "run": "planner promise \"Send the quote to Jansen\" today",
+      "expect": {
+        "contains": [
+          "#1 Send the quote to Jansen: promised for today"
+        ]
+      }
+    },
+    {
+      "run": "planner task \"Book the holiday\"",
+      "expect": {
+        "contains": [
+          "#2 Book the holiday: today."
+        ]
+      }
+    },
+    {
+      "run": "planner prep client \"Print the contract\"",
+      "expect": {
+        "contains": [
+          "#3 Print the contract: before Client meeting Jansen"
+        ]
+      }
+    },
+    {
+      "run": "planner",
+      "expect": {
+        "contains": [
+          "Monday 28 September: 5 appointments, 3 tasks open.",
+          "Promised, first thing:\n  #1 Send the quote to Jansen",
+          "leave for Client meeting Jansen",
+          "11:45-12:15  Lunch (kept free)",
+          "14:45-15:00  Break (kept free)",
+          "Bring Sem to Swimming",
+          "Pick up Sem from Swimming (Lisa drives)",
+          "Client meeting Jansen at 10:00: #3 Print the contract",
+          "Team call and Bring Sem to Swimming overlap",
+          "Swimming at 16:00 is planned twice",
+          "Whose calendar is Family",
+          "Next: Client meeting Jansen at 10:00"
+        ],
+        "matches": [
+          "09:\\d\\d        leave for Client meeting Jansen: \\d+ min by car"
+        ]
+      }
+    },
+    {
+      "run": "planner leave --soon",
+      "env": {
+        "SIM_NOW": "2026-09-28T08:30:00"
+      },
+      "expect": {
+        "contains": [
+          "Not yet: leave for Client meeting Jansen at"
+        ]
+      }
+    },
+    {
+      "run": "planner leave",
+      "env": {
+        "SIM_NOW": "2026-09-28T09:25:00"
+      },
+      "expect": {
+        "contains": [
+          "for Client meeting Jansen at 10:00",
+          "from home by car, without live traffic, 10 min early."
+        ]
+      }
+    },
+    {
+      "run": "planner near client",
+      "expect": {
+        "contains": [
+          "Near Jaarbeursplein 6, Utrecht (Client meeting Jansen):",
+          "Parking: ",
+          "Quick coffee or a bite: ",
+          "Sit down for a meal: "
+        ],
+        "matches": [
+          "Parking: [^\\n]*\\(\\d+ m, \\d+ min walk\\)"
+        ]
+      }
+    },
+    {
+      "run": "planner next",
+      "env": {
+        "SIM_NOW": "2026-09-28T10:30:00"
+      },
+      "expect": {
+        "contains": [
+          "Now: Client meeting Jansen until 11:00. Next: Workshop at 12:15."
+        ]
+      }
+    },
+    {
+      "run": "planner --json",
+      "env": {
+        "SIM_NOW": "2026-09-28T10:30:00"
+      },
+      "expect": {
+        "json": {
+          "current.title": "Client meeting Jansen",
+          "next.title": "Workshop",
+          "promised.0.title": "Send the quote to Jansen",
+          "clashes.0.who": "me"
+        }
+      }
+    },
+    {
+      "run": "planner owner Family family",
+      "expect": {
+        "contains": [
+          "The calendar Family is for the whole family. I will not ask again."
+        ]
+      }
+    },
+    {
+      "run": "planner",
+      "expect": {
+        "not_contains": [
+          "Whose calendar is"
+        ]
+      }
+    },
+    {
+      "run": "planner next",
+      "env": {
+        "SIM_NOW": "2026-09-28T11:05:00"
+      },
+      "expect": {
+        "contains": [
+          "Next: Workshop at 12:15.",
+          "Just ended: Client meeting Jansen [a1]"
+        ]
+      }
+    },
+    {
+      "run": "planner reviews",
+      "env": {
+        "SIM_NOW": "2026-09-28T11:05:00"
+      },
+      "expect": {
+        "contains": [
+          "Waiting for \"how was it?\": Client meeting Jansen [a1]"
+        ]
+      }
+    },
+    {
+      "run": "planner review client --feeling good --outcome \"They want a proposal\" --action \"Write the proposal for Jansen\"",
+      "env": {
+        "SIM_NOW": "2026-09-28T11:05:00"
+      },
+      "expect": {
+        "contains": [
+          "Kept how Client meeting Jansen went: good.",
+          "On tomorrow's list: #4 Write the proposal for Jansen."
+        ]
+      }
+    },
+    {
+      "run": "planner done 1",
+      "expect": {
+        "contains": [
+          "#1 Send the quote to Jansen: done."
+        ]
+      }
+    },
+    {
+      "run": "planner done print",
+      "expect": {
+        "contains": [
+          "#3 Print the contract: done. 1 open today."
+        ]
+      }
+    },
+    {
+      "run": "planner recap",
+      "env": {
+        "SIM_NOW": "2026-09-28T21:00:00"
+      },
+      "expect": {
+        "contains": [
+          "Monday 28 September, looking back.",
+          "Done: 2 tasks",
+          "Promises: 1 of 1 kept.",
+          "Client meeting Jansen: good, They want a proposal.",
+          "Still open (1):\n  #2 Book the holiday"
+        ]
+      }
+    },
+    {
+      "run": "planner move 2 next week",
+      "env": {
+        "SIM_NOW": "2026-09-28T21:00:00"
+      },
+      "expect": {
+        "contains": [
+          "#2 Book the holiday: Monday 5 October."
+        ]
+      }
+    },
+    {
+      "run": "planner promise \"Call the school about Sem\"",
+      "env": {
+        "SIM_NOW": "2026-09-28T21:00:00"
+      },
+      "expect": {
+        "contains": [
+          "#5 Call the school about Sem: promised for tomorrow"
+        ]
+      }
+    },
+    {
+      "run": "planner tomorrow",
+      "env": {
+        "SIM_NOW": "2026-09-28T21:05:00"
+      },
+      "expect": {
+        "contains": [
+          "Tomorrow, Tuesday 29 September",
+          "Promised: #5 Call the school about Sem.",
+          "Planned: #4 Write the proposal for Jansen."
+        ]
+      }
+    },
+    {
+      "run": "planner",
+      "env": {
+        "SIM_NOW": "2026-09-29T07:30:00"
+      },
+      "expect": {
+        "contains": [
+          "Promised last night, first thing:\n  #5 Call the school about Sem",
+          "Hockey Sem [f",
+          "(Sem)"
+        ],
+        "not_contains": [
+          "Book the holiday"
+        ]
+      }
+    },
+    {
+      "run": "planner tasks later",
+      "expect": {
+        "contains": [
+          "Later: nothing open."
+        ]
+      }
+    },
+    {
+      "run": "planner remove r1",
+      "expect": {
+        "code": 1,
+        "contains": [
+          "only appointments you added here"
+        ]
+      }
+    },
+    {
+      "run": "planner done 99",
+      "expect": {
+        "code": 1,
+        "contains": [
+          "There is no task #99."
+        ]
+      }
+    },
+    {
+      "run": "planner add Dentist someday 10:00",
+      "expect": {
+        "code": 1,
+        "contains": [
+          "Which day is someday?"
+        ]
+      }
+    },
+    {
+      "run": "planner owner Work Piet",
+      "expect": {
+        "code": 1,
+        "contains": [
+          "I do not know Piet"
+        ]
+      }
+    },
+    {
+      "run": "planner traffic",
+      "expect": {
+        "contains": [
+          "without live traffic"
+        ]
+      }
+    },
+    {
+      "run": "planner settings set lunch noon",
+      "expect": {
+        "code": 1,
+        "contains": [
+          "Lunch is a time like 12:30"
+        ]
+      }
+    }
+  ],
+  "screen": {
+    "before": [
+      "planner person Sem kid",
+      "planner add \"Client meeting\" today 10:00 --where Jaarbeursplein",
+      "planner add \"Team call\" today 15:30",
+      "planner routine Swimming --for Sem --every mon --at 16:00 --bring me",
+      "planner promise \"Send the quote\" today",
+      "planner task \"Book the holiday\""
+    ],
+    "actions": [
+      {
+        "expect": "text=This is your next appointment"
+      },
+      {
+        "expect": "text=Send the quote"
+      },
+      {
+        "click": "text=Done"
+      },
+      {
+        "expect": "text=Done: Send the quote"
+      },
+      {
+        "shot": "day"
+      },
+      {
+        "click": "text=Evening"
+      },
+      {
+        "expect": "text=What you did today"
+      },
+      {
+        "click": "text=Next week"
+      },
+      {
+        "expect": "text=Book the holiday: next week"
+      },
+      {
+        "click": "text=Look ahead at tomorrow"
+      },
+      {
+        "said": "Look ahead at tomorrow with me (planner tomorrow)."
+      },
+      {
+        "shot": "evening"
+      }
+    ]
+  }
+}

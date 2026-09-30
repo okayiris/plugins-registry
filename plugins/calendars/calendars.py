@@ -11,6 +11,8 @@
   calendars settings                    the values as JSON
   calendars settings set <key> <value>  change one value
 
+Add --json to today, tomorrow, week or search for the appointments as data (for other plugins).
+
 What a calendar is: a link to an .ics file. A Google calendar has one under Settings, then "Secret address
 in iCal format"; Outlook, Apple and Nextcloud hand out a published link of their own, and any .ics on the
 web works. The link is a kind of key: keep it to yourself, and share the calendar, not the link.
@@ -35,6 +37,7 @@ WEEKDAY = {"MO": 0, "TU": 1, "WE": 2, "TH": 3, "FR": 4, "SA": 5, "SU": 6}
 WEEKDAY_NAME = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
 MONTH_NAME = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
 MAX_OCCURRENCES = 600
+AS_JSON = False
 
 
 # --- the values the owner set (the form under Integrations reads and writes the same file) --------------------
@@ -270,7 +273,7 @@ def build_event(raw, feed_name):
     if kind is None:
         return None
     end_params, end_value = first("DTEND")
-    end = moment(end_params, end_value) if end_params else (None, None)
+    end = moment(end_params, end_value) if end_value else (None, None)
     summary = unescape(first("SUMMARY")[1] or "") or "(no title)"
     where = unescape(first("LOCATION")[1] or "")
     lines = [unescape(v) for _, v in raw.get("RRULE", []) if v]
@@ -515,8 +518,25 @@ def no_calendars():
     print("A Google calendar has its link under Settings, then \"Secret address in iCal format\".")
 
 
+def as_data(view):
+    """The appointments in the house's own time, for another plugin to read."""
+    events = []
+    for e in view["agenda"]:
+        allday = e["kind"] == "date"
+        at = e["at"] if allday else e["at"].astimezone(LOCAL)
+        until = e["until"] if allday else e["until"].astimezone(LOCAL)
+        events.append({"title": e["summary"], "start": at.strftime("%Y-%m-%dT%H:%M"),
+                       "end": until.strftime("%Y-%m-%dT%H:%M"), "allday": allday, "place": e["where"],
+                       "calendar": e["feed"]})
+    return {"from": str(view["first_day"]), "days": view["days"], "calendars": view["calendars"],
+            "complaints": view["complaints"], "events": events}
+
+
 def show(days, start_day=None, fresh=False, text=None, empty_line=True):
     view = collect(days, start_day=start_day, fresh=fresh, text=text)
+    if AS_JSON:
+        print(json.dumps(as_data(view), ensure_ascii=False))
+        return 0
     if not view["calendars"]:
         no_calendars()
         return 0
@@ -598,6 +618,9 @@ def feeds_command(fresh):
 
 
 def main(argv):
+    global AS_JSON
+    AS_JSON = "--json" in argv
+    argv = [a for a in argv if a != "--json"]
     what = argv[0] if argv else ""
     rest = argv[1:]
 

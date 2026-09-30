@@ -2,11 +2,8 @@
   "name": "planassistant",
   "version": "1.0.0",
   "author": "Iris",
-  "description": "Your day from morning to evening: promises first, meals and breaks kept free, when to leave with traffic, parking and a bite near your appointment, the children's rides, clashes, what to prepare, how it went, and what moves to tomorrow.",
-  "permissions": [
-    "internet",
-    "secrets"
-  ],
+  "description": "Your day from morning to evening, on top of the calendars, travel, maps and todoist plugins you have: promises first, meals and breaks kept free, when to leave, parking and food there, the children's rides, clashes, prep, how it went, and what moves to tomorrow.",
+  "permissions": [],
   "commands": {
     "planner": "planner.py"
   },
@@ -27,7 +24,6 @@
     "today": "planner",
     "next": "planner next",
     "leave": "planner leave",
-    "near": "planner near",
     "recap": "planner recap",
     "tomorrow": "planner tomorrow",
     "reviews": "planner reviews"

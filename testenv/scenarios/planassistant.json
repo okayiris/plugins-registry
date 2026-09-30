@@ -1,28 +1,33 @@
 {
   "now": "2026-09-28T07:30:00",
+  "programs": {
+    "calendar": "stubs/house-calendar.py",
+    "calendars": "stubs/house-calendars.py",
+    "maps": "stubs/house-maps.py",
+    "travel": "stubs/house-travel.py",
+    "todoist": "stubs/house-todoist.py"
+  },
   "steps": [
+    {
+      "run": "planner sources",
+      "expect": {
+        "contains": [
+          "Reading: calendar (this house's own calendar); calendars",
+          "Not in this house: google."
+        ]
+      }
+    },
     {
       "run": "planner",
       "expect": {
         "contains": [
-          "Monday 28 September: no appointments, no tasks open.",
-          "12:30-13:00  Lunch (kept free)"
-        ]
-      }
-    },
-    {
-      "run": "planner settings set home \"Neude 11, Utrecht\"",
-      "expect": {
-        "contains": [
-          "Home is Bibliotheek Neude"
-        ]
-      }
-    },
-    {
-      "run": "planner settings set feeds \"Family|https://calendar.example.com/family.ics\"",
-      "expect": {
-        "contains": [
-          "Calendars to follow"
+          "Monday 28 September: 5 appointments, no tasks open.",
+          "Team call at 15:30 is planned twice: in calendar and Work.",
+          "1. Call the plumber (today 12:00)"
+        ],
+        "not_contains": [
+          "Cancelled lunch",
+          "Whose calendar"
         ]
       }
     },
@@ -51,35 +56,18 @@
       }
     },
     {
-      "run": "planner add \"Client meeting Jansen\" today 10:00 --where \"Jaarbeursplein 6, Utrecht\"",
+      "run": "planner owner Work me",
       "expect": {
         "contains": [
-          "Planned [a1] Client meeting Jansen, today 10:00-11:00"
+          "The calendar Work is yours. I will not ask again."
         ]
       }
     },
     {
-      "run": "planner add Workshop today 12:15 --until 14:45",
+      "run": "planner owner swimming Sem --bring me --pick Lisa",
       "expect": {
         "contains": [
-          "Planned [a2] Workshop, today 12:15-14:45."
-        ]
-      }
-    },
-    {
-      "run": "planner add \"Team call\" today 15:30",
-      "expect": {
-        "contains": [
-          "Planned [a3] Team call",
-          "Careful: it overlaps with Swimming"
-        ]
-      }
-    },
-    {
-      "run": "planner routine Swimming --for Sem --every mon --at 16:00 --minutes 45 --where \"Krommerijn 11, Utrecht\" --bring me --pick Lisa",
-      "expect": {
-        "contains": [
-          "[r1] Swimming for Sem every Monday at 16:00 (45 min).",
+          "Appointments with \"swimming\" are Sem's.",
           "You bring. Lisa picks up."
         ]
       }
@@ -112,21 +100,18 @@
       "run": "planner",
       "expect": {
         "contains": [
-          "Monday 28 September: 5 appointments, 3 tasks open.",
           "Promised, first thing:\n  #1 Send the quote to Jansen",
-          "leave for Client meeting Jansen",
+          "09:25        leave for Client meeting Jansen: 25 min with live traffic",
+          "10:00-11:00  Client meeting Jansen [c1] at Jaarbeursplein 6, Utrecht",
           "11:45-12:15  Lunch (kept free)",
           "14:45-15:00  Break (kept free)",
           "Bring Sem to Swimming",
+          "(Sem) at Krommerijn 11, Utrecht",
           "Pick up Sem from Swimming (Lisa drives)",
           "Client meeting Jansen at 10:00: #3 Print the contract",
           "Team call and Bring Sem to Swimming overlap",
-          "Swimming at 16:00 is planned twice",
-          "Whose calendar is Family",
-          "Next: Client meeting Jansen at 10:00"
-        ],
-        "matches": [
-          "09:\\d\\d        leave for Client meeting Jansen: \\d+ min by car"
+          "Whose calendar is Family (like Parents evening at 19:30)?",
+          "Next: Client meeting Jansen at 10:00, Jaarbeursplein 6, Utrecht. Leave at 09:25 (25 min). Still to do first: #3 Print the contract."
         ]
       }
     },
@@ -137,19 +122,20 @@
       },
       "expect": {
         "contains": [
-          "Not yet: leave for Client meeting Jansen at"
+          "Not yet: leave for Client meeting Jansen at 09:25."
         ]
       }
     },
     {
       "run": "planner leave",
       "env": {
+        "MAPS_OFF": "1",
         "SIM_NOW": "2026-09-28T09:25:00"
       },
       "expect": {
         "contains": [
-          "for Client meeting Jansen at 10:00",
-          "from home by car, without live traffic, 10 min early."
+          "Leave at 09:28 (in 3 min) for Client meeting Jansen at 10:00, Jaarbeursplein 6, Utrecht.",
+          "22 min from home by car, without live traffic, 10 min early."
         ]
       }
     },
@@ -158,12 +144,21 @@
       "expect": {
         "contains": [
           "Near Jaarbeursplein 6, Utrecht (Client meeting Jansen):",
-          "Parking: ",
-          "Quick coffee or a bite: ",
-          "Sit down for a meal: "
-        ],
-        "matches": [
-          "Parking: [^\\n]*\\(\\d+ m, \\d+ min walk\\)"
+          "Parking: Parkeergarage Croeselaan, Jaarbeursplein 20 (4.1/5, open now)",
+          "Quick coffee or a bite: Miracolo",
+          "Sit down for a meal: Pleyn, Jaarbeursplein 4 (4.2/5, closed now)"
+        ]
+      }
+    },
+    {
+      "run": "planner near client",
+      "env": {
+        "MAPS_OFF": "1"
+      },
+      "expect": {
+        "code": 1,
+        "contains": [
+          "Maps could not look it up: no Google Maps key in the vault yet"
         ]
       }
     },
@@ -188,7 +183,8 @@
           "current.title": "Client meeting Jansen",
           "next.title": "Workshop",
           "promised.0.title": "Send the quote to Jansen",
-          "clashes.0.who": "me"
+          "clashes.0.who": "me",
+          "todoist.0.content": "Call the plumber"
         }
       }
     },
@@ -216,7 +212,7 @@
       "expect": {
         "contains": [
           "Next: Workshop at 12:15.",
-          "Just ended: Client meeting Jansen [a1]"
+          "Just ended: Client meeting Jansen [c1]"
         ]
       }
     },
@@ -227,7 +223,7 @@
       },
       "expect": {
         "contains": [
-          "Waiting for \"how was it?\": Client meeting Jansen [a1]"
+          "Waiting for \"how was it?\": Client meeting Jansen [c1]"
         ]
       }
     },
@@ -240,6 +236,17 @@
         "contains": [
           "Kept how Client meeting Jansen went: good.",
           "On tomorrow's list: #4 Write the proposal for Jansen."
+        ]
+      }
+    },
+    {
+      "run": "planner reviews",
+      "env": {
+        "SIM_NOW": "2026-09-28T11:10:00"
+      },
+      "expect": {
+        "contains": [
+          "No appointment is waiting for a review."
         ]
       }
     },
@@ -334,11 +341,22 @@
       }
     },
     {
-      "run": "planner remove r1",
+      "run": "planner owners",
+      "expect": {
+        "contains": [
+          "\"swimming\": Sem, brought by me, picked up by Lisa",
+          "work: me",
+          "family: family"
+        ]
+      }
+    },
+    {
+      "run": "planner add Dentist friday 9:00",
       "expect": {
         "code": 1,
         "contains": [
-          "only appointments you added here"
+          "Appointments live in the calendar",
+          "calendar meet"
         ]
       }
     },
@@ -352,28 +370,11 @@
       }
     },
     {
-      "run": "planner add Dentist someday 10:00",
-      "expect": {
-        "code": 1,
-        "contains": [
-          "Which day is someday?"
-        ]
-      }
-    },
-    {
       "run": "planner owner Work Piet",
       "expect": {
         "code": 1,
         "contains": [
           "I do not know Piet"
-        ]
-      }
-    },
-    {
-      "run": "planner traffic",
-      "expect": {
-        "contains": [
-          "without live traffic"
         ]
       }
     },
@@ -390,15 +391,21 @@
   "screen": {
     "before": [
       "planner person Sem kid",
-      "planner add \"Client meeting\" today 10:00 --where Jaarbeursplein",
-      "planner add \"Team call\" today 15:30",
-      "planner routine Swimming --for Sem --every mon --at 16:00 --bring me",
+      "planner person Lisa partner",
+      "planner owner swimming Sem --bring me --pick Lisa",
+      "planner owner Work me",
       "planner promise \"Send the quote\" today",
       "planner task \"Book the holiday\""
     ],
     "actions": [
       {
         "expect": "text=This is your next appointment"
+      },
+      {
+        "expect": "text=Leave at 09:25"
+      },
+      {
+        "expect": "text=Bring Sem to Swimming"
       },
       {
         "expect": "text=Send the quote"
@@ -408,6 +415,9 @@
       },
       {
         "expect": "text=Done: Send the quote"
+      },
+      {
+        "expect": "text=Call the plumber"
       },
       {
         "shot": "day"

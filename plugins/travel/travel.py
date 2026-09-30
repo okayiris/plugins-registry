@@ -5,6 +5,7 @@
   travel huis "<address>"             set the home address (looked up once)
   travel naar "<address>"             distance and travel time from home
   travel naar "<address>" --om 14:30  also say when to leave to arrive at 14:30
+  travel naar "<address>" --json      the same as data, for another plugin (like planassistant)
 
 Your home address is not secret and lives in config.json next to this file:
 
@@ -34,6 +35,15 @@ VAULT = os.environ.get("KLUIS_BIN") or os.environ.get("VAULT_BIN") or "kluis"
 PHOTON = "https://photon.komoot.io/api/"
 OSRM = "https://router.project-osrm.org/route/v1/driving/"
 TOMTOM = "https://api.tomtom.com/routing/1/calculateRoute/"
+AS_JSON = False
+
+
+def say(text):
+    """A message for the owner; with --json it is the error of the answer."""
+    if AS_JSON:
+        print(json.dumps({"error": text}, ensure_ascii=False))
+    else:
+        print(text)
 
 
 def load_settings():
@@ -241,24 +251,27 @@ def cmd_huis(settings, address):
 def cmd_naar(settings, address, om):
     home = home_of(settings)
     if not home:
-        explain(settings)
+        if AS_JSON:
+            say('Geen thuisadres. Zet het met: travel huis "<adres>"')
+        else:
+            explain(settings)
         return
     if not address.strip():
-        print('Gebruik: travel naar "<adres>" [--om 14:30]')
+        say('Gebruik: travel naar "<adres>" [--om 14:30]')
         return
     place, err = geocode(address)
     if err:
-        print(f"Ik kan het adres niet opzoeken: {err}.")
+        say(f"Ik kan het adres niet opzoeken: {err}.")
         return
     if not place:
-        print(f"Ik vind '{address}' niet. Probeer het met plaatsnaam erbij.")
+        say(f"Ik vind '{address}' niet. Probeer het met plaatsnaam erbij.")
         return
     departure = None
     arrive_by = None
     if om:
         parsed = parse_om(om)
         if not parsed:
-            print("Gebruik voor --om een tijd als 14:30.")
+            say("Gebruik voor --om een tijd als 14:30.")
             return
         now = datetime.now()
         arrive_by = now.replace(hour=parsed[0], minute=parsed[1], second=0, microsecond=0)
@@ -274,27 +287,36 @@ def cmd_naar(settings, address, om):
                 departure_probe = arrive_by - timedelta(seconds=estimate["seconds"])
         probe, err = route_tomtom(item, home, place, depart_at=departure_probe)
         if err:
-            print(f"TomTom lukte niet ({err}); ik probeer OSRM zonder live verkeer.")
+            if not AS_JSON:
+                print(f"TomTom lukte niet ({err}); ik probeer OSRM zonder live verkeer.")
             probe = None
     if probe is None:
         probe, err = route_osrm(home, place)
         if err:
-            print(f"Ik kan geen route vinden: {err}.")
+            say(f"Ik kan geen route vinden: {err}.")
             return
+    if AS_JSON:
+        leave = arrive_by - timedelta(seconds=probe["seconds"]) if arrive_by else None
+        print(json.dumps({"from": home.get("address") or "", "to": place["label"], "meters": round(probe["meters"]),
+                          "seconds": round(probe["seconds"]), "traffic": bool(probe["traffic"]),
+                          "leave": leave.strftime("%Y-%m-%dT%H:%M") if leave else None}, ensure_ascii=False))
+        return
     line = f"Naar {place['label']}: {fmt_distance(probe['meters'])}, ongeveer {fmt_duration(probe['seconds'])}"
     line += " (met live verkeer)." if probe["traffic"] else " (zonder live verkeer)."
-    print(line)
+    say(line)
     if arrive_by:
         departure = arrive_by - timedelta(seconds=probe["seconds"])
         if departure.date() != datetime.now().date():
             dagen = ["ma", "di", "wo", "do", "vr", "za", "zo"]
-            print(f"Vertrek {dagen[departure.weekday()]} {departure.strftime('%H:%M')} om er om {arrive_by.strftime('%H:%M')} te zijn.")
+            say(f"Vertrek {dagen[departure.weekday()]} {departure.strftime('%H:%M')} om er om {arrive_by.strftime('%H:%M')} te zijn.")
         else:
-            print(f"Vertrek om {departure.strftime('%H:%M')} om er om {arrive_by.strftime('%H:%M')} te zijn.")
+            say(f"Vertrek om {departure.strftime('%H:%M')} om er om {arrive_by.strftime('%H:%M')} te zijn.")
 
 
 def main():
-    args = sys.argv[1:]
+    global AS_JSON
+    AS_JSON = "--json" in sys.argv[1:]
+    args = [a for a in sys.argv[1:] if a != "--json"]
     if args and args[0] in ("-h", "--help"):
         print(__doc__.strip())
         return

@@ -4,6 +4,19 @@ Your day from morning to evening, with the family and the road in it. Iris start
 picture, keeps you on time, asks how your meetings went, and closes the day with you, so tomorrow is
 ready before you wake up.
 
+The plan assistant does not keep a second agenda. It reads the plugins you already have and adds what
+none of them does: promises, what to prepare, who brings and picks up the children, meals and breaks,
+clashes, "how was it?" and the evening triage.
+
+| For | It uses | Without it |
+|---|---|---|
+| Appointments | **calendar** (this house's own), **calendars** (.ics links), **google** (Google Calendar) | only your tasks and promises |
+| Travel time | **maps** (Google, with traffic, from anywhere), else **travel** (free, from home) | no time to leave |
+| Parking and food | **maps** | not available |
+| Tasks | **todoist**, next to the planner's own | the planner's own tasks |
+
+`planner sources` says what it found in your house.
+
 ## Morning
 
 - **The day at a glance**: one screen with today's timeline, from the first appointment to dinner.
@@ -13,12 +26,12 @@ ready before you wake up.
 
 ## On the road and with the family
 
-- **When to leave**: from home or from your previous appointment, by car, bike or on foot, with live
-  traffic when you add a free TomTom key. Iris tells you when it is time.
-- **Parking and a bite**: the nearest parking garages, a quick coffee and a place to sit down, around
-  the address of your appointment.
-- **The children**: swimming, sports, school and hobbies as weekly routines, with who brings and who
-  picks up. The rides land in the right person's day.
+- **When to leave**: through maps (with traffic, also from your previous appointment) or travel (from
+  home, with traffic when it has a TomTom key). Iris tells you when it is time.
+- **Parking and a bite**: through maps, the nearest parking, a quick coffee and a place to sit down
+  around the address of your appointment, with ratings and whether they are open.
+- **The children**: swimming, sports, school and hobbies stay in your calendars. Tell the planner once
+  whose they are and who brings and picks up; the rides land in the right person's day.
 - **Clashes**: two things at once for you, a child with two activities, one driver in two places, and
   the same appointment in two calendars. Not sure whose calendar is whose? Iris asks once and remembers.
 
@@ -41,7 +54,7 @@ ready before you wake up.
 
 - "How does my day look?" / "What's next?"
 - "When do I need to leave for the dentist?" / "Where can I park near the client?"
-- "Sem has swimming every Wednesday at four; I bring him, Lisa picks him up."
+- "Swimming is Sem's; I bring him, Lisa picks him up."
 - "I promised Piet the photos tomorrow."
 - "Before the kickoff I need to finish the slides."
 - "The meeting went well, they want a proposal."
@@ -55,9 +68,9 @@ evening (or with **Evening**) it turns into the recap, where every open task mov
 
 ## Settings
 
-Under Integrations: your home address, the calendars you follow (an .ics link each, like the secret
-address of a Google calendar), how you travel, how early you want to be somewhere, when your day starts
-and ends, your meal times, when you need a break, and after which appointments Iris asks how it went.
+Under Integrations: how you travel, how early you want to be somewhere, when your day starts and ends,
+your meal times, when you need a break, and after which appointments Iris asks how it went. Your home
+address and your calendars are set in the plugins that own them (travel or maps, calendars, google).
 
 ## For the curious
 
@@ -65,16 +78,12 @@ and ends, your meal times, when you need a break, and after which appointments I
 planner                                    today
 planner day <day>                          another day
 planner next                               now and next
+planner sources                            which plugins it reads
 planner leave [<appointment>] [--soon]     when to leave
 planner near <appointment|address>         parking and food
-planner add "<title>" <day> <time> [--minutes 60|--until 11:00] [--where <address>] [--for <name>]
-            [--bring <who>] [--pick <who>] [--evaluate]
-planner remove <a3>
 planner person <name> [kid|partner|family|team]      planner people
-planner routine "<title>" --every wed[,fri] --at 16:00 [--minutes 45] [--for <name>] [--where <address>]
-            [--bring <who>] [--pick <who>]
-planner routines                           planner routine remove <r2>
-planner owner <calendar|word> <who>        planner owners
+planner owner <calendar|word> <who> [--bring <who>] [--pick <who>]
+planner owners                             planner owner remove <calendar|word>
 planner prep <appointment> ["<task>"]
 planner review <appointment> [--feeling <word>] [--outcome "<text>"] [--action "<text>"]...
 planner reviews                            planner evaluate on|off <word>
@@ -83,13 +92,11 @@ planner promise "<title>" [<day>]
 planner done|undo|drop <#id>               planner tasks [<day>|later]
 planner move <#id>[,<#id>] <tomorrow|overmorrow|nextweek|later|<day>>
 planner recap                              planner tomorrow
-planner traffic [ask]
 ```
 
-Everything you plan lives in the plugin's own database, in your house. Addresses are looked up with
-Photon (OpenStreetMap), routes with OSRM, both free and without a key.
+Promises, tasks, reviews and who is who live in the plugin's own database, in your house.
 
 ## Permissions
 
-- `internet`: reads the calendars you follow, looks up addresses, routes, parking and places to eat.
-- `secrets`: only for live traffic, with your own TomTom key in the vault. The plugin never sees the key.
+None of its own. It runs the commands of the plugins above, which keep their own permissions and keys;
+the planner never reaches the internet or the vault itself.

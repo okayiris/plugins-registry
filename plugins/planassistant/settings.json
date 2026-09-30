@@ -2,23 +2,16 @@
   "command": "planner",
   "fields": [
     {
-      "key": "home",
-      "label": "Home address",
-      "type": "text",
-      "help": "Where trips start, and where the children are brought from. Street, number and town."
-    },
-    {
-      "key": "feeds",
-      "label": "Calendars to follow",
-      "type": "list",
-      "help": "One .ics link per calendar, like Work|https://calendar.google.com/calendar/ical/.../basic.ics. The name before the | is the calendar's name; the planner asks once whose calendar it is."
-    },
-    {
       "key": "transport",
       "label": "How you travel",
       "type": "choice",
-      "options": ["car", "bike", "walk"],
-      "help": "For the time to leave. By car, parking time is added."
+      "options": [
+        "car",
+        "bike",
+        "walk",
+        "transit"
+      ],
+      "help": "For the time to leave. Your home address is the one in the travel or maps plugin. By car, parking time is added; transit needs maps."
     },
     {
       "key": "buffer",

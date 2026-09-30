@@ -1,5 +1,5 @@
 {
-  "description": "Je dag van ochtend tot avond: beloftes bovenaan, eten en pauzes vrijgehouden, op tijd vertrekken met verkeer, parkeren en iets eten bij je afspraak, halen en brengen van de kinderen, overlap, wat eerst af moet, hoe het ging, en wat naar morgen gaat.",
+  "description": "Je dag van ochtend tot avond, bovenop de plugins die je al hebt (agenda's, travel, maps, todoist): beloftes bovenaan, eten en pauzes vrijgehouden, op tijd vertrekken, parkeren en eten daar, halen en brengen van de kinderen, overlap, voorbereiding, hoe het ging, en wat naar morgen gaat.",
   "slash": {
     "planner": "je dag: beloftes, tijdlijn, wanneer vertrekken"
   },
@@ -15,11 +15,13 @@
     "dinner": "Avondeten",
     "done": "Gedaan",
     "doneShort": "gedaan",
+    "drives": "rijdt",
     "empty": "Niets gepland. Eten en pauzes verschijnen zodra er iets staat.",
     "evening": "Avond",
     "failed": "Dat lukte niet",
     "firstFinish": "Eerst af",
     "howWas": "Hoe was",
+    "inTodoist": "In Todoist",
     "label": "Planassistent",
     "later": "Later",
     "leaveAt": "Vertrek om",

@@ -1,27 +1,31 @@
 #!/usr/bin/env python3
 """The plan assistant: your day from morning to evening, with the family and the road in it.
 
+It keeps what no other plugin keeps (promises, prep, reviews, who brings and picks up the children, the
+evening triage) and reads the rest from the plugins this house already has, when they are switched on:
+
+  appointments   calendar (this house's own), calendars (.ics links), google (Google Calendar)
+  travel time    maps (Google, with traffic, from anywhere) or travel (OSRM or TomTom, from home)
+  parking, food  maps
+  tasks          todoist, next to the planner's own
+
 Morning
   planner                                   today: promises first, the timeline with meals and breaks,
                                             when to leave, what to prepare, clashes and open questions
   planner day <day>                         the same for another day (tomorrow, friday, 2026-10-02)
   planner next                              what is on now, and the next appointment
+  planner sources                           which plugins it reads, and what is missing
 
 On the road
-  planner leave [<appointment>] [--soon]    when to leave, with live traffic when there is a TomTom key;
-                                            --soon only answers when it is almost time (for a loop)
-  planner near <appointment|address>        parking, and a quick or quiet place to eat or drink there
+  planner leave [<appointment>] [--soon]    when to leave; --soon only answers when it is almost time
+  planner near <appointment|address>        parking, a quick bite and a place to sit down (through maps)
 
-Appointments and the family
-  planner add "<title>" <day> <time> [--minutes 60 | --until 11:00] [--where <address>]
-              [--for <name>] [--bring <who>] [--pick <who>] [--evaluate]
-  planner remove <a3>
+The family
   planner person <name> [kid|partner|family|team]    planner person remove <name>    planner people
-  planner routine "<title>" --every wed[,fri] --at 16:00 [--minutes 45] [--for <name>] [--where <address>]
-              [--bring <who>] [--pick <who>]
-  planner routines                          planner routine remove <r2>
-  planner owner <calendar|word> <who>       whose calendar (or whose kind of appointment) it is: remembered
-  planner owners
+  planner owner <calendar|word> <who> [--bring <who>] [--pick <who>]
+                                            whose calendar or kind of appointment it is, and who drives:
+                                            asked once, then remembered
+  planner owners                            planner owner remove <calendar|word>
 
 Before and after a meeting
   planner prep <appointment> ["<what to finish first>"]
@@ -32,20 +36,19 @@ Before and after a meeting
 Tasks and the evening
   planner task "<title>" [<day>] [--before <appointment>]
   planner promise "<title>" [<day>]         something you promised; tomorrow by default, on top then
-  planner done <#id|title>    planner undo <#id>    planner drop <#id>    planner tasks [<day>]
+  planner done <#id|title>    planner undo <#id>    planner drop <#id>    planner tasks [<day>|later]
   planner move <#id>[,<#id>] <tomorrow|overmorrow|nextweek|later|<day>>
   planner recap                             what you did today, and what is still open
   planner tomorrow                          a look ahead, ready for the morning
 
-  planner traffic [ask]                     live traffic through your own TomTom key in the vault
   planner settings                          planner settings set <key> <value>
 
-An appointment is its reference (a3, r2, f1c9 from the day's list) or a word of its title. A day is today,
+An appointment is its reference (c3, f1c9 from the day's list) or a word of its title. A day is today,
 tomorrow, overmorrow, a weekday, nextweek, later, 2026-10-02 or 2-10. Add --json for the window.
+New appointments go in the calendar itself (calendar meet, or the Google or Outlook calendar).
 """
 import hashlib
 import json
-import math
 import os
 import re
 import shutil
@@ -53,44 +56,13 @@ import sqlite3
 import subprocess
 import sys
 import time as clock
-import urllib.error
-import urllib.parse
-import urllib.request
-from datetime import date, datetime, time, timedelta, timezone
-from zoneinfo import ZoneInfo
+from datetime import date, datetime, time, timedelta
 
 HERE = os.path.dirname(os.path.realpath(__file__))
 DB_FILE = os.path.join(HERE, "data.db")
 SCHEMA_FILE = os.path.join(HERE, "schema.sql")
 VALUES_FILE = os.path.join(HERE, "values.json")
 FIELDS_FILE = os.path.join(HERE, "settings.json")
-CACHE_FILE = os.path.join(HERE, ".feeds.json")
-CACHE_TTL = 30 * 60
-
-
-def local_zone():
-    """The house's zone with its summer time, so an appointment after the clocks change still lands right."""
-    names = [os.environ.get("TZ", "").lstrip(":")]
-    try:
-        names.append(os.path.realpath("/etc/localtime").split("zoneinfo/", 1)[1])
-    except (IndexError, OSError):
-        pass
-    for name in names:
-        try:
-            return ZoneInfo(name) if name else None
-        except Exception:
-            continue
-    return datetime.now().astimezone().tzinfo
-
-
-LOCAL = local_zone() or datetime.now().astimezone().tzinfo
-UTC = timezone.utc
-AGENT = "Iris planassistant/1.0"
-PHOTON = "https://photon.komoot.io/api/"
-OSRM = "https://router.project-osrm.org/route/v1/driving/"
-TOMTOM = "https://api.tomtom.com/routing/1/calculateRoute/"
-TOMTOM_DOMAIN = "api.tomtom.com"
-TRAFFIC_ITEM = "planassistant-traffic"
 DEFAULT = {"transport": "car", "buffer": "10", "warn": "15", "day_start": "08:00", "day_end": "18:00",
            "breakfast": "", "lunch": "12:30", "dinner": "18:00", "break_after": "120", "break_minutes": "15"}
 MEALS = (("breakfast", "Breakfast", 20), ("lunch", "Lunch", 30), ("dinner", "Dinner", 45))
@@ -101,8 +73,7 @@ WEEKDAY_WORDS = {**{d: i for i, d in enumerate(WEEKDAYS)}, **{d[:3]: i for i, d 
                                                 "zaterdag", "zondag"])}}
 MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October",
           "November", "December"]
-ICS_DAY = {"MO": 0, "TU": 1, "WE": 2, "TH": 3, "FR": 4, "SA": 5, "SU": 6}
-MAX_OCCURRENCES = 600
+MAPS_MODE = {"car": "driving", "bike": "bicycling", "walk": "walking", "transit": "transit"}
 JSON = False
 
 
@@ -193,13 +164,7 @@ def settings_command(args):
         if not at:
             fail(f"{known[key]['label']} is a time like 12:30, or empty.")
         value = at.strftime("%H:%M")
-    if key == "feeds":
-        value = ", ".join(x.strip() for x in value.split(",") if x.strip())
     keep(key, value)
-    if key == "home" and value:
-        place = geocode(connect(), value)
-        print(f"Home is {place['label']}." if place else f"Saved, but I cannot find {value} on the map yet.")
-        return
     print(f"{known[key]['label']}: {value or 'empty'}.")
 
 
@@ -358,480 +323,199 @@ def person(con, name, allow=("me", "family")):
     fail(f"I do not know {n or 'that person'}. Known: {names}. Add them with: planner person {n or '<name>'} kid.")
 
 
-def owner_rules(con):
-    return {r["pattern"]: r["who"] for r in con.execute("select * from owners")}
+def rules(con):
+    return {r["pattern"]: dict(r) for r in con.execute("select * from rules")}
 
 
-def owner_of(title, feed, rules, names):
+def rule_for(title, calendar, found, names):
+    """The remembered rule for an appointment: a word of its title first, then its calendar."""
     t = title.lower()
-    for pattern in sorted((p for p in rules if not p.startswith("calendar:")), key=len, reverse=True):
+    for pattern in sorted((p for p in found if not p.startswith("calendar:")), key=len, reverse=True):
         if pattern in t:
-            return rules[pattern]
+            return found[pattern]
+    by_calendar = found.get("calendar:" + calendar.lower()) if calendar else None
     for name in names:
         if re.search(r"(?<!\w)" + re.escape(name.lower()) + r"(?!\w)", t):
-            return name
-    if feed:
-        return rules.get("calendar:" + feed.lower())
-    return None
+            return dict(by_calendar or {}, who=name)
+    return by_calendar
 
 
-# --- calendars followed by link (.ics) -------------------------------------------------------------------------
+# --- the other plugins of this house ---------------------------------------------------------------------------
 
-def feeds(settings):
-    out = []
-    for item in listed(settings, "feeds"):
-        name, bar, link = item.partition("|")
-        if not bar:
-            name, link = "", item
-        link = link.strip()
-        if link.startswith("webcal://"):
-            link = "https://" + link[len("webcal://"):]
-        if link:
-            out.append((name.strip(), link))
-    return out
-
-
-def cache_read():
-    try:
-        with open(CACHE_FILE, encoding="utf-8") as f:
-            data = json.load(f)
-        return data if isinstance(data, dict) else {}
-    except (OSError, ValueError):
-        return {}
-
-
-def cache_save(cache):
-    try:
-        with open(CACHE_FILE + ".tmp", "w", encoding="utf-8") as f:
-            json.dump(cache, f)
-        os.replace(CACHE_FILE + ".tmp", CACHE_FILE)
-    except OSError:
-        pass
-
-
-def read_feed(link, cache, now):
-    hit = cache.get(link) if isinstance(cache.get(link), dict) else None
-    if hit and now - float(hit.get("at", 0) or 0) < CACHE_TTL and hit.get("text"):
-        return str(hit["text"]), ""
-    try:
-        ask = urllib.request.Request(link, headers={"User-Agent": AGENT, "Accept": "text/calendar, */*"})
-        with urllib.request.urlopen(ask, timeout=25) as answer:
-            raw = answer.read().decode("utf-8", "replace")
-    except Exception as problem:   # one calendar that fails leaves the others
-        if hit and hit.get("text"):
-            return str(hit["text"]), "could not be read just now; this is the last copy"
-        return "", f"could not be read ({type(problem).__name__})"
-    if "BEGIN:VCALENDAR" not in raw.upper():
-        return "", "did not hand out a calendar; check the link"
-    cache[link] = {"at": now, "text": raw}
-    return raw, ""
-
-
-def unfold(text):
-    out = []
-    for line in text.replace("\r\n", "\n").replace("\r", "\n").split("\n"):
-        if line[:1] in (" ", "\t") and out:
-            out[-1] += line[1:]
-        elif line:
-            out.append(line)
-    return out
-
-
-def split_prop(line):
-    head, colon, value = line.partition(":")
-    if not colon:
-        return line.strip().upper(), {}, ""
-    bits = head.split(";")
-    params = {}
-    for bit in bits[1:]:
-        key, _, val = bit.partition("=")
-        params[key.strip().upper()] = val.strip().strip('"')
-    return bits[0].strip().upper(), params, value
-
-
-def unescape(text):
-    return re.sub(r"\\([nN,;\\])", lambda m: "\n" if m.group(1) in "nN" else m.group(1), text).strip()
-
-
-def moment(params, value):
-    raw = str(value).strip()
-    if params.get("VALUE", "").upper() == "DATE" or re.fullmatch(r"\d{8}", raw):
-        try:
-            return "date", datetime.strptime(raw[:8], "%Y%m%d").date()
-        except ValueError:
-            return None, None
-    found = re.fullmatch(r"(\d{8})T(\d{2})(\d{2})(\d{2})?(Z)?", raw)
-    if not found:
-        return None, None
-    day = datetime.strptime(found.group(1), "%Y%m%d").date()
-    at = time(int(found.group(2)), int(found.group(3)), int(found.group(4) or 0))
-    zone = UTC if found.group(5) else LOCAL
-    if not found.group(5) and params.get("TZID"):
-        try:
-            zone = ZoneInfo(params["TZID"])
-        except Exception:
-            zone = LOCAL
-    return "dt", datetime.combine(day, at, tzinfo=zone)
-
-
-def as_dt(kind, start):
-    return datetime.combine(start, time(0, 0), tzinfo=LOCAL) if kind == "date" else start
-
-
-def length_of(event):
-    if event["end"][0] == event["kind"]:
-        seconds = (as_dt(*event["end"]) - as_dt(event["kind"], event["start"])).total_seconds()
-        if seconds > 0:
-            return timedelta(seconds=seconds)
-    found = re.fullmatch(r"P(?:(\d+)W)?(?:(\d+)D)?(?:T(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?)?", event["duration"].upper())
-    if event["duration"] and found and any(found.groups()):
-        w, d, h, m, s = (int(x or 0) for x in found.groups())
-        return timedelta(weeks=w, days=d, hours=h, minutes=m, seconds=s)
-    return timedelta(days=1) if event["kind"] == "date" else timedelta(hours=1)
-
-
-def parse_calendar(text, feed_name):
-    events, current = [], None
-    for line in unfold(text):
-        prop, params, value = split_prop(line)
-        if prop == "X-WR-CALNAME" and value.strip() and not feed_name:
-            feed_name = unescape(value)[:60]
-        if prop == "BEGIN" and value.strip().upper() == "VEVENT":
-            current = {}
-        elif prop == "END" and value.strip().upper() == "VEVENT":
-            event = build_event(current or {}, feed_name)
-            if event:
-                events.append(event)
-            current = None
-        elif current is not None:
-            current.setdefault(prop, []).append((params, value))
-    return events
-
-
-def build_event(raw, feed_name):
-    def first(prop):
-        return raw[prop][0] if raw.get(prop) else ({}, None)
-
-    if any(unescape(v).upper() == "CANCELLED" for _, v in raw.get("STATUS", [])):
-        return None
-    params, value = first("DTSTART")
-    if value is None:
-        return None
-    kind, start = moment(params, value)
-    if kind is None:
-        return None
-    end_params, end_value = first("DTEND")
-    end = moment(end_params, end_value) if end_value else (None, None)
-    exdates = set()
-    for p, v in raw.get("EXDATE", []):
-        for piece in str(v).split(","):
-            k, s = moment(p, piece)
-            if k:
-                exdates.add(as_dt(k, s))
-    rules = [unescape(v) for _, v in raw.get("RRULE", []) if v]
-    return {"feed": feed_name, "title": (unescape(first("SUMMARY")[1] or "") or "(no title)")[:120],
-            "place": unescape(first("LOCATION")[1] or "")[:120], "kind": kind, "start": start, "end": end,
-            "duration": (first("DURATION")[1] or "").strip(), "rule": rules[0] if rules else "",
-            "exdates": exdates}
-
-
-def rule_of(text):
-    rule = {}
-    for bit in str(text).split(";"):
-        key, _, value = bit.partition("=")
-        if key.strip():
-            rule[key.strip().upper()] = value.strip()
-    return rule
-
-
-def add_months(day, count):
-    index = day.year * 12 + (day.month - 1) + count
-    return date(index // 12, index % 12 + 1, 1)
-
-
-def starts(event):
-    first = as_dt(event["kind"], event["start"])
-    if not event["rule"]:
-        yield first
-        return
-    rule = rule_of(event["rule"])
-    freq = rule.get("FREQ", "").upper()
-    try:
-        every = max(1, int(rule.get("INTERVAL", "1")))
-    except ValueError:
-        every = 1
-    byday = [x.strip().upper() for x in rule.get("BYDAY", "").split(",") if x.strip()]
-    if freq == "WEEKLY":
-        wanted = sorted({ICS_DAY[x[-2:]] for x in byday if x[-2:] in ICS_DAY} or {first.weekday()})
-        week_zero = first - timedelta(days=first.weekday())
-        step = 0
-        while True:
-            for day in wanted:
-                at = week_zero + timedelta(weeks=step * every, days=day)
-                if at >= first:
-                    yield at
-            step += 1
-    elif freq in ("MONTHLY", "YEARLY"):
-        step = 0
-        while True:
-            base = add_months(first.date().replace(day=1), step * every * (12 if freq == "YEARLY" else 1))
-            try:
-                at = datetime.combine(base.replace(day=first.day), first.timetz())
-                if at >= first:
-                    yield at
-            except ValueError:
-                pass
-            step += 1
-    else:
-        wanted = {ICS_DAY[x[-2:]] for x in byday if x[-2:] in ICS_DAY}
-        at = first
-        while True:
-            if not wanted or at.weekday() in wanted:
-                yield at
-            at += timedelta(days=every)
-
-
-def occurrences(event, window_start, window_end):
-    rule = rule_of(event["rule"])
-    until = None
-    if rule.get("UNTIL"):
-        kind, end = moment({}, rule["UNTIL"])
-        if kind:
-            until = as_dt(kind, end)
-    try:
-        count = int(rule.get("COUNT", ""))
-    except ValueError:
-        count = None
-    length = length_of(event)
-    out, seen = [], 0
-    for at in starts(event):
-        if (until and at > until) or (count is not None and seen >= count):
-            break
-        seen += 1
-        if seen > MAX_OCCURRENCES or at > window_end:
-            break
-        if at in event["exdates"] or at + length <= window_start:
-            continue
-        out.append((at, at + length))
-    return out
-
-
-def feed_entries(settings, first_day, last_day, notes):
-    links = feeds(settings)
-    if not links:
-        return []
-    cache = cache_read()
-    now = clock.time()
-    lo = datetime.combine(first_day, time(0, 0), tzinfo=LOCAL)
-    hi = datetime.combine(last_day + timedelta(days=1), time(0, 0), tzinfo=LOCAL)
-    out = []
-    for name, link in links:
-        text, complaint = read_feed(link, cache, now)
-        if complaint:
-            notes.append(f"Calendar {name or link[:40]} {complaint}.")
-        for event in parse_calendar(text, name) if text else []:
-            for at, end in occurrences(event, lo, hi):
-                if at >= hi:
-                    continue
-                s = at.astimezone(LOCAL).replace(tzinfo=None)
-                e = end.astimezone(LOCAL).replace(tzinfo=None)
-                out.append({"title": event["title"], "start": s, "end": e, "place": event["place"],
-                            "feed": event["feed"] or name, "allday": event["kind"] == "date", "source": "feed"})
-    cache_save(cache)
-    return out
-
-
-# --- the map: addresses, routes, parking and food ----------------------------------------------------------------
-
-def http_json(url, timeout=25):
-    ask = urllib.request.Request(url, headers={"User-Agent": AGENT})
-    try:
-        with urllib.request.urlopen(ask, timeout=timeout) as answer:
-            return json.loads(answer.read().decode("utf-8", "replace"))
-    except (OSError, ValueError, urllib.error.URLError):
-        return None
-
-
-def geocode(con, address, near=None):
-    address = " ".join(str(address or "").split())
-    if not address:
-        return None
-    row = con.execute("select * from places where address = ?", (address,)).fetchone()
-    if row:
-        return dict(row) if row["lat"] is not None else None
-    query = {"q": address, "limit": 1}
-    if near:
-        query.update({"lat": round(near["lat"], 3), "lon": round(near["lon"], 3)})
-    data = http_json(PHOTON + "?" + urllib.parse.urlencode(query))
-    if data is None:
-        return None   # no answer now: try again next time
-    feats = data.get("features") or []
-    place = None
-    if feats:
-        lon, lat = feats[0]["geometry"]["coordinates"][:2]
-        p = feats[0].get("properties") or {}
-        street = " ".join(str(x) for x in (p.get("street"), p.get("housenumber")) if x)
-        label = ", ".join(str(x) for x in (p.get("name"), street, p.get("city")) if x) or address
-        place = {"address": address, "lat": lat, "lon": lon, "label": label}
-    con.execute("insert or replace into places (address, lat, lon, label) values (?, ?, ?, ?)",
-                (address, place and place["lat"], place and place["lon"], place["label"] if place else ""))
-    con.commit()
-    return place
-
-
-def home_place(con, settings):
-    return geocode(con, settings.get("home", ""))
-
-
-def vault_bin():
-    return os.environ.get("KLUIS_BIN") or os.environ.get("VAULT_BIN") or shutil.which("kluis") or shutil.which("vault")
-
-
-def traffic_item():
-    exe = vault_bin()
+def sibling(name, args, timeout=90):
+    """Run another plugin's command with --json. None when it is not in this house (or switched off)."""
+    exe = shutil.which(name)
     if not exe:
         return None
     try:
-        r = subprocess.run([exe, "lijst"], capture_output=True, text=True, timeout=30)
-    except (OSError, subprocess.SubprocessError):
-        return None
-    for line in r.stdout.splitlines():
-        parts = [p for p in re.split(r"\s{2,}", line.strip()) if p]
-        if len(parts) >= 3 and (parts[0] == TRAFFIC_ITEM or parts[2].strip().lower().endswith(TOMTOM_DOMAIN)):
-            return parts[0]
-    return None
-
-
-def route_tomtom(item, a, b, arrive):
-    coords = f"{a['lat']:.5f},{a['lon']:.5f}:{b['lat']:.5f},{b['lon']:.5f}"
-    query = "&".join(["key={g}", "traffic=true", "travelMode=car",
-                      "arriveAt=" + urllib.parse.quote(arrive.strftime("%Y-%m-%dT%H:%M:00"))])
+        p = subprocess.run([exe] + args + ["--json"], capture_output=True, text=True, timeout=timeout)
+    except subprocess.TimeoutExpired:
+        return {"error": f"{name} did not answer in time"}
+    except (OSError, subprocess.SubprocessError) as problem:
+        return {"error": f"{name} did not run ({problem})"}
+    out = (p.stdout or "").strip()
     try:
-        r = subprocess.run([vault_bin(), "doe", item, "GET", TOMTOM + coords + "/json?" + query],
-                           capture_output=True, text=True, timeout=60)
-    except (OSError, subprocess.SubprocessError):
-        return None
-    first, _, rest = (r.stdout or "").partition("\n")
-    if not re.match(r"status\s+200", first.strip()):
-        return None
-    try:
-        summary = json.loads(rest)["routes"][0]["summary"]
-        return {"seconds": float(summary["travelTimeInSeconds"]), "meters": float(summary["lengthInMeters"]),
-                "traffic": True}
-    except (ValueError, KeyError, IndexError, TypeError):
-        return None
+        data = json.loads(out.splitlines()[-1] if out else "")
+    except ValueError:
+        return {"error": (out or p.stderr or f"{name} gave no answer").strip().splitlines()[-1][:200]}
+    return data if isinstance(data, dict) else {"error": f"{name} gave no answer"}
 
 
-def route(con, settings, a, b, arrive):
-    """Travel time from a to b for the way the owner travels: {seconds, meters, traffic}, or None."""
-    mode = settings.get("transport") or "car"
-    key = f"{a['lat']:.4f},{a['lon']:.4f}>{b['lat']:.4f},{b['lon']:.4f}"
-    item = traffic_item() if mode == "car" else None
-    if item:
-        row = con.execute("select * from routes where key = ? and traffic = 1", (key + "|" + hm(arrive),)).fetchone()
-        if row and clock.time() - row["at"] < 20 * 60:
-            return dict(row)
-        live = route_tomtom(item, a, b, arrive)
-        if live:
-            con.execute("insert or replace into routes values (?, ?, ?, 1, ?)",
-                        (key + "|" + hm(arrive), live["seconds"], live["meters"], clock.time()))
-            con.commit()
-            return live
-    row = con.execute("select * from routes where key = ? and traffic = 0", (key,)).fetchone()
-    if row:
-        found = dict(row)
+def local(stamp_text):
+    """A time from another plugin as the house's own time, without a zone."""
+    text = str(stamp_text or "").strip()
+    if re.fullmatch(r"\d{4}-\d{2}-\d{2}", text):
+        return datetime.combine(date.fromisoformat(text), time(0, 0)), True
+    at = datetime.fromisoformat(text.replace("Z", "+00:00").replace(" ", "T"))
+    if at.tzinfo:
+        at = at.astimezone().replace(tzinfo=None)
+    return at, False
+
+
+def appointment(title, start, end, place, source, calendar, ref, allday=False):
+    return {"ref": ref, "title": title or "(no title)", "start": start, "end": end, "place": place or "",
+            "source": source, "calendar": calendar, "allday": allday, "who": "", "bring": "", "pick": "",
+            "evaluate": False}
+
+
+def from_calendar(first_day, last_day, notes):
+    today = date.today()
+    if first_day >= today and last_day <= today + timedelta(days=1):
+        data = sibling("calendar", [])
     else:
-        data = http_json(f"{OSRM}{a['lon']:.5f},{a['lat']:.5f};{b['lon']:.5f},{b['lat']:.5f}?overview=false")
-        if not data or data.get("code") != "Ok" or not data.get("routes"):
-            return None
-        found = {"seconds": float(data["routes"][0]["duration"]), "meters": float(data["routes"][0]["distance"]),
-                 "traffic": 0}
-        con.execute("insert or replace into routes values (?, ?, ?, 0, ?)",
-                    (key, found["seconds"], found["meters"], clock.time()))
-        con.commit()
-    if mode == "bike":
-        found["seconds"] = found["meters"] / 1000 / 15 * 3600
-    elif mode == "walk":
-        found["seconds"] = found["meters"] / 1000 / 5 * 3600
-    found["traffic"] = False
-    return found
-
-
-def distance(a, b):
-    lat1, lat2 = math.radians(a["lat"]), math.radians(b["lat"])
-    dlat, dlon = lat2 - lat1, math.radians(b["lon"] - a["lon"])
-    h = math.sin(dlat / 2) ** 2 + math.cos(lat1) * math.cos(lat2) * math.sin(dlon / 2) ** 2
-    return 6371000 * 2 * math.asin(math.sqrt(h))
-
-
-def around(place, tags, limit=10):
-    """Named places of a kind within about 600 metres, nearest first."""
-    query = [("lat", f"{place['lat']:.5f}"), ("lon", f"{place['lon']:.5f}"), ("radius", "0.6"),
-             ("limit", str(limit))] + [("osm_tag", t) for t in tags]
-    data = http_json(PHOTON.replace("/api/", "/reverse") + "?" + urllib.parse.urlencode(query))
+        data = sibling("calendar", ["week", str(max(1, (last_day - today).days + 1))])
+    if data is None:
+        return []
+    if data.get("error"):
+        notes.append(f"The calendar could not be read: {data['error']}.")
+        return []
     out = []
-    for f in (data or {}).get("features") or []:
-        p = f.get("properties") or {}
-        name = p.get("name") or ""
-        if not name or re.match(r"(?i)(k\+r|kiss|halen en brengen|drop.?off)", name):
-            continue   # a spot to drop someone off is not a place to park
-        lon, lat = f["geometry"]["coordinates"][:2]
-        spot = {"name": name, "kind": p.get("osm_value", ""), "lat": lat, "lon": lon,
-                "street": " ".join(str(x) for x in (p.get("street"), p.get("housenumber")) if x)}
-        spot["meters"] = round(distance(place, spot))
-        if all(o["name"] != name for o in out):
-            out.append(spot)
-    return sorted(out, key=lambda s: s["meters"])
+    for m in data.get("meetings") or []:
+        if m.get("status") == "cancelled":
+            continue
+        start, _ = local(m["starts"])
+        end, _ = local(m["ends"])
+        out.append(appointment(m.get("title"), start, end, m.get("place"), "calendar", "calendar", f"c{m['id']}"))
+    return out
 
 
-# --- the day: appointments from everywhere, the children's rides, meals and breaks ------------------------------
+def from_calendars(first_day, last_day, notes):
+    today = date.today()
+    data = sibling("calendars", ["week", str(max(1, (last_day - today).days + 1))])
+    if data is None:
+        return []
+    if data.get("error"):
+        notes.append(f"Your calendars could not be read: {data['error']}.")
+        return []
+    notes += [f"One calendar: {c}." for c in data.get("complaints") or []]
+    out = []
+    for e in data.get("events") or []:
+        start, _ = local(e["start"])
+        end, _ = local(e["end"])
+        out.append(appointment(e.get("title"), start, end, e.get("place"), "calendars", e.get("calendar") or "",
+                               "", bool(e.get("allday"))))
+    return out
+
+
+def from_google(first_day, last_day, notes):
+    today = date.today()
+    exe = shutil.which("google")
+    if not exe:
+        return []
+    try:
+        p = subprocess.run([exe, "cal", "list", str(max(1, (last_day - today).days + 1))],
+                           capture_output=True, text=True, timeout=90)
+        data = json.loads(p.stdout)
+    except (OSError, subprocess.SubprocessError, ValueError):
+        notes.append("Google Calendar could not be read; is Google linked under Integrations?")
+        return []
+    out = []
+    for e in data.get("events") or []:
+        try:
+            start, allday = local(e.get("start"))
+            end, _ = local(e.get("end") or e.get("start"))
+        except ValueError:
+            continue
+        out.append(appointment(e.get("title"), start, end, e.get("where"), "google", "Google", "", allday))
+    return out
+
+
+def sources():
+    return {name: bool(shutil.which(name)) for name in ("calendar", "calendars", "google", "maps", "travel", "todoist")}
+
 
 def key_of(entry):
     return f"{entry['start']:%Y-%m-%d %H:%M}|{entry['title']}"
 
 
 def entries_between(con, settings, first_day, last_day, notes=None):
-    """Every appointment from first_day to last_day, sorted, with who it is for."""
+    """Every appointment from first_day to last_day in the house's calendars, with who it is for."""
     notes = notes if notes is not None else []
-    out = []
-    lo, hi = f"{first_day} 00:00", f"{last_day + timedelta(days=1)} 00:00"
-    for r in con.execute("select * from appointments where starts < ? and ends > ? order by starts", (hi, lo)):
-        out.append({"ref": f"a{r['id']}", "title": r["title"], "start": datetime.strptime(r["starts"], "%Y-%m-%d %H:%M"),
-                    "end": datetime.strptime(r["ends"], "%Y-%m-%d %H:%M"), "place": r["place"], "who": r["who"],
-                    "bring": r["bring"], "pick": r["pick"], "evaluate": bool(r["evaluate"]), "source": "own",
-                    "feed": "", "allday": False, "note": r["note"]})
-    day = first_day
-    routines = con.execute("select * from routines").fetchall()
-    while day <= last_day:
-        for r in routines:
-            if str(day.weekday()) in r["days"].split(","):
-                s = datetime.combine(day, datetime.strptime(r["at"], "%H:%M").time())
-                out.append({"ref": f"r{r['id']}", "title": r["title"], "start": s,
-                            "end": s + timedelta(minutes=r["minutes"]), "place": r["place"], "who": r["who"],
-                            "bring": r["bring"], "pick": r["pick"], "evaluate": False, "source": "routine",
-                            "feed": "", "allday": False, "note": ""})
-        day += timedelta(days=1)
-    rules = owner_rules(con)
+    found = from_calendar(first_day, last_day, notes) + from_calendars(first_day, last_day, notes) + \
+        from_google(first_day, last_day, notes)
+    known = rules(con)
     family = people(con)
     names = [p["name"] for p in family]
     words = [w.lower() for w in listed(settings, "evaluate")]
-    for e in feed_entries(settings, first_day, last_day, notes):
-        who = owner_of(e["title"], e["feed"], rules, names)
-        e.update({"ref": "f" + hashlib.sha1(key_of(e).encode()).hexdigest()[:4],
-                  "who": who or ("me" if not family else ""), "bring": "", "pick": "", "evaluate": False,
-                  "note": ""})
-        out.append(e)
+    for e in found:
+        if not e["ref"]:
+            e["ref"] = {"calendars": "f", "google": "g"}[e["source"]] + hashlib.sha1(key_of(e).encode()).hexdigest()[:4]
+        rule = rule_for(e["title"], e["calendar"], known, names)
+        if rule:
+            e.update(who=rule.get("who") or "", bring=rule.get("bring") or "", pick=rule.get("pick") or "")
+        elif e["source"] != "calendars" or not family:
+            e["who"] = "me"   # the house's own calendar and Google are the owner's
+        e["evaluate"] = any(w in e["title"].lower() for w in words)
     seen = {}
-    for e in sorted(out, key=lambda x: (x["start"], x["source"] != "own", x["title"].lower())):
-        if not e["evaluate"] and any(w in e["title"].lower() for w in words):
-            e["evaluate"] = True
+    order = {"calendar": 0, "google": 1, "calendars": 2}
+    for e in sorted(found, key=lambda x: (x["start"], order[x["source"]], x["title"].lower())):
         same = seen.get((e["start"], e["title"].lower()))
         if same:   # one appointment in two calendars
-            same.setdefault("also", []).append(e["feed"] or e["source"])
+            same.setdefault("also", []).append(e["calendar"])
             continue
         seen[(e["start"], e["title"].lower())] = e
-    lo_dt, hi_dt = datetime.combine(first_day, time(0, 0)), datetime.combine(last_day + timedelta(days=1), time(0, 0))
-    return [e for e in seen.values() if e["end"] > lo_dt and e["start"] < hi_dt]
+    lo, hi = datetime.combine(first_day, time(0, 0)), datetime.combine(last_day + timedelta(days=1), time(0, 0))
+    return [e for e in seen.values() if e["end"] > lo and e["start"] < hi]
+
+
+# --- travel time, through maps or travel -----------------------------------------------------------------------
+
+def travel_time(con, settings, origin, place, arrive):
+    """{minutes, traffic, via, from} from origin (an address, or None for home) to place, or {error}."""
+    mode = settings.get("transport") or "car"
+    key = f"{origin or 'home'}>{place}|{mode}|{arrive:%Y-%m-%d %H}"
+    row = con.execute("select * from routes where key = ?", (key,)).fetchone()
+    if row and clock.time() - row["at"] < 20 * 60:
+        return json.loads(row["answer"])
+    answer = None
+    if shutil.which("maps"):
+        args = ["route"] + ([origin] if origin else []) + [place, "--mode", MAPS_MODE.get(mode, "driving")]
+        data = sibling("maps", args)
+        if data and not data.get("error") and data.get("seconds"):
+            seconds = data.get("traffic_seconds") or data["seconds"]
+            answer = {"minutes": round(seconds / 60), "traffic": bool(data.get("traffic_seconds")), "via": "maps",
+                      "from": "your previous appointment" if origin else "home"}
+    if answer is None and shutil.which("travel"):
+        data = sibling("travel", ["naar", place, "--om", arrive.strftime("%H:%M")])
+        if data and not data.get("error") and data.get("seconds"):
+            seconds = data["seconds"]
+            if mode == "bike":
+                seconds = data["meters"] / 1000 / 15 * 3600
+            elif mode == "walk":
+                seconds = data["meters"] / 1000 / 5 * 3600
+            answer = {"minutes": round(seconds / 60), "traffic": bool(data.get("traffic")), "via": "travel",
+                      "from": "home"}
+        elif data and data.get("error"):
+            return {"error": data["error"]}
+    if answer is None:
+        if not (shutil.which("maps") or shutil.which("travel")):
+            return {"error": "For travel times I use the travel plugin (free) or maps (Google, with traffic). "
+                             "Install one of them and set your home address there."}
+        return {"error": f"No route to {place}."}
+    con.execute("insert or replace into routes (key, answer, at) values (?, ?, ?)",
+                (key, json.dumps(answer), clock.time()))
+    con.commit()
+    return answer
 
 
 def mine(e):
@@ -839,30 +523,29 @@ def mine(e):
 
 
 def rides(con, settings, entries):
-    """Bringing and picking up: for the children's appointments, and for anyone who is driven."""
-    home = None
+    """Bringing and picking up, for the appointments someone is driven to."""
     out = []
     for e in entries:
         if e["allday"] or not (e["bring"] or e["pick"]):
             continue
         minutes = 15
         if e["place"]:
-            home = home or home_place(con, settings)
-            there = geocode(con, e["place"], home) if home else None
-            if home and there:
-                r = route(con, settings, home, there, e["start"])
-                if r:
-                    minutes = max(5, round(r["seconds"] / 60))
+            t = travel_time(con, settings, None, e["place"], e["start"])
+            minutes = max(5, t.get("minutes") or 15)
         for kind, driver in (("bring", e["bring"]), ("pick", e["pick"])):
             if not driver:
                 continue
             at = e["start"] if kind == "bring" else e["end"]
-            what = (f"Bring {e['who']} to {e['title']}" if kind == "bring" else f"Pick up {e['who']} from {e['title']}") \
-                if e["who"] not in ("me", "family", "") else f"{kind.capitalize()} for {e['title']}"
+            if e["who"] in ("me", "family", ""):
+                what = f"{kind.capitalize()} for {e['title']}"
+            elif kind == "bring":
+                what = f"Bring {e['who']} to {e['title']}"
+            else:
+                what = f"Pick up {e['who']} from {e['title']}"
             out.append({"ref": "", "title": what, "start": at - timedelta(minutes=minutes),
                         "end": at + timedelta(minutes=minutes), "at": at, "place": e["place"], "who": driver,
-                        "ride": kind, "for": e["ref"], "source": "ride", "allday": False, "evaluate": False,
-                        "bring": "", "pick": "", "feed": "", "note": ""})
+                        "ride": kind, "for": e["ref"], "source": "ride", "calendar": "", "allday": False,
+                        "evaluate": False, "bring": "", "pick": ""})
     return out
 
 
@@ -941,30 +624,25 @@ def blocks(settings, day, entries):
 def departures(con, settings, day, entries):
     """For your own appointments with an address: when to leave, and from where."""
     out = []
-    home = home_place(con, settings)
-    if not home:
+    if not (shutil.which("maps") or shutil.which("travel")):
         return out
     buffer = number(settings, "buffer")
     extra = 5 if (settings.get("transport") or "car") == "car" else 0
-    last_place, last_end = home, None
-    for e in sorted((x for x in entries if not x["allday"] and x["start"].date() == day
-                     and (mine(x) or x["who"] == "me")), key=lambda x: x["start"]):
+    last_place, last_end = None, None
+    for e in sorted((x for x in entries if not x["allday"] and x["start"].date() == day and mine(x)),
+                    key=lambda x: x["start"]):
         if not e["place"]:
             continue
-        there = geocode(con, e["place"], home)
-        if not there:
-            continue
         arrive = e.get("at") or e["start"]
-        origin = last_place if last_end and arrive - last_end < timedelta(hours=3) else home
-        if origin is not there and abs(origin["lat"] - there["lat"]) + abs(origin["lon"] - there["lon"]) > 0.0005:
-            r = route(con, settings, origin, there, arrive)
-            if r:
-                travel = r["seconds"] / 60 + extra
-                leave = arrive - timedelta(minutes=round(travel) + buffer)
-                out.append({"for": e["ref"] or e["title"], "title": e["title"], "leave": leave, "arrive": arrive,
-                            "minutes": round(travel), "traffic": bool(r["traffic"]), "place": there["label"],
-                            "from": "home" if origin is home else "your previous appointment"})
-        last_place, last_end = there, (e["at"] if e["source"] == "ride" else e["end"])
+        origin = last_place if last_end and arrive - last_end < timedelta(hours=3) else None
+        if origin != e["place"]:
+            t = travel_time(con, settings, origin, e["place"], arrive)
+            if not t.get("error"):
+                travel = t["minutes"] + extra
+                out.append({"for": e["ref"] or e["title"], "title": e["title"], "arrive": arrive,
+                            "leave": arrive - timedelta(minutes=travel + buffer), "minutes": travel,
+                            "traffic": t["traffic"], "place": e["place"], "from": t["from"]})
+        last_place, last_end = e["place"], (e["at"] if e["source"] == "ride" else e["end"])
     return out
 
 
@@ -1027,7 +705,7 @@ def task_line(r, today):
 def entry_json(e):
     return {"ref": e["ref"], "title": e["title"], "start": e["start"].strftime("%Y-%m-%d %H:%M"),
             "end": e["end"].strftime("%Y-%m-%d %H:%M"), "place": e["place"], "who": e["who"] or "?",
-            "source": e["source"], "feed": e["feed"], "allday": e["allday"], "evaluate": e["evaluate"],
+            "source": e["source"], "calendar": e["calendar"], "allday": e["allday"], "evaluate": e["evaluate"],
             "ride": e.get("ride", ""), "at": e["at"].strftime("%H:%M") if e.get("at") else "",
             "also": e.get("also", []), "key": key_of(e)}
 
@@ -1036,7 +714,9 @@ def picture(con, settings, day):
     today = date.today()
     now = datetime.now()
     notes = []
-    entries = entries_between(con, settings, day, day, notes)
+    both = entries_between(con, settings, day, day + timedelta(days=1), notes)
+    lo, hi = datetime.combine(day, time(0, 0)), datetime.combine(day + timedelta(days=1), time(0, 0))
+    entries = [e for e in both if e["end"] > lo and e["start"] < hi]
     entries += rides(con, settings, entries)
     entries.sort(key=lambda e: e["start"])
     meals, warnings = blocks(settings, day, entries)
@@ -1054,9 +734,9 @@ def picture(con, settings, day):
     questions = []
     if people(con):
         unknown = {}
-        for e in entries_between(con, settings, day, day + timedelta(days=1)):
-            if e["source"] == "feed" and not e["who"]:
-                unknown.setdefault(e["feed"] or "(no name)", e)
+        for e in both:
+            if e["source"] == "calendars" and not e["who"]:
+                unknown.setdefault(e["calendar"] or "(no name)", e)
         for feed, e in unknown.items():
             questions.append({"calendar": feed, "example": e["title"],
                               "ask": f"Whose calendar is {feed} (like {e['title']} at {hm(e['start'])})? "
@@ -1067,7 +747,14 @@ def picture(con, settings, day):
     current = next((e for e in mine_now if e["start"] <= now < e["end"]), None) if day == today else None
     upcoming = next((e for e in mine_now if e["start"] > now), None) if day >= today else None
     promised_by = meta(con, "looked_ahead")
-    return {"entries": entries, "blocks": meals, "warnings": warnings + notes, "leaves": leaves, "clashes": found,
+    todoist = []
+    if day == today:
+        data = sibling("todoist", [])
+        if data and data.get("error"):
+            notes.append(f"Todoist could not be read: {data['error']}")
+        elif data:
+            todoist = data.get("tasks") or []
+    return {"todoist": todoist, "entries": entries, "blocks": meals, "warnings": warnings + notes, "leaves": leaves, "clashes": found,
             "tasks": tasks, "done": done_today, "prep": prep, "questions": questions, "review": to_review,
             "now": current, "next": upcoming, "set_last_night": promised_by.startswith(day.isoformat())}
 
@@ -1099,7 +786,7 @@ def show_day(con, settings, day):
                                             "arrive": hm(x["arrive"]), "place": x["place"]}))
                            for k, _, x in timeline],
               "promised": [task_json(t) for t in promised], "tasks": [task_json(t) for t in others],
-              "done": [task_json(t) for t in p["done"]],
+              "done": [task_json(t) for t in p["done"]], "todoist": p["todoist"],
               "prep": [{"key": k, "title": k.split("|", 1)[1], "at": k[11:16], "tasks": [task_json(t) for t in v]}
                        for k, v in p["prep"].items()],
               "clashes": [{"who": c["who"], "a": c["a"]["title"], "b": c["b"]["title"], "from": hm(c["from"]),
@@ -1151,6 +838,9 @@ def show_day(con, settings, day):
             lines.append(f"  {k.split('|', 1)[1]} at {k[11:16]}: " + ", ".join(f"#{r['id']} {r['title']}" for r in rows))
     if others:
         lines += ["", "Tasks:"] + ["  " + task_line(t, today) for t in others]
+    if p["todoist"]:
+        lines += ["", "In Todoist (tick off with todoist done <n>):"]
+        lines += [f"  {t['n']}. {t['content']}" + (f" ({t['when']})" if t.get("when") else "") for t in p["todoist"]]
     if p["clashes"]:
         lines += ["", "Clashes:"]
         for c in p["clashes"]:
@@ -1159,7 +849,7 @@ def show_day(con, settings, day):
                          f"{hm(c['until'])} for {who}.")
     doubles = [e for e in p["entries"] if e.get("also")]
     if doubles:
-        lines += [""] + [f"{e['title']} at {hm(e['start'])} is planned twice: in {e['feed'] or 'your own list'} "
+        lines += [""] + [f"{e['title']} at {hm(e['start'])} is planned twice: in {e['calendar']} "
                          f"and {', '.join(e['also'])}." for e in doubles]
     if p["warnings"]:
         lines += [""] + p["warnings"]
@@ -1220,9 +910,9 @@ def cmd_next(con, settings, args):
 
 def cmd_leave(con, settings, args):
     rest, opts = options(args, set())
-    home = home_place(con, settings)
-    if not home:
-        fail("I need your home address first: planner settings set home \"<street number, town>\".")
+    if not (shutil.which("maps") or shutil.which("travel")):
+        fail("For the time to leave I use the travel plugin (free) or maps (Google, with traffic). "
+             "Install one of them and set your home address there.")
     today = date.today()
     now = datetime.now()
     if rest:
@@ -1236,8 +926,10 @@ def cmd_leave(con, settings, args):
     if target:
         pick = [l for l in leaves if l["for"] == target["ref"] or l["title"] == target["title"]]
         if not pick:
-            fail(f"{target['title']} has no address I can find, so I cannot say when to leave."
-                 if target["place"] else f"{target['title']} has no address. Add one to know when to leave.")
+            if not target["place"]:
+                fail(f"{target['title']} has no address. Add one in its calendar to know when to leave.")
+            t = travel_time(con, settings, None, target["place"], target["start"])
+            fail(t.get("error") or f"I cannot find a route to {target['place']}.")
         l = pick[0]
     else:
         ahead = [l for l in leaves if l["arrive"] > now]
@@ -1263,100 +955,51 @@ def cmd_near(con, settings, args):
     if not args:
         fail("planner near <appointment|address>")
     word = " ".join(args)
-    home = home_place(con, settings)
     title, address = "", word
     try:
         e, _ = resolve(con, settings, word)
     except Stop:
-        if re.fullmatch(r"[afr][0-9a-f]{1,6}", word.lower()):
+        if re.fullmatch(r"[cfg][0-9a-f]{1,6}", word.lower()):
             raise
         e = None
     if e:
         if not e["place"]:
             fail(f"{e['title']} has no address.")
         address, title = e["place"], e["title"]
-    place = geocode(con, address, home)
-    if not place:
-        fail(f"I cannot find {address} on the map.")
-    parking = around(place, ["amenity:parking"])[:3]
-    quick = around(place, ["amenity:cafe", "amenity:fast_food"])[:3]
-    quiet = around(place, ["amenity:restaurant"])[:3]
+    if not shutil.which("maps"):
+        fail("Parking and places to eat come from the maps plugin, with your own Google Maps key. "
+             "Install maps, then: maps key ask.")
+    found = {}
+    for kind, query in (("parking", "parking"), ("quick", "cafe"), ("sit", "restaurant")):
+        data = sibling("maps", ["find", query, "--near", address, "-n", "3"])
+        if data.get("error"):
+            fail(f"Maps could not look it up: {data['error']}")
+        found[kind] = data.get("places") or []
 
-    def spot(s):
-        return f"{s['name']}" + (f", {s['street']}" if s["street"] else "") + f" ({s['meters']} m, " \
-               f"{minutes_text(s['meters'] / 80)} walk)"
+    def spot(p):
+        bits = [p["name"]]
+        if p.get("address"):
+            bits.append(p["address"].split(",")[0])
+        extra = ", ".join(x for x in (f"{p['rating']}/5" if p.get("rating") else "",
+                                      "open now" if p.get("open_now") is True else
+                                      "closed now" if p.get("open_now") is False else "") if x)
+        return ", ".join(bits) + (f" ({extra})" if extra else "")
 
-    lines = [f"Near {place['label']}" + (f" ({title})" if title else "") + ":"]
-    lines.append("Parking: " + ("; ".join(spot(s) for s in parking) if parking else "none on the map close by."))
-    lines.append("Quick coffee or a bite: " + ("; ".join(spot(s) for s in quick) if quick else "nothing close by."))
-    lines.append("Sit down for a meal: " + ("; ".join(spot(s) for s in quiet) if quiet else "nothing close by."))
-    emit({"place": place["label"], "parking": parking, "quick": quick, "quiet": quiet}, lines)
-
-
-def when_and_length(con, args, opts):
-    if len(args) < 2:
-        fail("Give a day and a time, like: tomorrow 14:30.")
-    day = parse_day(args[0])
-    at = parse_time(args[1])
-    if not day or day == "later":
-        fail(f"Which day is {args[0]}?")
-    if not at:
-        fail(f"{args[1]} is not a time; say it like 14:30.")
-    start = datetime.combine(day, at)
-    if opts.get("until"):
-        until = parse_time(opts["until"])
-        if not until or datetime.combine(day, until) <= start:
-            fail("--until is a time after the start, like 11:00.")
-        end = datetime.combine(day, until)
-    else:
-        try:
-            end = start + timedelta(minutes=max(5, int(opts.get("minutes") or 60)))
-        except ValueError:
-            fail("--minutes is a number, like 45.")
-    return start, end
+    lines = [f"Near {address}" + (f" ({title})" if title else "") + ":",
+             "Parking: " + ("; ".join(spot(p) for p in found["parking"]) or "none found."),
+             "Quick coffee or a bite: " + ("; ".join(spot(p) for p in found["quick"]) or "none found."),
+             "Sit down for a meal: " + ("; ".join(spot(p) for p in found["sit"]) or "none found.")]
+    emit({"place": address, "parking": found["parking"], "quick": found["quick"], "quiet": found["sit"]}, lines)
 
 
 def cmd_add(con, settings, args):
-    rest, opts = options(join_days(args), {"minutes", "until", "where", "for", "bring", "pick", "note"})
-    if len(rest) < 3:
-        fail('planner add "<title>" <day> <time> [--minutes 60] [--where <address>] [--for <name>]')
-    title = " ".join(rest[:-2]).strip()
-    start, end = when_and_length(con, rest[-2:], opts)
-    who = person(con, opts["for"]) if opts.get("for") else "me"
-    bring = person(con, opts["bring"], ("me",)) if opts.get("bring") else ""
-    pick = person(con, opts["pick"], ("me",)) if opts.get("pick") else ""
-    cur = con.execute("insert into appointments (title, starts, ends, place, who, bring, pick, evaluate, note, created) "
-                      "values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-                      (title, start.strftime("%Y-%m-%d %H:%M"), end.strftime("%Y-%m-%d %H:%M"),
-                       opts.get("where", ""), who, bring, pick, 1 if opts.get("evaluate") else 0,
-                       opts.get("note", ""), stamp()))
-    con.commit()
-    ref = f"a{cur.lastrowid}"
-    entries = entries_between(con, settings, start.date(), start.date())
-    entries += rides(con, settings, entries)
-    mineclash = [c for c in clashes(con, entries) if ref in (c["a"]["ref"], c["b"]["ref"], c["a"].get("for"),
-                                                             c["b"].get("for"))]
-    lines = [f"Planned [{ref}] {title}, {day_name(start.date())} {hm(start)}-{hm(end)}"
-             + (f" at {opts['where']}" if opts.get("where") else "") + (f" for {who}" if who != "me" else "") + "."]
-    for kind, driver in (("brings", bring), ("picks up", pick)):
-        if driver:
-            lines.append(f"{'You' if driver == 'me' else driver} {kind} {who if who != 'me' else ''}".rstrip() + ".")
-    for c in mineclash:
-        other = c["b"] if c["a"]["ref"] == ref or c["a"].get("for") == ref else c["a"]
-        lines.append(f"Careful: it overlaps with {other['title']} ({hm(other['start'])}-{hm(other['end'])}) for "
-                     f"{'you' if c['who'] == 'me' else c['who']}.")
-    emit({"ref": ref, "clashes": len(mineclash)}, lines)
-
-
-def cmd_remove(con, settings, args):
-    if not args or not re.fullmatch(r"a\d+", args[0].lower()):
-        fail("planner remove <a3>: only appointments you added here; a calendar's own go in that calendar.")
-    row = con.execute("select * from appointments where id = ?", (int(args[0][1:]),)).fetchone()
-    if not row:
-        fail(f"There is no appointment {args[0]}.")
-    con.execute("delete from appointments where id = ?", (row["id"],))
-    con.commit()
-    emit({"removed": args[0]}, [f"Removed {row['title']} ({row['starts']})."])
+    lines = ["Appointments live in the calendar, not in the planner."]
+    if shutil.which("calendar"):
+        lines.append('Plan one with: calendar meet "<title>" <day> <time> [--where <address>].')
+    else:
+        lines.append("Put it in your Google or Outlook calendar, or install the calendar plugin for this house's own.")
+    lines.append('Who it is for and who drives go with: planner owner "<word of the title>" <name> --bring me.')
+    fail("\n".join(lines))
 
 
 def cmd_person(con, settings, args):
@@ -1365,7 +1008,7 @@ def cmd_person(con, settings, args):
     if args[0] == "remove":
         name = person(con, " ".join(args[1:]), ())
         con.execute("delete from people where name = ?", (name,))
-        con.execute("delete from owners where who = ?", (name,))
+        con.execute("delete from rules where who = ?", (name,))
         con.commit()
         emit({"removed": name}, [f"{name} is off the list."])
         return
@@ -1387,95 +1030,59 @@ def cmd_people(con, settings, args):
     emit({"people": [dict(r) for r in rows]}, ["You, and: " + ", ".join(f"{r['name']} ({r['role']})" for r in rows) + "."])
 
 
-def cmd_routine(con, settings, args):
+def cmd_owner(con, settings, args):
     if args and args[0] == "remove":
-        ref = (args[1] if len(args) > 1 else "").lower()
-        if not re.fullmatch(r"r\d+", ref):
-            fail("planner routine remove <r2>")
-        row = con.execute("select * from routines where id = ?", (int(ref[1:]),)).fetchone()
-        if not row:
-            fail(f"There is no routine {ref}.")
-        con.execute("delete from routines where id = ?", (row["id"],))
+        what = " ".join(args[1:]).strip().lower()
+        gone = con.execute("delete from rules where pattern in (?, ?)", (what, "calendar:" + what)).rowcount
         con.commit()
-        emit({"removed": ref}, [f"{row['title']} is no longer planned every week."])
+        if not gone:
+            fail(f"Nothing remembered about {what}.")
+        emit({"removed": what}, [f"Forgotten: {what}."])
         return
-    rest, opts = options(args, {"every", "at", "minutes", "where", "for", "bring", "pick"})
-    title = " ".join(rest).strip()
-    if not title or not opts.get("every") or not opts.get("at"):
-        fail('planner routine "<title>" --every wed[,fri] --at 16:00 [--minutes 45] [--for <name>]')
-    days = []
-    for w in re.split(r"[,\s]+", str(opts["every"]).lower()):
-        if w and w.removeprefix("every") not in WEEKDAY_WORDS:
-            fail(f"{w} is not a weekday.")
-        if w:
-            days.append(WEEKDAY_WORDS[w.removeprefix("every")])
-    at = parse_time(opts["at"])
-    if not at:
-        fail("--at is a time, like 16:00.")
-    try:
-        minutes = max(5, int(opts.get("minutes") or 60))
-    except ValueError:
-        fail("--minutes is a number, like 45.")
-    who = person(con, opts["for"]) if opts.get("for") else "me"
+    rest, opts = options(args, {"bring", "pick", "for"})
+    if opts.get("for"):
+        rest.append(opts["for"])
+    if len(rest) < 2 and not (rest and (opts.get("bring") or opts.get("pick"))):
+        fail("planner owner <calendar|word> <name|me|family> [--bring <who>] [--pick <who>]")
+    who = person(con, rest[-1]) if len(rest) >= 2 else "me"
+    what = " ".join(rest[:-1] if len(rest) >= 2 else rest).strip()
     bring = person(con, opts["bring"], ("me",)) if opts.get("bring") else ""
     pick = person(con, opts["pick"], ("me",)) if opts.get("pick") else ""
-    cur = con.execute("insert into routines (title, who, days, at, minutes, place, bring, pick, created) "
-                      "values (?, ?, ?, ?, ?, ?, ?, ?, ?)",
-                      (title, who, ",".join(str(d) for d in sorted(set(days))), at.strftime("%H:%M"), minutes,
-                       opts.get("where", ""), bring, pick, stamp()))
-    con.commit()
-    names = " and ".join(WEEKDAYS[d].capitalize() for d in sorted(set(days)))
-    lines = [f"[r{cur.lastrowid}] {title}" + (f" for {who}" if who != "me" else "") +
-             f" every {names} at {at.strftime('%H:%M')} ({minutes} min)."]
-    if bring or pick:
-        lines.append(" ".join(x for x in (f"{'You' if bring == 'me' else bring} bring{'s' if bring != 'me' else ''}."
-                                          if bring else "",
-                                          f"{'You' if pick == 'me' else pick} pick{'s' if pick != 'me' else ''} up."
-                                          if pick else "") if x))
-    emit({"ref": f"r{cur.lastrowid}"}, lines)
-
-
-def cmd_routines(con, settings, args):
-    rows = con.execute("select * from routines order by days, at").fetchall()
-    if not rows:
-        emit({"routines": []}, ['No weekly routines yet. Like: planner routine "Swimming" --for Sem --every wed '
-                                '--at 16:00 --bring me.'])
-        return
-    lines = []
-    for r in rows:
-        days = " and ".join(WEEKDAYS[int(d)].capitalize() for d in r["days"].split(","))
-        bits = [f"[r{r['id']}] {r['title']}", f"({r['who']})" if r["who"] != "me" else "", f"{days} {r['at']},",
-                f"{r['minutes']} min", f"at {r['place']}" if r["place"] else "",
-                f"brought by {r['bring']}" if r["bring"] else "", f"picked up by {r['pick']}" if r["pick"] else ""]
-        lines.append(" ".join(b for b in bits if b))
-    emit({"routines": [dict(r) for r in rows]}, lines)
-
-
-def cmd_owner(con, settings, args):
-    if len(args) < 2:
-        fail("planner owner <calendar|word> <name|me|family>")
-    who = person(con, args[-1])
-    what = " ".join(args[:-1]).strip()
-    names = {n.lower(): n for n, _ in feeds(settings) if n}
-    if what.lower() in names:
-        pattern, said = "calendar:" + what.lower(), f"The calendar {names[what.lower()]}"
+    today = date.today()
+    calendars = {}
+    for e in entries_between(con, settings, today, today + timedelta(days=6)):
+        for name in [e["calendar"]] + e.get("also", []):
+            if name:
+                calendars[name.lower()] = name
+    if what.lower() in calendars:
+        pattern, said = "calendar:" + what.lower(), f"The calendar {calendars[what.lower()]} is"
     else:
-        pattern, said = what.lower(), f"Appointments with \"{what}\""
-    con.execute("insert or replace into owners (pattern, who) values (?, ?)", (pattern, who))
+        pattern, said = what.lower(), f"Appointments with \"{what}\" are"
+    con.execute("insert or replace into rules (pattern, who, bring, pick) values (?, ?, ?, ?)",
+                (pattern, who, bring, pick))
     con.commit()
-    emit({"pattern": pattern, "who": who},
-         [f"{said} {'are' if said.startswith('Appointments') else 'is'} "
-          f"{'yours' if who == 'me' else 'for the whole family' if who == 'family' else who + chr(39) + 's'}. "
-          "I will not ask again."])
+    whose = "yours" if who == "me" else "for the whole family" if who == "family" else who + "'s"
+    lines = [f"{said} {whose}. I will not ask again."]
+    if bring or pick:
+        lines.append(" ".join(x for x in (f"{'You' if bring == 'me' else bring} bring{'' if bring == 'me' else 's'}."
+                                          if bring else "",
+                                          f"{'You' if pick == 'me' else pick} pick{'' if pick == 'me' else 's'} up."
+                                          if pick else "") if x))
+    emit({"pattern": pattern, "who": who, "bring": bring, "pick": pick}, lines)
 
 
 def cmd_owners(con, settings, args):
-    rows = owner_rules(con)
-    if not rows:
-        emit({"owners": {}}, ["Nothing remembered yet about whose calendar is whose."])
+    found = rules(con)
+    if not found:
+        emit({"rules": []}, ["Nothing remembered yet about whose calendar is whose."])
         return
-    emit({"owners": rows}, [f"{p.removeprefix('calendar:') if p.startswith('calendar:') else chr(34) + p + chr(34)}"
-                            f": {w}" for p, w in sorted(rows.items())])
+    lines = []
+    for p, r in sorted(found.items()):
+        name = p.removeprefix("calendar:") if p.startswith("calendar:") else f"\"{p}\""
+        bits = [f"{name}: {r['who']}", f"brought by {r['bring']}" if r["bring"] else "",
+                f"picked up by {r['pick']}" if r["pick"] else ""]
+        lines.append(", ".join(b for b in bits if b))
+    emit({"rules": list(found.values())}, lines)
 
 
 def cmd_prep(con, settings, args):
@@ -1707,32 +1314,29 @@ def cmd_tomorrow(con, settings, args):
           "left": len(left)}, lines)
 
 
-def cmd_traffic(con, settings, args):
-    if args and args[0] == "ask":
-        exe = vault_bin()
-        if not exe:
-            fail("The vault is not on this system.")
-        r = subprocess.run([exe, "vraag", TRAFFIC_ITEM, "--domein", TOMTOM_DOMAIN, "TomTom Routing API key"],
-                           capture_output=True, text=True, timeout=240)
-        if r.returncode != 0:
-            fail((r.stderr or r.stdout).strip() or "The vault did not save a key.")
-        print("A window opens to paste your TomTom key; it goes straight into the vault. "
-              "From then on the time to leave counts live traffic.")
-        return
-    item = traffic_item()
-    emit({"traffic": bool(item)}, [f"Live traffic through TomTom (\"{item}\" in the vault)." if item else
-                                   "Travel times without live traffic (OSRM). For traffic: a free TomTom key "
-                                   "from developer.tomtom.com, then: planner traffic ask."])
+def cmd_sources(con, settings, args):
+    have = sources()
+    what = {"calendar": "this house's own calendar", "calendars": "calendars you follow by link",
+            "google": "Google Calendar", "maps": "travel time with traffic, parking and places to eat",
+            "travel": "travel time from home", "todoist": "your Todoist tasks"}
+    lines = ["Reading: " + ("; ".join(f"{n} ({what[n]})" for n in have if have[n]) or "nothing yet") + "."]
+    missing = [n for n in have if not have[n]]
+    if missing:
+        lines.append("Not in this house: " + ", ".join(missing) + ". Install one by asking Iris.")
+    if not (have["calendar"] or have["calendars"] or have["google"]):
+        lines.append("Without a calendar plugin the planner has only your tasks and promises.")
+    if not (have["maps"] or have["travel"]):
+        lines.append("Without travel or maps there is no time to leave.")
+    emit({"sources": have}, lines)
 
 
 COMMANDS = {
     "today": cmd_today, "day": cmd_today, "next": cmd_next, "leave": cmd_leave, "near": cmd_near, "add": cmd_add,
-    "remove": cmd_remove, "person": cmd_person, "people": cmd_people, "routine": cmd_routine,
-    "routines": cmd_routines, "owner": cmd_owner, "owners": cmd_owners, "prep": cmd_prep, "review": cmd_review,
+    "person": cmd_person, "people": cmd_people, "owner": cmd_owner, "owners": cmd_owners, "prep": cmd_prep, "review": cmd_review,
     "reviews": cmd_reviews, "evaluate": cmd_evaluate, "task": cmd_task,
     "promise": lambda con, s, a: cmd_task(con, s, a, promised=True), "done": cmd_done,
     "undo": lambda con, s, a: cmd_done(con, s, a, undo=True), "drop": cmd_drop, "move": cmd_move,
-    "tasks": cmd_tasks, "recap": cmd_recap, "tomorrow": cmd_tomorrow, "traffic": cmd_traffic,
+    "tasks": cmd_tasks, "recap": cmd_recap, "tomorrow": cmd_tomorrow, "sources": cmd_sources,
 }
 
 

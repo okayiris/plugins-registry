@@ -131,7 +131,8 @@ export default () => {
     if (x.kind === "leave") return <Row key={"l" + x.start + x.title} left={hour(x.start)} right={text("leaveFor", "Leave for") + " " + x.title + " (" + x.minutes + " " + text("min", "min") + ")"} />;
     if (x.kind === "block") return <Row key={"b" + x.start + x.title} left={hour(x.start) + " - " + hour(x.end)} right={x.block === "meal" ? text(x.title.toLowerCase(), x.title) : text("pause", "Break")} />;
     const isNow = current && current.key === x.key;
-    const who = x.who && x.who !== "me" && x.who !== "?" && x.source !== "ride" ? " (" + x.who + ")" : "";
+    const who = x.who && x.who !== "me" && x.who !== "?"
+      ? " (" + (x.source === "ride" ? x.who + " " + text("drives", "drives") : x.who) + ")" : "";
     return <Row key={x.key} left={x.allday ? text("allDay", "all day") : (isNow ? text("nowShort", "now") + " " : "") + hour(x.start) + " - " + hour(x.end)}
       right={x.title + who + (x.place && x.source !== "ride" ? ", " + x.place : "")} />;
   };
@@ -163,7 +164,8 @@ export default () => {
     </Card>
   ) : null;
 
-  const tasks = data.tasks.length || data.prep.length ? (
+  const todoist = data.todoist || [];
+  const tasks = data.tasks.length || data.prep.length || todoist.length ? (
     <Card label={text("tasksLabel", "Tasks")} title={evening ? text("leftOpen", "What is left open") : text("tasksTitle", "To do today")}>
       {data.prep.map((p) => (
         <div key={p.key} style={{ display: "grid", gap: "0.2rem", paddingTop: "0.3rem" }}>
@@ -172,6 +174,15 @@ export default () => {
         </div>
       ))}
       {data.tasks.map(taskRow)}
+      {todoist.length ? <Text dim>{text("inTodoist", "In Todoist")}</Text> : null}
+      {todoist.map((t) => (
+        <div key={"td" + t.id} style={{ display: "grid", gap: "0.25rem", paddingTop: "0.3rem" }}>
+          <Row left={t.content} right={t.when || ""} />
+          <Buttons>
+            <Button outline say={"Tick off " + t.content + " in Todoist (todoist done " + t.n + ")."}>{text("done", "Done")}</Button>
+          </Buttons>
+        </div>
+      ))}
     </Card>
   ) : null;
 

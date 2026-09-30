@@ -13,6 +13,17 @@
       }
     },
     {
+      "run": "todoist --json",
+      "expect": {
+        "json": {
+          "tasks.0.content": {
+            "present": true
+          },
+          "tasks.0.n": 1
+        }
+      }
+    },
+    {
       "run": "todoist",
       "expect": {
         "contains": [

@@ -1,6 +1,6 @@
 {
   "name": "todoist",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "author": "Iris",
   "description": "Your Todoist tasks by voice: what is due today and this week, adding a task with a date, and ticking one off. With your own token.",
   "permissions": ["internet", "secrets"],

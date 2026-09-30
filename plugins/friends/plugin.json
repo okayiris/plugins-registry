@@ -1,0 +1,16 @@
+{
+  "name": "friends",
+  "version": "1.0.0",
+  "author": "Iris",
+  "description": "Your own wall with friends and followers between Iris houses: share posts and photos, add friends, follow walls, and like and comment on what your friends post.",
+  "permissions": ["internet", "files"],
+  "commands": { "friends": "friends.py" },
+  "slash": { "friends": "your wall, your feed and your friends" },
+  "window": "friends.jsx",
+  "routes": {
+    "wall": { "page": "wall.jsx", "command": "friends", "public": true }
+  },
+  "database": true,
+  "category": "communication",
+  "icon": "icon.svg"
+}
